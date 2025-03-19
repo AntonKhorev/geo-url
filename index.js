@@ -35,4 +35,8 @@ export class GeoURL {
 		const [coordinatesString] = this.pathname.split(";")
 		return coordinatesString
 	}
+	get coordinates() {
+		const coordinates = this.coordinatesString.split(",")
+		return coordinates.map(Number)
+	}
 }
