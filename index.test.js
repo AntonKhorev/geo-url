@@ -48,4 +48,13 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.searchParams).toStrictEqual(new URLSearchParams({ z: 11 }))
 	})
+
+	test("Has coordinatesString property for simple 2-coordinate url", () => {
+		const url = new GeoURL("geo:13.4125,103.8667")
+		expect(url.coordinatesString).toBe("13.4125,103.8667")
+	})
+	test("Has coordinatesString property for 2-coordinate url with geo parameters", () => {
+		const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
+		expect(url.coordinatesString).toBe("48.198634,16.371648")
+	})
 })

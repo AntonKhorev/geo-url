@@ -30,4 +30,9 @@ export class GeoURL {
 	get searchParams() {
 		return this.url.searchParams
 	}
+
+	get coordinatesString() {
+		const [coordinatesString] = this.pathname.split(";")
+		return coordinatesString
+	}
 }
