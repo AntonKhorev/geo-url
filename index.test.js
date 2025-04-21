@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest"
 
-import { GeoURL } from "./index.js"
+import { GeoURL, WGS84GeoURL } from "./index.js"
 
 describe("GeoURL", () => {
 	test("Fails when no parameters given", () => {
@@ -65,5 +65,19 @@ describe("GeoURL", () => {
 	test("Has coordinates property for 2-coordinate url with geo parameters", () => {
 		const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
 		expect(url.coordinates).toStrictEqual([48.198634, 16.371648])
+	})
+})
+
+describe("WGS84GeoURL", () => {
+	test("Fails when no parameters given", () => {
+		expect(
+			() => new WGS84GeoURL()
+		).toThrow(TypeError)
+	})
+
+	test("Has lat and lon properties for simple 2-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:13.4125,103.8667")
+		expect(url.lat).toBe(13.4125)
+		expect(url.lon).toBe(103.8667)
 	})
 })

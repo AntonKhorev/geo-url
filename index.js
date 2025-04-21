@@ -40,3 +40,12 @@ export class GeoURL {
 		return coordinates.map(Number)
 	}
 }
+
+export class WGS84GeoURL extends GeoURL {
+	get lat() {
+		return this.coordinates[0]
+	}
+	get lon() {
+		return this.coordinates[1]
+	}
+}
