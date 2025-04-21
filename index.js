@@ -37,6 +37,10 @@ export class GeoURL {
 		return new URLSearchParams(escapedParamStrings.join("&"))
 	}
 
+	get crs() {
+		return this.geoParams.get("crs") || "wgs84"
+	}
+
 	get coordinatesString() {
 		const [coordinatesString] = this.pathname.split(";")
 		return coordinatesString

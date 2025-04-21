@@ -70,6 +70,23 @@ describe("GeoURL", () => {
 		expect(url.geoParams.get("rab")).toBeNull()
 	})
 
+	test("Has crs property with default value for missing crs", () => {
+		const url = new GeoURL("geo:0,0")
+		expect(url.crs).toBe("wgs84")
+	})
+	test("Has crs property for typical wgs84 crs", () => {
+		const url = new GeoURL("geo:0,0;crs=wgs84")
+		expect(url.crs).toBe("wgs84")
+	})
+	test("Has crs property for unknown crs", () => {
+		const url = new GeoURL("geo:0,0;crs=whatever123")
+		expect(url.crs).toBe("whatever123")
+	})
+	test("Has crs property for value '0'", () => {
+		const url = new GeoURL("geo:0,0;crs=0")
+		expect(url.crs).toBe("0")
+	})
+
 	test("Has coordinatesString property for simple 2-coordinate url", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
 		expect(url.coordinatesString).toBe("13.4125,103.8667")
