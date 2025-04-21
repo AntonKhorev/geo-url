@@ -81,4 +81,9 @@ describe("WGS84GeoURL", () => {
 		expect(url.lon).toBe(103.8667)
 		expect(url.lng).toBe(103.8667)
 	})
+	test("Has latitude and longitude properties for simple 2-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:13.4125,103.8667")
+		expect(url.latitude).toBe(13.4125)
+		expect(url.longitude).toBe(103.8667)
+	})
 })

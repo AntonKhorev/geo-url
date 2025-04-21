@@ -45,10 +45,16 @@ export class WGS84GeoURL extends GeoURL {
 	get lat() {
 		return this.coordinates[0]
 	}
+	get latitude() {
+		return this.lat
+	}
 	get lon() {
 		return this.coordinates[1]
 	}
 	get lng() {
+		return this.lon
+	}
+	get longitude() {
 		return this.lon
 	}
 }
