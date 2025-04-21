@@ -75,6 +75,15 @@ export class GeoURL {
 		const coordinates = this.coordinatesString.split(",")
 		return coordinates.map(Number)
 	}
+	get coordA() {
+		return this.coordinates[0]
+	}
+	get coordB() {
+		return this.coordinates[1]
+	}
+	get coordC() {
+		return this.coordinates[2]
+	}
 }
 
 export class WGS84GeoURL extends GeoURL {
@@ -99,24 +108,24 @@ export class WGS84GeoURL extends GeoURL {
 	}
 
 	get lat() {
-		return this.coordinates[0]
+		return this.coordA
 	}
 	get latitude() {
-		return this.lat
+		return this.coordA
 	}
 	get lon() {
-		return this.coordinates[1]
+		return this.coordB
 	}
 	get lng() {
-		return this.lon
+		return this.coordB
 	}
 	get longitude() {
-		return this.lon
+		return this.coordB
 	}
 	get alt() {
-		return this.coordinates[2]
+		return this.coordC
 	}
 	get altitude() {
-		return this.alt
+		return this.coordC
 	}
 }

@@ -167,6 +167,19 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
 		expect(url.coordinates).toStrictEqual([48.198634, 16.371648])
 	})
+
+	test("Has individual coord properties for simple 2-coordinate url", () => {
+		const url = new GeoURL("geo:22.3,-118.44")
+		expect(url.coordA).toBe(22.3)
+		expect(url.coordB).toBe(-118.44)
+		expect(url.coordC).toBeUndefined()
+	})
+	test("Has individual coord properties for simple 3-coordinate url", () => {
+		const url = new GeoURL("geo:22.3,-118.44,43.21")
+		expect(url.coordA).toBe(22.3)
+		expect(url.coordB).toBe(-118.44)
+		expect(url.coordC).toBe(43.21)
+	})
 })
 
 describe("WGS84GeoURL", () => {
