@@ -21,7 +21,10 @@
 		const latOutput = document.getElementById("lat-output")
 		const lonOutput = document.getElementById("lon-output")
 
-		geoUriInput.oninput = () => {
+		geoUriInput.oninput = updateOutputs
+		updateOutputs()
+
+		function updateOutputs() {
 			try {
 				const url = new WGS84GeoURL(geoUriInput.value)
 				latOutput.value = url.lat
