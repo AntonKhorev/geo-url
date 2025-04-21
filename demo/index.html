@@ -13,34 +13,41 @@
 			box-sizing: border-box;
 			width: 100%;
 		}
-		table.components th {
+		table.properties th {
 			text-align: end;
 		}
 	</style>
 	<script type="module">
 		import { WGS84GeoURL } from "../index.js"
 
-		const geoUriInput = document.getElementById("geo-uri-input")
-		const latOutput = document.getElementById("lat-output")
-		const lonOutput = document.getElementById("lon-output")
-		const altOutput = document.getElementById("alt-output")
-		const zOutput = document.getElementById("z-output")
+		const $geoUriInput = document.getElementById("geo-uri-input")
+		const $propertiesTable = document.getElementById("properties-table")
+		
+		const outputProperties = ["lat", "lon", "alt", "z"]
 
-		geoUriInput.oninput = updateOutputs
+		const $outputCells = new Map
+		for (const property of outputProperties) {
+			const $row = $propertiesTable.insertRow()
+			const $th = document.createElement("th")
+			$th.textContent = property
+			const $td = document.createElement("td")
+			$row.append($th, $td)
+			$outputCells.set(property, $td)
+		}
+
+		$geoUriInput.oninput = updateOutputs
 		updateOutputs()
 
 		function updateOutputs() {
 			try {
-				const url = new WGS84GeoURL(geoUriInput.value)
-				latOutput.value = url.lat
-				lonOutput.value = url.lon
-				altOutput.value = url.alt
-				zOutput.value = url.z
+				const url = new WGS84GeoURL($geoUriInput.value)
+				for (const [property, $td] of $outputCells) {
+					$td.textContent = url[property]
+				}
 			} catch (ex) {
-				latOutput.value = ""
-				lonOutput.value = ""
-				altOutput.value = ""
-				zOutput.value = ""
+				for (const [property, $td] of $outputCells) {
+					$td.textContent = ""
+				}
 			}
 		}
 	</script>
@@ -52,12 +59,8 @@
 		</label>
 	</div>
 	<div>
-		<table class="components">
-			<caption>Geo URI Components</caption>
-			<tr><th>lat</th><td><output id="lat-output"></output></td></tr>
-			<tr><th>lon</th><td><output id="lon-output"></output></td></tr>
-			<tr><th>alt</th><td><output id="alt-output"></output></td></tr>
-			<tr><th>z</th><td><output id="z-output"></output></td></tr>
+		<table id="properties-table" class="properties">
+			<caption>Geo URI Properties</caption>
 		</table>
 	</div>
 </body>
