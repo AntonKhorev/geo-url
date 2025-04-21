@@ -49,9 +49,25 @@ describe("GeoURL", () => {
 		expect(url.searchParams).toStrictEqual(new URLSearchParams({ z: 11 }))
 	})
 
-	test("Provides geoParams.get()", () => {
+	test("Provides geoParams.get() for missing values", () => {
+		const url = new GeoURL("geo:0,0")
+		expect(url.geoParams.get("foo")).toBeNull()
+	})
+	test("Provides geoParams.get() for regular values", () => {
 		const url = new GeoURL("geo:0,0;foo=bar")
 		expect(url.geoParams.get("foo")).toBe("bar")
+	})
+	test("Provides geoParams.get() for values with '&'", () => {
+		const url = new GeoURL("geo:0,0;foo=bar&baz")
+		expect(url.geoParams.get("foo")).toBe("bar&baz")
+		expect(url.geoParams.get("baz")).toBeNull()
+	})
+	test("Provides geoParams.get() for values with multiple '&'", () => {
+		const url = new GeoURL("geo:0,0;foo=bar&baz&zab&rab")
+		expect(url.geoParams.get("foo")).toBe("bar&baz&zab&rab")
+		expect(url.geoParams.get("baz")).toBeNull()
+		expect(url.geoParams.get("zab")).toBeNull()
+		expect(url.geoParams.get("rab")).toBeNull()
 	})
 
 	test("Has coordinatesString property for simple 2-coordinate url", () => {
