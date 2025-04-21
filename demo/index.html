@@ -16,6 +16,9 @@
 		table.properties th {
 			text-align: end;
 		}
+		table.properties td.special {
+			color: #888;
+		}
 	</style>
 	<script type="module">
 		import { WGS84GeoURL } from "../index.js"
@@ -42,7 +45,9 @@
 			try {
 				const url = new WGS84GeoURL($geoUriInput.value)
 				for (const [property, $td] of $outputCells) {
-					$td.textContent = url[property]
+					const value = url[property]
+					$td.classList.toggle("special", value == null)
+					$td.textContent = String(value)
 				}
 			} catch (ex) {
 				for (const [property, $td] of $outputCells) {
