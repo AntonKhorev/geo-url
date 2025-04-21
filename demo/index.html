@@ -4,6 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
+	<style>
+		.major-input {
+			margin: 1rem 0;
+		}
+		.major-input input {
+			display: block;
+			box-sizing: border-box;
+			width: 100%;
+		}
+	</style>
 	<script type="module">
 		import { WGS84GeoURL } from "../index.js"
 
@@ -24,7 +34,7 @@
 	</script>
 </head>
 <body>
-	<div>
+	<div class="major-input">
 		<label>
 			Geo URI: <input id="geo-uri-input">
 		</label>
