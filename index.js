@@ -40,11 +40,7 @@ export class GeoURL {
 	}
 
 	get z() {
-		const stringValue = this.searchParams.get("z")
-		if (stringValue == null) return undefined
-		const numberValue = parseFloat(stringValue)
-		if (isNaN(numberValue)) return undefined
-		return numberValue
+		return parseNumber(this.searchParams.get("z"))
 	}
 
 	get geoParams() {
@@ -82,10 +78,7 @@ export class GeoURL {
 		}
 
 		const coordinateStrings = this.coordinatesString.split(",")
-		this.#coordinates = coordinateStrings.map(s => {
-			const v = parseFloat(s)
-			return isNaN(v) ? undefined : v
-		})
+		this.#coordinates = coordinateStrings.map(parseNumber)
 		return this.#coordinates
 	}
 	get coordA() {
@@ -96,6 +89,10 @@ export class GeoURL {
 	}
 	get coordC() {
 		return this.coordinates[2]
+	}
+
+	get u() {
+		return parseNumber(this.geoParams.get("u"))
 	}
 }
 
@@ -141,4 +138,9 @@ export class WGS84GeoURL extends GeoURL {
 	get altitude() {
 		return this.coordC
 	}
+}
+
+function parseNumber(s) {
+	const v = parseFloat(s)
+	return isNaN(v) ? undefined : v
 }

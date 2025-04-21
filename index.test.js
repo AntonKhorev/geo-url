@@ -195,6 +195,15 @@ describe("GeoURL", () => {
 		expect(url.coordB).toBe(-118.44)
 		expect(url.coordC).toBe(43.21)
 	})
+
+	test("Has uncertainty property for missing uncertainty param", () => {
+		const url = new GeoURL("geo:0,0")
+		expect(url.u).toBeUndefined()
+	})
+	test("Has uncertainty property", () => {
+		const url = new GeoURL("geo:0,0;u=12.34")
+		expect(url.u).toBe(12.34)
+	})
 })
 
 describe("WGS84GeoURL", () => {
