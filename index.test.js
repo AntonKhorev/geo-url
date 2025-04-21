@@ -69,6 +69,14 @@ describe("GeoURL", () => {
 		expect(url.geoParams.get("zab")).toBeNull()
 		expect(url.geoParams.get("rab")).toBeNull()
 	})
+	test("Provides geoParams.get() preserving value case", () => {
+		const url = new GeoURL("geo:0,0;foo=BaR")
+		expect(url.geoParams.get("foo")).toBe("BaR")
+	})
+	test("Provides geoParams.get() preserving value case of crs param", () => {
+		const url = new GeoURL("geo:0,0;crs=WGS84")
+		expect(url.geoParams.get("crs")).toBe("WGS84")
+	})
 
 	test("Has crs property with default value for missing crs", () => {
 		const url = new GeoURL("geo:0,0")
@@ -76,6 +84,10 @@ describe("GeoURL", () => {
 	})
 	test("Has crs property for typical wgs84 crs", () => {
 		const url = new GeoURL("geo:0,0;crs=wgs84")
+		expect(url.crs).toBe("wgs84")
+	})
+	test("Has crs property for uppercase value", () => {
+		const url = new GeoURL("geo:0,0;crs=WGS84")
 		expect(url.crs).toBe("wgs84")
 	})
 	test("Has crs property for value '0'", () => {

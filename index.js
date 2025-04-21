@@ -38,7 +38,8 @@ export class GeoURL {
 	}
 
 	get crs() {
-		return this.geoParams.get("crs") || "wgs84"
+		const crsWithPreservedCase = this.geoParams.get("crs") || "wgs84"
+		return crsWithPreservedCase.toLowerCase()
 	}
 	get CRS() {
 		return this.crs
