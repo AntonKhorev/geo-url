@@ -31,6 +31,12 @@ export class GeoURL {
 		return this.url.searchParams
 	}
 
+	get z() {
+		const value = this.searchParams.get("z")
+		if (value == null) return undefined
+		return Number(value)
+	}
+
 	get geoParams() {
 		const [_coordinatesString, ...paramStrings] = this.pathname.split(";")
 		const processedParamStrings = paramStrings.map(paramString => {

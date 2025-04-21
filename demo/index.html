@@ -24,6 +24,7 @@
 		const latOutput = document.getElementById("lat-output")
 		const lonOutput = document.getElementById("lon-output")
 		const altOutput = document.getElementById("alt-output")
+		const zOutput = document.getElementById("z-output")
 
 		geoUriInput.oninput = updateOutputs
 		updateOutputs()
@@ -34,10 +35,12 @@
 				latOutput.value = url.lat
 				lonOutput.value = url.lon
 				altOutput.value = url.alt
+				zOutput.value = url.z
 			} catch (ex) {
 				latOutput.value = ""
 				lonOutput.value = ""
 				altOutput.value = ""
+				zOutput.value = ""
 			}
 		}
 	</script>
@@ -54,6 +57,7 @@
 			<tr><th>lat</th><td><output id="lat-output"></output></td></tr>
 			<tr><th>lon</th><td><output id="lon-output"></output></td></tr>
 			<tr><th>alt</th><td><output id="alt-output"></output></td></tr>
+			<tr><th>z</th><td><output id="z-output"></output></td></tr>
 		</table>
 	</div>
 </body>
