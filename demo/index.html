@@ -20,6 +20,7 @@
 		const geoUriInput = document.getElementById("geo-uri-input")
 		const latOutput = document.getElementById("lat-output")
 		const lonOutput = document.getElementById("lon-output")
+		const altOutput = document.getElementById("alt-output")
 
 		geoUriInput.oninput = updateOutputs
 		updateOutputs()
@@ -29,9 +30,11 @@
 				const url = new WGS84GeoURL(geoUriInput.value)
 				latOutput.value = url.lat
 				lonOutput.value = url.lon
+				altOutput.value = url.alt
 			} catch (ex) {
 				latOutput.value = ""
 				lonOutput.value = ""
+				altOutput.value = ""
 			}
 		}
 	</script>
@@ -43,7 +46,9 @@
 		</label>
 	</div>
 	<div>
-		lat: <output id="lat-output"></output>; lon: <output id="lon-output"></output>
+		lat: <output id="lat-output"></output>;
+		lon: <output id="lon-output"></output>;
+		alt: <output id="alt-output"></output>
 	</div>
 </body>
 </html>
