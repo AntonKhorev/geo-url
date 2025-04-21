@@ -78,13 +78,17 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0;crs=wgs84")
 		expect(url.crs).toBe("wgs84")
 	})
+	test("Has crs property for value '0'", () => {
+		const url = new GeoURL("geo:0,0;crs=0")
+		expect(url.crs).toBe("0")
+	})
 	test("Has crs property for unknown crs", () => {
 		const url = new GeoURL("geo:0,0;crs=whatever123")
 		expect(url.crs).toBe("whatever123")
 	})
-	test("Has crs property for value '0'", () => {
-		const url = new GeoURL("geo:0,0;crs=0")
-		expect(url.crs).toBe("0")
+	test("Has CRS property", () => {
+		const url = new GeoURL("geo:0,0;crs=whatever123")
+		expect(url.CRS).toBe("whatever123")
 	})
 
 	test("Has coordinatesString property for simple 2-coordinate url", () => {
