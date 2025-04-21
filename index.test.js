@@ -124,6 +124,11 @@ describe("WGS84GeoURL", () => {
 			() => new WGS84GeoURL()
 		).toThrow(TypeError)
 	})
+	test("Fails on non-matching crs", () => {
+		expect(
+			() => new WGS84GeoURL("geo:0,0;crs=unknown")
+		).toThrow(TypeError)
+	})
 
 	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:13.4125,103.8667")

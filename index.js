@@ -55,6 +55,13 @@ export class GeoURL {
 }
 
 export class WGS84GeoURL extends GeoURL {
+	constructor(urlString) {
+		super(urlString)
+		if (this.crs != "wgs84") {
+			throw new TypeError(`Unexpected CRS ${this.crs}`)
+		}
+	}
+
 	get latLon() {
 		return [this.lat, this.lon]
 	}
