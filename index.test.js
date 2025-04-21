@@ -28,6 +28,21 @@ describe("GeoURL", () => {
 			() => new GeoURL("geo:0")
 		).toThrow(TypeError)
 	})
+	test("Fails when provided 2 empty coordinates", () => {
+		expect(
+			() => new GeoURL("geo:,")
+		).toThrow(TypeError)
+	})
+	test("Fails when provided 3 empty coordinates", () => {
+		expect(
+			() => new GeoURL("geo:,,")
+		).toThrow(TypeError)
+	})
+	test("Fails when provided 2 NaN coordinates", () => {
+		expect(
+			() => new GeoURL("geo:no,nope")
+		).toThrow(TypeError)
+	})
 
 	test("Converts to json", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
@@ -239,5 +254,9 @@ describe("WGS84GeoURL", () => {
 	test("Has altitude property for simple 3-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
 		expect(url.altitude).toBe(183)
+	})
+	test("Has undefined alt property for empty alt value", () => {
+		const url = new WGS84GeoURL("geo:0,0,")
+		expect(url.alt).toBeUndefined()
 	})
 })

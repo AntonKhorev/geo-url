@@ -1,6 +1,8 @@
 "use strict"
 
 export class GeoURL {
+	#coordinates
+
 	constructor(urlString) {
 		this.url = new URL(urlString)
 		if (this.url.protocol != "geo:") {
@@ -8,6 +10,9 @@ export class GeoURL {
 		}
 		if (this.coordinates.length < 2) {
 			throw new TypeError(`Invalid number of coordinates`)
+		}
+		if (typeof this.coordA != 'number' || typeof this.coordB != 'number') {
+			throw new TypeError(`Invalid coordinate value`)
 		}
 	}
 
@@ -72,8 +77,16 @@ export class GeoURL {
 		return coordinatesString
 	}
 	get coordinates() {
-		const coordinates = this.coordinatesString.split(",")
-		return coordinates.map(Number)
+		if (this.#coordinates) {
+			return this.#coordinates
+		}
+
+		const coordinateStrings = this.coordinatesString.split(",")
+		this.#coordinates = coordinateStrings.map(s => {
+			const v = parseFloat(s)
+			return isNaN(v) ? undefined : v
+		})
+		return this.#coordinates
 	}
 	get coordA() {
 		return this.coordinates[0]
