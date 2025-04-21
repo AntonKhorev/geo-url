@@ -48,4 +48,7 @@ export class WGS84GeoURL extends GeoURL {
 	get lon() {
 		return this.coordinates[1]
 	}
+	get lng() {
+		return this.lon
+	}
 }

@@ -75,9 +75,10 @@ describe("WGS84GeoURL", () => {
 		).toThrow(TypeError)
 	})
 
-	test("Has lat and lon properties for simple 2-coordinate url", () => {
+	test("Has lat and lon/lng properties for simple 2-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:13.4125,103.8667")
 		expect(url.lat).toBe(13.4125)
 		expect(url.lon).toBe(103.8667)
+		expect(url.lng).toBe(103.8667)
 	})
 })
