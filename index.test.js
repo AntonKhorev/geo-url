@@ -49,8 +49,16 @@ describe("GeoURL", () => {
 		expect(url.searchParams).toStrictEqual(new URLSearchParams({ z: 11 }))
 	})
 
-	test("Provides z getter for undefined value", () => {
+	test("Provides z getter for undefined name and value", () => {
 		const url = new GeoURL("geo:47.6,-122.3")
+		expect(url.z).toBeUndefined()
+	})
+	test("Provides z getter for name without value", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z")
+		expect(url.z).toBeUndefined()
+	})
+	test("Provides z getter for name with empty value", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=")
 		expect(url.z).toBeUndefined()
 	})
 	test("Provides z getter", () => {

@@ -32,9 +32,11 @@ export class GeoURL {
 	}
 
 	get z() {
-		const value = this.searchParams.get("z")
-		if (value == null) return undefined
-		return Number(value)
+		const stringValue = this.searchParams.get("z")
+		if (stringValue == null) return undefined
+		const numberValue = parseFloat(stringValue)
+		if (isNaN(numberValue)) return undefined
+		return numberValue
 	}
 
 	get geoParams() {
