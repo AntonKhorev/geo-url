@@ -18,6 +18,16 @@ describe("GeoURL", () => {
 			() => new GeoURL("https://www.example.com/")
 		).toThrow(TypeError)
 	})
+	test("Fails when provided no coordinates", () => {
+		expect(
+			() => new GeoURL("geo:")
+		).toThrow(TypeError)
+	})
+	test("Fails when provided one coordinate", () => {
+		expect(
+			() => new GeoURL("geo:0")
+		).toThrow(TypeError)
+	})
 
 	test("Converts to json", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")

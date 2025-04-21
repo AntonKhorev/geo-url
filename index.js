@@ -6,6 +6,9 @@ export class GeoURL {
 		if (this.url.protocol != "geo:") {
 			throw new TypeError(`Invalid protocol ${this.url.protocol}`)
 		}
+		if (this.coordinates.length < 2) {
+			throw new TypeError(`Invalid number of coordinates`)
+		}
 	}
 
 	toJSON() {
