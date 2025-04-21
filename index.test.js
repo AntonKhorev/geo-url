@@ -109,4 +109,20 @@ describe("WGS84GeoURL", () => {
 		expect(url.latitude).toBe(13.4125)
 		expect(url.longitude).toBe(103.8667)
 	})
+	test("Has undefined alt property for simple 2-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:13.4125,103.8667")
+		expect(url.alt).toBeUndefined()
+	})
+	test("Has undefined altitude property for simple 2-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:13.4125,103.8667")
+		expect(url.altitude).toBeUndefined()
+	})
+	test("Has alt property for simple 3-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
+		expect(url.alt).toBe(183)
+	})
+	test("Has altitude property for simple 3-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
+		expect(url.altitude).toBe(183)
+	})
 })

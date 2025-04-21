@@ -70,4 +70,10 @@ export class WGS84GeoURL extends GeoURL {
 	get longitude() {
 		return this.lon
 	}
+	get alt() {
+		return this.coordinates[2]
+	}
+	get altitude() {
+		return this.alt
+	}
 }
