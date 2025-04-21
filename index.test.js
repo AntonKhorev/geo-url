@@ -75,6 +75,14 @@ describe("WGS84GeoURL", () => {
 		).toThrow(TypeError)
 	})
 
+	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:13.4125,103.8667")
+		expect(url.latLon).toStrictEqual([13.4125, 103.8667])
+		expect(url.latLng).toStrictEqual([13.4125, 103.8667])
+		expect(url.lonLat).toStrictEqual([103.8667, 13.4125])
+		expect(url.lngLat).toStrictEqual([103.8667, 13.4125])
+	})
+
 	test("Has lat and lon/lng properties for simple 2-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:13.4125,103.8667")
 		expect(url.lat).toBe(13.4125)
