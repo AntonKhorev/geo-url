@@ -33,8 +33,19 @@ export class GeoURL {
 
 	get geoParams() {
 		const [_coordinatesString, ...paramStrings] = this.pathname.split(";")
-		const escapedParamStrings = paramStrings.map(paramString => paramString.replaceAll("&", encodeURIComponent("&")))
-		return new URLSearchParams(escapedParamStrings.join("&"))
+		const processedParamStrings = paramStrings.map(paramString => {
+			const [name, value] = paramString.split("=")
+			return [name.toLowerCase(), decodeURIComponent(value)]
+		})
+		const paramsMap = new Map(processedParamStrings)
+
+		return {
+			get: name => {
+				const value = paramsMap.get(name.toLowerCase())
+				if (value == null) return null // Map returns undefined, but URLSearchParams returns null
+				return value
+			}
+		}
 	}
 
 	get crs() {

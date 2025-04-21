@@ -77,6 +77,14 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0;crs=WGS84")
 		expect(url.geoParams.get("crs")).toBe("WGS84")
 	})
+	test("Provides geoParams.get() for mixed-case names", () => {
+		const url = new GeoURL("geo:0,0;FoO=bar")
+		expect(url.geoParams.get("foo")).toBe("bar")
+	})
+	test("Provides geoParams.get() for mixed-case names when requesting uppercase name", () => {
+		const url = new GeoURL("geo:0,0;FoO=bar")
+		expect(url.geoParams.get("FOO")).toBe("bar")
+	})
 
 	test("Has crs property with default value for missing crs", () => {
 		const url = new GeoURL("geo:0,0")
@@ -140,6 +148,10 @@ describe("WGS84GeoURL", () => {
 		expect(
 			() => new WGS84GeoURL("geo:0,0;crs=unknown")
 		).toThrow(TypeError)
+	})
+	test("Succeeds on mixed-case crs", () => {
+		const url = new WGS84GeoURL("geo:0,0;CrS=WgS84")
+		expect(url.crs).toBe("wgs84")
 	})
 
 	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
