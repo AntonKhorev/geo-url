@@ -53,6 +53,10 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
 		expect(url.coordinatesString).toBe("13.4125,103.8667")
 	})
+	test("Has coordinatesString property for simple 3-coordinate url", () => {
+		const url = new GeoURL("geo:48.2010,16.3695,183")
+		expect(url.coordinatesString).toBe("48.2010,16.3695,183")
+	})
 	test("Has coordinatesString property for 2-coordinate url with geo parameters", () => {
 		const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
 		expect(url.coordinatesString).toBe("48.198634,16.371648")
@@ -61,6 +65,10 @@ describe("GeoURL", () => {
 	test("Has coordinates property for simple 2-coordinate url", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
 		expect(url.coordinates).toStrictEqual([13.4125, 103.8667])
+	})
+	test("Has coordinates property for simple 3-coordinate url", () => {
+		const url = new GeoURL("geo:48.2010,16.3695,183")
+		expect(url.coordinates).toStrictEqual([48.2010, 16.3695, 183])
 	})
 	test("Has coordinates property for 2-coordinate url with geo parameters", () => {
 		const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
@@ -81,6 +89,13 @@ describe("WGS84GeoURL", () => {
 		expect(url.latLng).toStrictEqual([13.4125, 103.8667])
 		expect(url.lonLat).toStrictEqual([103.8667, 13.4125])
 		expect(url.lngLat).toStrictEqual([103.8667, 13.4125])
+	})
+	test("Has latLon/lonLat/*lng array properties for simple 3-coordinate url", () => {
+		const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
+		expect(url.latLon).toStrictEqual([48.2010, 16.3695])
+		expect(url.latLng).toStrictEqual([48.2010, 16.3695])
+		expect(url.lonLat).toStrictEqual([16.3695, 48.2010])
+		expect(url.lngLat).toStrictEqual([16.3695, 48.2010])
 	})
 
 	test("Has lat and lon/lng properties for simple 2-coordinate url", () => {

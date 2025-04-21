@@ -43,10 +43,10 @@ export class GeoURL {
 
 export class WGS84GeoURL extends GeoURL {
 	get latLon() {
-		return this.coordinates
+		return [this.lat, this.lon]
 	}
 	get latLng() {
-		return this.coordinates
+		return this.latLon
 	}
 	get lonLat() {
 		return [this.lon, this.lat]
