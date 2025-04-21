@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<script type="module">
+		import { WGS84GeoURL } from "../index.js"
+
+		const geoUriInput = document.getElementById("geo-uri-input")
+		const latOutput = document.getElementById("lat-output")
+		const lonOutput = document.getElementById("lon-output")
+
+		geoUriInput.oninput = () => {
+			try {
+				const url = new WGS84GeoURL(geoUriInput.value)
+				latOutput.value = url.lat
+				lonOutput.value = url.lon
+			} catch (ex) {
+				latOutput.value = ""
+				lonOutput.value = ""
+			}
+		}
+	</script>
+</head>
+<body>
+	<div>
+		<label>
+			Geo URI: <input id="geo-uri-input">
+		</label>
+	</div>
+	<div>
+		lat: <output id="lat-output"></output>; lon: <output id="lon-output"></output>
+	</div>
+</body>
+</html>
