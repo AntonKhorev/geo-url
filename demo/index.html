@@ -13,6 +13,9 @@
 			box-sizing: border-box;
 			width: 100%;
 		}
+		table.components th {
+			text-align: end;
+		}
 	</style>
 	<script type="module">
 		import { WGS84GeoURL } from "../index.js"
@@ -46,9 +49,12 @@
 		</label>
 	</div>
 	<div>
-		lat: <output id="lat-output"></output>;
-		lon: <output id="lon-output"></output>;
-		alt: <output id="alt-output"></output>
+		<table class="components">
+			<caption>Geo URI Components</caption>
+			<tr><th>lat</th><td><output id="lat-output"></output></td></tr>
+			<tr><th>lon</th><td><output id="lon-output"></output></td></tr>
+			<tr><th>alt</th><td><output id="alt-output"></output></td></tr>
+		</table>
 	</div>
 </body>
 </html>
