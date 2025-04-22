@@ -186,6 +186,22 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
 		expect(url.coordinates).toStrictEqual([48.198634, 16.371648])
 	})
+	test("Allows coord-a that would be below the allowed range in WGS84", () => {
+		const url = new GeoURL("geo:-91,0;crs=unknown")
+		expect(url.coordinates).toStrictEqual([-91, 0])
+	})
+	test("Allows coord-a that would be above the allowed range in WGS84", () => {
+		const url = new GeoURL("geo:91,0;crs=unknown")
+		expect(url.coordinates).toStrictEqual([91, 0])
+	})
+	test("Allows coord-b that would be below the allowed range in WGS84", () => {
+		const url = new GeoURL("geo:0,-181;crs=unknown")
+		expect(url.coordinates).toStrictEqual([0, -181])
+	})
+	test("Allows coord-b that would be above the allowed range in WGS84", () => {
+		const url = new GeoURL("geo:0,181;crs=unknown")
+		expect(url.coordinates).toStrictEqual([0, 181])
+	})
 
 	test("Has individual coord properties for simple 2-coordinate url", () => {
 		const url = new GeoURL("geo:22.3,-118.44")
@@ -223,6 +239,26 @@ describe("WGS84GeoURL", () => {
 	test("Fails on non-matching crs", () => {
 		expect(
 			() => new WGS84GeoURL("geo:0,0;crs=unknown")
+		).toThrow(TypeError)
+	})
+	test("Rejects lat below the allowed range in WGS84", () => {
+		expect(
+			() => new WGS84GeoURL("geo:-91,0")
+		).toThrow(TypeError)
+	})
+	test("Rejects lat above the allowed range in WGS84", () => {
+		expect(
+			() => new WGS84GeoURL("geo:91,0")
+		).toThrow(TypeError)
+	})
+	test("Rejects lon below the allowed range in WGS84", () => {
+		expect(
+			() => new WGS84GeoURL("geo:0,-181")
+		).toThrow(TypeError)
+	})
+	test("Rejects lon above the allowed range in WGS84", () => {
+		expect(
+			() => new WGS84GeoURL("geo:0,181")
 		).toThrow(TypeError)
 	})
 	test("Succeeds on mixed-case crs", () => {

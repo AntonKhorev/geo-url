@@ -108,6 +108,12 @@ export class WGS84GeoURL extends GeoURL {
 		if (this.crs != "wgs84") {
 			throw new TypeError(`Unexpected CRS ${this.crs}`)
 		}
+		if (this.lat < -90 || this.lat > 90) {
+			throw new TypeError(`Latitude ${this.lat} outside of the allowed range`)
+		}
+		if (this.lon < -180 || this.lon > 180) {
+			throw new TypeError(`Longitude ${this.lon} outside of the allowed range`)
+		}
 	}
 
 	get latLon() {
