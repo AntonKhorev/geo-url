@@ -94,6 +94,10 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3;z=16?z=12")
 		expect(url.z).toBe(12)
 	})
+	test("Provides zoom alias getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=10")
+		expect(url.zoom).toBe(10)
+	})
 
 	test("Provides geoParams.get() for missing values", () => {
 		const url = new GeoURL("geo:0,0")

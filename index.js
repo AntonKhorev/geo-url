@@ -42,6 +42,9 @@ export class GeoURL {
 	get z() {
 		return parseNumber(this.searchParams.get("z"))
 	}
+	get zoom() {
+		return this.z
+	}
 
 	get geoParams() {
 		const [_coordinatesString, ...paramStrings] = this.pathname.split(";")
