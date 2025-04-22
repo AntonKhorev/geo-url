@@ -6,21 +6,52 @@
 	<title>Geo URI Leaflet Map Demo</title>
 	<link rel="stylesheet" href="../../leaflet.css">
 	<style>
+		.major-input {
+			margin: 1rem 0;
+		}
+		.major-input input {
+			display: block;
+			box-sizing: border-box;
+			width: 100%;
+		}
 		#map {
 			height: 25rem;
 		}
 	</style>
 	<script src="../../leaflet.js"></script>
 	<script type="module">
+		import { WGS84GeoURL } from "../../geo-url.js"
+
 		const map = L.map("map", { attributionControl: false }).setView([60, 30], 13)
 		L.control.attribution({ prefix: false }).addTo(map)
 		L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
 			maxZoom: 19,
 			attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
 		}).addTo(map)
+
+		const markerLayer = L.layerGroup().addTo(map)
+
+		const $geoUriInput = document.getElementById("geo-uri-input")
+
+		$geoUriInput.oninput = updateMap
+		updateMap()
+
+		function updateMap() {
+			markerLayer.clearLayers()
+			try {
+				const url = new WGS84GeoURL($geoUriInput.value)
+				L.marker(url.latLng).addTo(markerLayer)
+				map.setView(url.latLng)
+			} catch (ex) {}
+		}
 	</script>
 </head>
 <body>
+	<div class="major-input">
+		<label>
+			Geo URI: <input id="geo-uri-input">
+		</label>
+	</div>
 	<div id="map"></div>
 </body>
 </html>
