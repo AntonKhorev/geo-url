@@ -50,7 +50,7 @@ export class GeoURL {
 		const [_coordinatesString, ...paramStrings] = this.pathname.split(";")
 		const processedParamStrings = paramStrings.map(paramString => {
 			const [name, value] = paramString.split("=")
-			return [name.toLowerCase(), decodeURIComponent(value)]
+			return [name.toLowerCase(), decodeURIComponent(value || "")]
 		})
 		const paramsMap = new Map(processedParamStrings)
 

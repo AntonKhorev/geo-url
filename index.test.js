@@ -139,6 +139,10 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0;FoO=bar")
 		expect(url.geoParams.get("FOO")).toBe("bar")
 	})
+	test("Provides geoParams.get() for flags", () => {
+		const url = new GeoURL("geo:0,0;flag")
+		expect(url.geoParams.get("flag")).toBe("")
+	})
 
 	test("Has crs property with default value for missing crs", () => {
 		const url = new GeoURL("geo:0,0")
