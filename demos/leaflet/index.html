@@ -41,7 +41,7 @@
 			try {
 				const url = new WGS84GeoURL($geoUriInput.value)
 				L.marker(url.latLng).addTo(markerLayer)
-				map.setView(url.latLng)
+				map.setView(url.latLng, url.z)
 			} catch (ex) {}
 		}
 	</script>
