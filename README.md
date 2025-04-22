@@ -1,0 +1,9 @@
+Why not parse geo urls yourself? You can do it, but you have to be aware of a few gotchas.
+
+Maybe you only need coordinates. Then you can ignore all of the parameters that possibly come after `;`, right? Not quite, technically you have to check the optional `crs` parameter in case an unknown CRS is used. If it has some unknown value, that is anything other than `wgs84`, you can't interpret the coordinates as an expected lat-lon pair.
+
+Now that you know that you have to look at parameters, you also have to be aware that there are two kinds of parameters: geo uri parameters as defined in the rfc and regular url parameters. The latter are not part of the rfc and can be ignored, but there is a commonly used extension to geo uri that makes use of them. It is the zoom value in the `z` url parameter introduced by Google.
+
+If you're going to look at both kinds of parameters, notice that they have to be parsed differently. The difference is not that big, both kinds have sets of allowed characters, with characters outside these sets %-encoded, but the sets are slightly different. One of the reasons for that are different separators. Regular url parameters are separated by `&` while geo uri parameters are separated by `;`. That allows `&` to be used unencoded. The possibility of unencoded `&` in geo uri parameter values means you have to be careful if you want to parse the entire parameter substring using `URLSearchParams`.
+
+Even after you've parsed the parameters, the challenges are not over because some things in geo uri are case insensitive. First, all of the parameter names are case insensitive, unlike regular url parameter names. This includes the `crs` parameter, its name could be `CRS` or maybe even `cRS` instead. Additionally for the `crs` parameter, its value is also case insensitive, so you have to look for not just `wgs84` but also `WGS84`.
