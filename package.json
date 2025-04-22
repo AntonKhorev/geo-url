@@ -1,9 +1,24 @@
 {
   "name": "@antonkhorev/geo-url",
-  "version": "0.0.0",
-  "author": "Anton Khorev",
-  "license": "MIT",
   "type": "module",
+  "version": "0.0.0",
+  "description": "URL parser for RFC 5870 geo URIs with zoom level extension",
+  "keywords": [
+    "geo",
+    "rfc 5870",
+    "uri",
+    "url"
+  ],
+  "license": "MIT",
+  "author": "Anton Khorev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AntonKhorev/geo-url.git"
+  },
+  "bugs": {
+    "url": "https://github.com/AntonKhorev/geo-url/issues"
+  },
+  "homepage": "https://github.com/AntonKhorev/geo-url",
   "scripts": {
     "build": "node build.js",
     "test": "vitest"
