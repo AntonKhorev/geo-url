@@ -1,3 +1,9 @@
+# geo-url
+
+A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)-like class to parse [geo URIs](https://en.wikipedia.org/wiki/Geo_URI_scheme) as defined in [RFC 5870](https://datatracker.ietf.org/doc/html/rfc5870) with [some unofficial extensions](https://developer.android.com/guide/components/intents-common#Maps).
+
+## Motivation
+
 Why not parse geo uris yourself? You can do it, but you have to be aware of a few gotchas.
 
 Maybe you only need coordinates. Then you can ignore all of the parameters that possibly come after `;`, right? Not quite, technically you [have to check](https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.1) the optional `crs` parameter in case an unknown CRS is used. If it has some unknown value, that is anything other than `wgs84`, you can't interpret the coordinates as an expected lat-lon pair.
