@@ -40,7 +40,11 @@
 			markerLayer.clearLayers()
 			try {
 				const url = new WGS84GeoURL($geoUriInput.value)
-				L.marker(url.latLng).addTo(markerLayer)
+				if (url.u == null) {
+					L.marker(url.latLng).addTo(markerLayer)
+				} else {
+					L.circle(url.latLng, { radius: url.u }).addTo(markerLayer)
+				}
 				map.setView(url.latLng, url.z)
 			} catch (ex) {}
 		}
