@@ -46,7 +46,12 @@
 				} else {
 					L.circle(url.latLng, { radius: url.u }).addTo(markerLayer)
 				}
-				map.setView(url.latLng, url.z)
+				if (url.z == null && url.u != null) {
+					const bounds = L.latLng(url.latLng).toBounds(url.u * 4)
+					map.fitBounds(bounds)
+				} else {
+					map.setView(url.latLng, url.z)
+				}
 			} catch (ex) {}
 		}
 	</script>
