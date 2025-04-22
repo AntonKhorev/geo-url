@@ -90,9 +90,13 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.z).toBe(11)
 	})
-	test("Provides z getter when also has z geo parameter", () => {
+	test("Ignores z geo parameter", () => {
 		const url = new GeoURL("geo:47.6,-122.3;z=16?z=12")
 		expect(url.z).toBe(12)
+	})
+	test("Ignores false z geo parameter", () => {
+		const url = new GeoURL("geo:48.858249,2.294541;skip=lol&z?z=19")
+		expect(url.z).toBe(19)
 	})
 	test("Provides zoom alias getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=10")
@@ -223,6 +227,10 @@ describe("GeoURL", () => {
 	test("Has u property", () => {
 		const url = new GeoURL("geo:0,0;u=12.34")
 		expect(url.u).toBe(12.34)
+	})
+	test("Ignores false u geo parameter", () => {
+		const url = new GeoURL("geo:60,30;u=1000;v=&u")
+		expect(url.u).toBe(1000)
 	})
 	test("Has uncertainty property alias", () => {
 		const url = new GeoURL("geo:0,0;u=23.45")
