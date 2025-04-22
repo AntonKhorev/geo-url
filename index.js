@@ -97,6 +97,9 @@ export class GeoURL {
 	get u() {
 		return parseNumber(this.geoParams.get("u"))
 	}
+	get uncertainty() {
+		return this.u
+	}
 }
 
 export class WGS84GeoURL extends GeoURL {

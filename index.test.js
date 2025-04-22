@@ -200,13 +200,17 @@ describe("GeoURL", () => {
 		expect(url.coordC).toBe(43.21)
 	})
 
-	test("Has uncertainty property for missing uncertainty param", () => {
+	test("Has u property for missing uncertainty param", () => {
 		const url = new GeoURL("geo:0,0")
 		expect(url.u).toBeUndefined()
 	})
-	test("Has uncertainty property", () => {
+	test("Has u property", () => {
 		const url = new GeoURL("geo:0,0;u=12.34")
 		expect(url.u).toBe(12.34)
+	})
+	test("Has uncertainty property alias", () => {
+		const url = new GeoURL("geo:0,0;u=23.45")
+		expect(url.uncertainty).toBe(23.45)
 	})
 })
 
