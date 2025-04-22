@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/AntonKhorev/geo-url",
   "main": "index.js",
+  "files": [],
   "scripts": {
     "build": "node build.js",
     "test": "vitest"
