@@ -9,6 +9,7 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "leaflet": "^1.9.4",
     "vitest": "^3.0.9"
   }
 }

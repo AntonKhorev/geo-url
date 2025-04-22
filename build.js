@@ -1,6 +1,8 @@
 import * as fs from "fs/promises"
 
 await cleanupDirectory("pages")
+await fs.copyFile("node_modules/leaflet/dist/leaflet.css", "pages/leaflet.css")
+await fs.copyFile("node_modules/leaflet/dist/leaflet.js", "pages/leaflet.js")
 await fs.copyFile("index.js", "pages/geo-url.js")
 await fs.cp("demos", "pages/demos", { recursive: true })
 

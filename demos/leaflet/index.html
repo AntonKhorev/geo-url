@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Geo URI Leaflet Map Demo</title>
+	<link rel="stylesheet" href="../../leaflet.css">
+	<style>
+		#map {
+			height: 25rem;
+		}
+	</style>
+	<script src="../../leaflet.js"></script>
+	<script type="module">
+		const map = L.map("map", { attributionControl: false }).setView([60, 30], 13)
+		L.control.attribution({ prefix: false }).addTo(map)
+		L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+			maxZoom: 19,
+			attribution: "&copy; <a href='https://www.openstreetmap.org/copyright'>OpenStreetMap</a>"
+		}).addTo(map)
+	</script>
+</head>
+<body>
+	<div id="map"></div>
+</body>
+</html>
