@@ -143,6 +143,14 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0;flag")
 		expect(url.geoParams.get("flag")).toBe("")
 	})
+	test("Doesn't decode '+' in geo params", () => {
+		const url = new GeoURL("geo:0,0;plus=+")
+		expect(url.geoParams.get("plus")).toBe("+")
+	})
+	test("Percent-decodes geo params", () => {
+		const url = new GeoURL("geo:0,0;decode=%31%32%33")
+		expect(url.geoParams.get("decode")).toBe("123")
+	})
 
 	test("Has crs property with default value for missing crs", () => {
 		const url = new GeoURL("geo:0,0")
