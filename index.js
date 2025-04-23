@@ -188,7 +188,7 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Altitude in meters
-	 * @type {number}
+	 * @type {number|undefined}
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
 	 */
 	get alt() {
@@ -196,7 +196,7 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Altitude in meters
-	 * @type {number}
+	 * @type {number|undefined}
 	 * @description A longer name for {@link WGS84GeoURL#alt}
 	 */
 	get altitude() {
