@@ -26,6 +26,7 @@
     "test": "vitest"
   },
   "devDependencies": {
+    "jsdoc": "^4.0.4",
     "leaflet": "^1.9.4",
     "vitest": "^3.0.9"
   }
