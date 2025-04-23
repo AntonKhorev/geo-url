@@ -176,9 +176,19 @@ export class WGS84GeoURL extends GeoURL {
 	get longitude() {
 		return this.coordB
 	}
+	/**
+	 * Altitude in meters
+	 * @type {number}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 */
 	get alt() {
 		return this.coordC
 	}
+	/**
+	 * Altitude in meters
+	 * @type {number}
+	 * @description A longer name for {@link WGS84GeoURL#alt}
+	 */
 	get altitude() {
 		return this.coordC
 	}
