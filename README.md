@@ -2,7 +2,7 @@
 
 A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)-like class to parse [geo URIs](https://en.wikipedia.org/wiki/Geo_URI_scheme) as defined in [RFC 5870](https://datatracker.ietf.org/doc/html/rfc5870) with [some unofficial extensions](https://developer.android.com/guide/components/intents-common#Maps).
 
-[See some usage demos](https://antonkhorev.github.io/geo-url/demos/).
+See the [generated API docs](https://antonkhorev.github.io/geo-url/) and [usage demos](https://antonkhorev.github.io/geo-url/demos/).
 
 ## Installation
 
