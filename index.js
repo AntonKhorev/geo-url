@@ -1,5 +1,8 @@
 "use strict"
 
+/**
+ * URL interface for geo URI with an arbitrary CRS
+ */
 export class GeoURL {
 	#url
 	#coordinates
@@ -103,6 +106,9 @@ export class GeoURL {
 	}
 }
 
+/**
+ * URL interface for WGS84 geo URI with latitude, longitude and possibly altitude
+ */
 export class WGS84GeoURL extends GeoURL {
 	constructor(urlString) {
 		super(urlString)
@@ -130,18 +136,43 @@ export class WGS84GeoURL extends GeoURL {
 		return this.lonLat
 	}
 
+	/**
+	 * Latitude in decimal degrees between -90 and 90
+	 * @type {number}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 */
 	get lat() {
 		return this.coordA
 	}
+	/**
+	 * Latitude in decimal degrees between -90 and 90
+	 * @type {number}
+	 * @description A longer name for {@link WGS84GeoURL#lat}
+	 */
 	get latitude() {
 		return this.coordA
 	}
+	/**
+	 * Longitude in decimal degrees between -180 and 180
+	 * @type {number}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 */
 	get lon() {
 		return this.coordB
 	}
+	/**
+	 * Longitude in decimal degrees between -180 and 180
+	 * @type {number}
+	 * @description An alternative name for {@link WGS84GeoURL#lon}, as used for example in Leaflet
+	 */
 	get lng() {
 		return this.coordB
 	}
+	/**
+	 * Longitude in decimal degrees between -180 and 180
+	 * @type {number}
+	 * @description A longer name for {@link WGS84GeoURL#lon}
+	 */
 	get longitude() {
 		return this.coordB
 	}
