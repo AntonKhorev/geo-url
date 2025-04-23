@@ -98,9 +98,19 @@ export class GeoURL {
 		return this.coordinates[2]
 	}
 
+	/**
+	 * Uncertainty in meters
+	 * @type {number|undefined}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.3|RFC 5870} for parameter description
+	 */
 	get u() {
 		return parseNumber(this.geoParams.get("u"))
 	}
+	/**
+	 * Uncertainty in meters
+	 * @type {number|undefined}
+	 * @description A longer name for {@link GeoURL#u}
+	 */
 	get uncertainty() {
 		return this.u
 	}
