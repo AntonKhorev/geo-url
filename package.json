@@ -13,7 +13,7 @@
   "author": "Anton Khorev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/AntonKhorev/geo-url.git"
+    "url": "git+https://github.com/AntonKhorev/geo-url.git"
   },
   "bugs": {
     "url": "https://github.com/AntonKhorev/geo-url/issues"
