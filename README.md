@@ -4,6 +4,85 @@ A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)-like class to pars
 
 [See some usage demos](https://antonkhorev.github.io/geo-url/demos/).
 
+## Examples
+
+### Get latitude, longitude and uncertainty
+
+```js
+import { WGS84GeoURL } from "@antonkhorev/geo-url"
+
+const urlString = "geo:48.198634,16.371648;u=40"
+let url
+
+try {
+	url = new WGS84GeoURL(urlString)
+} catch (ex) {
+	console.log(ex.message)
+}
+
+if (url) {
+	console.log(`latitude = ${url.latitude}`)
+	console.log(`longitude = ${url.longitude}`)
+	if (url.uncertainty != null) {
+		console.log(`uncertainty = ${url.uncertainty}`)
+	} else {
+		console.log(`no uncertainty provided`)
+	}
+}
+```
+
+### Get latitude, longitude and altitude
+
+This is a shorter version without error handling and short property names.
+
+```js
+import { WGS84GeoURL } from "@antonkhorev/geo-url"
+
+const urlString = "geo:48.2010,16.3695,183"
+const url = new WGS84GeoURL(urlString)
+
+console.log(`lat = ${url.lat}`)
+console.log(`lon = ${url.lon}`)
+if (url.alt != null) {
+	console.log(`alt = ${url.alt}`)
+} else {
+	console.log(`no altitude provided`)
+}
+```
+
+### Get latitude, longitude and zoom
+
+Read zoom parameter from [an unofficial extension](https://developer.android.com/guide/components/intents-common#Maps).
+
+```js
+import { WGS84GeoURL } from "@antonkhorev/geo-url"
+
+const urlString = "geo:47.6,-122.3?z=11"
+const url = new WGS84GeoURL(urlString)
+
+console.log(`lat = ${url.lat}`)
+console.log(`lon = ${url.lon}`)
+if (url.zoom != null) {
+	console.log(`zoom = ${url.zoom}`)
+} else {
+	console.log(`no zoom provided`)
+}
+```
+
+### Get arbitrary parameters
+
+This doesn't require interpreting the coordinates as lat/lon and can use a more generic `GeoURL` class.
+
+```js
+import { GeoURL } from "@antonkhorev/geo-url"
+
+const urlString = "geo:47,11;foo=blue;bar=white"
+const url = new GeoURL(urlString)
+
+console.log(`foo = ${url.geoParams.get('foo')}`)
+console.log(`bar = ${url.geoParams.get('bar')}`)
+```
+
 ## Motivation
 
 Why not parse geo uris yourself? You can do it, but you have to be aware of a few gotchas.
