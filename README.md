@@ -4,6 +4,12 @@ A [URL](https://developer.mozilla.org/en-US/docs/Web/API/URL)-like class to pars
 
 [See some usage demos](https://antonkhorev.github.io/geo-url/demos/).
 
+## Installation
+
+```
+npm install @antonkhorev/geo-url
+```
+
 ## Examples
 
 ### Get latitude, longitude and uncertainty
