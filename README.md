@@ -12,66 +12,64 @@ npm install @antonkhorev/geo-url
 
 ## Examples
 
-### Get latitude, longitude and uncertainty
+### Get predefined parameters
 
 ```js
 import { WGS84GeoURL } from "@antonkhorev/geo-url"
 
-const urlString = "geo:48.198634,16.371648;u=40"
-let url
+// Get latitude, longitude and uncertainty
+// with error handling
+{
+	const urlString = "geo:48.198634,16.371648;u=40"
+	console.log(`=== ${urlString} ===`)
 
-try {
-	url = new WGS84GeoURL(urlString)
-} catch (ex) {
-	console.log(ex.message)
-}
+	let url
+	try {
+		url = new WGS84GeoURL(urlString)
+	} catch (ex) {
+		console.log(ex.message)
+	}
 
-if (url) {
-	console.log(`latitude = ${url.latitude}`)
-	console.log(`longitude = ${url.longitude}`)
-	if (url.uncertainty != null) {
-		console.log(`uncertainty = ${url.uncertainty}`)
-	} else {
-		console.log(`no uncertainty provided`)
+	if (url) {
+		console.log(`latitude = ${url.latitude}`)
+		console.log(`longitude = ${url.longitude}`)
+		if (url.uncertainty != null) {
+			console.log(`uncertainty = ${url.uncertainty}`)
+		} else {
+			console.log(`no uncertainty provided`)
+		}
 	}
 }
-```
 
-### Get latitude, longitude and altitude
-
-This is a shorter version without error handling and short property names.
-
-```js
-import { WGS84GeoURL } from "@antonkhorev/geo-url"
-
-const urlString = "geo:48.2010,16.3695,183"
-const url = new WGS84GeoURL(urlString)
-
-console.log(`lat = ${url.lat}`)
-console.log(`lon = ${url.lon}`)
-if (url.alt != null) {
-	console.log(`alt = ${url.alt}`)
-} else {
-	console.log(`no altitude provided`)
+// Get latitude, longitude and altitude
+// without error handling and with short property names
+{
+	const urlString = "geo:48.2010,16.3695,183"
+	console.log(`=== ${urlString} ===`)
+	
+	const url = new WGS84GeoURL(urlString)
+	console.log(`lat = ${url.lat}`)
+	console.log(`lon = ${url.lon}`)
+	if (url.alt != null) {
+		console.log(`alt = ${url.alt}`)
+	} else {
+		console.log(`no altitude provided`)
+	}
 }
-```
 
-### Get latitude, longitude and zoom
+// Read zoom parameter as specified in Google Maps Intents for Android
+{
+	const urlString = "geo:47.6,-122.3?z=11"
+	console.log(`=== ${urlString} ===`)
 
-Read zoom parameter from [an unofficial extension](https://developer.android.com/guide/components/intents-common#Maps).
-
-```js
-import { WGS84GeoURL } from "@antonkhorev/geo-url"
-
-const urlString = "geo:47.6,-122.3?z=11"
-const url = new WGS84GeoURL(urlString)
-
-console.log(`lat = ${url.lat}`)
-console.log(`lon = ${url.lon}`)
-if (url.zoom != null) {
-	console.log(`zoom = ${url.zoom}`)
-} else {
-	console.log(`no zoom provided`)
+	const url = new WGS84GeoURL(urlString)
+	console.log(`lat = ${url.lat}`)
+	console.log(`lon = ${url.lon}`)
+	if (url.zoom != null) {
+		console.log(`zoom = ${url.zoom}`)
+	} else {
+		console.log(`no zoom provided`)
+	}
 }
 ```
 
