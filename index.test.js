@@ -52,6 +52,16 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.toString()).toBe("geo:47.6,-122.3?z=11")
 	})
+	test("Converts to string when constructed from URL object", () => {
+		const sourceUrl = new URL("geo:12,34;u=56?z=78#id9")
+		const url = new GeoURL(sourceUrl)
+		expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
+	})
+	test("Converts to string when constructed from GeoURL object", () => {
+		const sourceUrl = new GeoURL("geo:12,34;u=56?z=78#id9")
+		const url = new GeoURL(sourceUrl)
+		expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
+	})
 
 	test("Provides href getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")

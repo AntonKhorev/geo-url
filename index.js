@@ -7,6 +7,13 @@ export class GeoURL {
 	#url
 	#coordinates
 
+	/**
+	 * Create a GeoURL from a string
+	 *
+	 * Unlike URL, doesn't have `base` parameter because geo URIs can't be relative
+	 * @param {string|URL|GeoURL} urlString - anything that URL constructor accepts as a first parameter
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
+	 */
 	constructor(urlString) {
 		this.#url = new URL(urlString)
 		if (this.#url.protocol != "geo:") {
@@ -134,8 +141,17 @@ export class GeoURL {
 
 /**
  * URL interface for WGS84 geo URI with latitude, longitude and possibly altitude
+ * @extends GeoURL
  */
 export class WGS84GeoURL extends GeoURL {
+	/**
+	 * Create a WGS84GeoURL from a string
+	 *
+	 * Limited to WGS84 URIs, which lets interpret them as containing latitude/longitude/altitude.
+	 * But that's almost all of the geo URIs because no other CRS is currently supported by RFC 5870.
+	 * @param {string|URL|GeoURL} urlString - anything that URL constructor accepts as a first parameter
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
+	 */
 	constructor(urlString) {
 		super(urlString)
 		if (this.crs != "wgs84") {
