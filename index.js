@@ -43,9 +43,24 @@ export class GeoURL {
 		return this.#url.searchParams
 	}
 
+	/**
+	 * Zoom level
+	 * 
+	 * Example values:
+	 * - 0 is for the entire world in one map tile
+	 * - 14 is when buildings become visible on OpenStreetMap standard map rendering
+	 * @type {number|undefined}
+	 * @see {@link https://developers.google.com/maps/documentation/urls/android-intents#display-a-map|Google Maps Intents} for parameter description
+	 */
 	get z() {
 		return parseNumber(this.searchParams.get("z"))
 	}
+	/**
+	 * Zoom level
+	 * 
+	 * A longer name for {@link GeoURL#z}
+	 * @type {number|undefined}
+	 */
 	get zoom() {
 		return this.z
 	}
