@@ -149,15 +149,39 @@ export class WGS84GeoURL extends GeoURL {
 		}
 	}
 
+	/**
+	 * Latitude-longitude pair
+	 * @type {number[]}
+	 */
 	get latLon() {
 		return [this.lat, this.lon]
 	}
+	/**
+	 * Latitude-longitude pair
+	 *
+	 * An alternative name for {@link WGS84GeoURL#latLon}, favored by Leaflet
+	 * @type {number[]}
+	 * @example
+	 * L.marker(url.latLng)
+	 */
 	get latLng() {
 		return this.latLon
 	}
+	/**
+	 * Longitude-latitude pair
+	 * 
+	 * The order is swapped as compared with the URI and {@link WGS84GeoURL#latLon}
+	 * @type {number[]}
+	 */
 	get lonLat() {
 		return [this.lon, this.lat]
 	}
+	/**
+	 * Longitude-latitude pair
+	 * 
+	 * An alternative name for {@link WGS84GeoURL#lonLat}
+	 * @type {number[]}
+	 */
 	get lngLat() {
 		return this.lonLat
 	}
