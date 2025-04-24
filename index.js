@@ -108,8 +108,9 @@ export class GeoURL {
 	}
 	/**
 	 * Uncertainty in meters
+	 *
+	 * A longer name for {@link GeoURL#u}
 	 * @type {number|undefined}
-	 * @description A longer name for {@link GeoURL#u}
 	 */
 	get uncertainty() {
 		return this.u
@@ -156,8 +157,9 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Latitude in decimal degrees between -90 and 90
+	 *
+	 * A longer name for {@link WGS84GeoURL#lat}
 	 * @type {number}
-	 * @description A longer name for {@link WGS84GeoURL#lat}
 	 */
 	get latitude() {
 		return this.coordA
@@ -172,16 +174,18 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Longitude in decimal degrees between -180 and 180
+	 *
+	 * An alternative name for {@link WGS84GeoURL#lon}, as used for example in Leaflet
 	 * @type {number}
-	 * @description An alternative name for {@link WGS84GeoURL#lon}, as used for example in Leaflet
 	 */
 	get lng() {
 		return this.coordB
 	}
 	/**
 	 * Longitude in decimal degrees between -180 and 180
+	 *
+	 * A longer name for {@link WGS84GeoURL#lon}
 	 * @type {number}
-	 * @description A longer name for {@link WGS84GeoURL#lon}
 	 */
 	get longitude() {
 		return this.coordB
@@ -196,8 +200,9 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Altitude in meters
+	 *
+	 * A longer name for {@link WGS84GeoURL#alt}
 	 * @type {number|undefined}
-	 * @description A longer name for {@link WGS84GeoURL#alt}
 	 */
 	get altitude() {
 		return this.coordC
