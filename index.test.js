@@ -105,6 +105,18 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.z).toBe(11)
 	})
+	test("Ignores uppercase z parameter", () => {
+		const url = new GeoURL("geo:1,2?Z=12")
+		expect(url.z).toBeUndefined()
+	})
+	test("Ignores uppercase z parameter before lowercase z parameter", () => {
+		const url = new GeoURL("geo:1,2?Z=12&z=9")
+		expect(url.z).toBe(9)
+	})
+	test("Ignores uppercase z parameter after lowercase z parameter", () => {
+		const url = new GeoURL("geo:1,2?z=7&Z=12")
+		expect(url.z).toBe(7)
+	})
 	test("Ignores z geo parameter", () => {
 		const url = new GeoURL("geo:47.6,-122.3;z=16?z=12")
 		expect(url.z).toBe(12)
