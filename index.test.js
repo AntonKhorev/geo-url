@@ -63,6 +63,15 @@ describe("GeoURL", () => {
 		expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
 	})
 
+	test("Provides protocol getter", () => {
+		const url = new GeoURL("geo:13.4125,103.8667")
+		expect(url.protocol).toBe("geo:")
+	})
+	test("Ensures that protocol is case-insensitive", () => {
+		const url = new GeoURL("GeO:1,2")
+		expect(url.protocol).toBe("geo:")
+	})
+
 	test("Provides href getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.href).toBe("geo:47.6,-122.3?z=11")
@@ -70,10 +79,6 @@ describe("GeoURL", () => {
 	test("Provides pathname getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.pathname).toBe("47.6,-122.3")
-	})
-	test("Provides protocol getter", () => {
-		const url = new GeoURL("geo:13.4125,103.8667")
-		expect(url.protocol).toBe("geo:")
 	})
 	test("Provides search getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
