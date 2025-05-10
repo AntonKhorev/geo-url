@@ -29,9 +29,19 @@ export class GeoURL {
 		}
 	}
 
+	/**
+	 * Serialize the URL, which is the same as converting it to a string
+	 * @returns {string}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/toJSON|MDN} for toJSON() method
+	 */
 	toJSON() {
 		return this.#url.toJSON()
 	}
+	/**
+	 * Convert the URL to a string
+	 * @returns {string}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/toString|MDN} for toString() method
+	 */
 	toString() {
 		return this.#url.toString()
 	}
