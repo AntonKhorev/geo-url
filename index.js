@@ -29,9 +29,9 @@ export class GeoURL {
 		}
 	}
 
-	static parse(url) {
+	static parse(url, base) {
 		try {
-			return new this(url)
+			return new this(url, base)
 		} catch {
 			return null
 		}
