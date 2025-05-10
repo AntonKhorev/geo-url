@@ -45,5 +45,6 @@ function updateMap() {
 			})
 		)
 		view.setCenter(url.lonLat)
+		if (url.z != null) view.setZoom(url.z)
 	} catch {}
 }
