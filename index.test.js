@@ -72,6 +72,10 @@ describe("GeoURL", () => {
 		expect(url).toBeInstanceOf(GeoURL)
 		expect(url.toString()).toBe("geo:12,34")
 	})
+	test("Parses invalid URL", () => {
+		const url = GeoURL.parse("xz")
+		expect(url).toBeNull()
+	})
 
 	test("Provides protocol getter", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
