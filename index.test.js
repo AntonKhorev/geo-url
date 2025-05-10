@@ -320,6 +320,10 @@ describe("WGS84GeoURL", () => {
 		const url = new WGS84GeoURL("geo:0,0;CrS=WgS84")
 		expect(url.crs).toBe("wgs84")
 	})
+	test("Allows to add hash to base geo uri", () => {
+		const url = new WGS84GeoURL("#hash", "geo:12,34")
+		expect(url.toString()).toBe("geo:12,34#hash")
+	})
 
 	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:13.4125,103.8667")
