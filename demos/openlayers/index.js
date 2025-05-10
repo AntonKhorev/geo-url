@@ -68,7 +68,13 @@ function updateMap() {
 				})
 			)
 		}
-		view.setCenter(center)
-		if (url.z != null) view.setZoom(url.z)
+		if (url.z == null && url.u != null) {
+			const radius = 2 * url.u / getPointResolution("EPSG:3857", 1, center, "m")
+			const geometry = new Circle(center, radius)
+			view.fit(geometry)
+		} else {
+			view.setCenter(center)
+			if (url.z != null) view.setZoom(url.z)
+		}
 	} catch {}
 }
