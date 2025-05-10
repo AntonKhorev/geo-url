@@ -2,18 +2,21 @@ import { WGS84GeoURL } from "@antonkhorev/geo-url"
 import Map from "ol/Map.js"
 import OSM from "ol/source/OSM.js"
 import View from "ol/View.js"
+import ScaleLine from "ol/control/ScaleLine.js"
+import {defaults as defaultControls} from "ol/control/defaults.js"
 import TileLayer from "ol/layer/Tile.js"
 import VectorLayer from "ol/layer/Vector.js"
 import VectorSource from "ol/source/Vector.js"
 import Feature from "ol/Feature.js"
 import Point from "ol/geom/Point.js"
-import { useGeographic } from "ol/proj"
+import Circle from "ol/geom/Circle.js"
+import { fromLonLat, setUserProjection, getPointResolution } from "ol/proj"
 
-useGeographic()
+setUserProjection("EPSG:3857")
 
 const markerSource = new VectorSource()
 const view = new View({
-	center: [30, 60],
+	center: fromLonLat([30, 60], "EPSG:3857"),
 	zoom: 13,
 	maxZoom: 19,
 	multiWorld: true
@@ -21,6 +24,14 @@ const view = new View({
 
 new Map({
 	target: "map",
+	controls: defaultControls().extend([
+		new ScaleLine({
+			units: "metric",
+			bar: true,
+			steps: 4,
+			text: true
+		})
+	]),
 	layers: [
 		new TileLayer({
 			source: new OSM(),
@@ -41,12 +52,22 @@ function updateMap() {
 	markerSource.clear()
 	try {
 		const url = new WGS84GeoURL($geoUriInput.value)
-		markerSource.addFeature(
-			new Feature({
-				geometry: new Point(url.lonLat),
-			})
-		)
-		view.setCenter(url.lonLat)
+		const center = fromLonLat(url.lonLat, "EPSG:3857")
+		if (url.u == null) {
+			markerSource.addFeature(
+				new Feature({
+					geometry: new Point(center)
+				})
+			)
+		} else {
+			const radius = url.u / getPointResolution("EPSG:3857", 1, center, "m")
+			markerSource.addFeature(
+				new Feature({
+					geometry: new Circle(center, radius)
+				})
+			)
+		}
+		view.setCenter(center)
 		if (url.z != null) view.setZoom(url.z)
 	} catch {}
 }
