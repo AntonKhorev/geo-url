@@ -72,6 +72,10 @@ describe("GeoURL", () => {
 		expect(url).toBeInstanceOf(GeoURL)
 		expect(url.toString()).toBe("geo:12,34")
 	})
+	test("Parses invalid geo URI but valid URL", () => {
+		const url = GeoURL.parse("geo:12")
+		expect(url).toBeNull()
+	})
 	test("Parses invalid URL", () => {
 		const url = GeoURL.parse("xz")
 		expect(url).toBeNull()
@@ -363,6 +367,10 @@ describe("WGS84GeoURL", () => {
 		const url = WGS84GeoURL.parse("geo:12,34")
 		expect(url).toBeInstanceOf(WGS84GeoURL)
 		expect(url.toString()).toBe("geo:12,34")
+	})
+	test("Parses valid non-WGS84 geo URL", () => {
+		const url = WGS84GeoURL.parse("geo:0,0;crs=unknown")
+		expect(url).toBeNull()
 	})
 
 	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
