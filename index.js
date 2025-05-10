@@ -8,14 +8,16 @@ export class GeoURL {
 	#coordinates
 
 	/**
-	 * Create a GeoURL from a string
-	 *
-	 * Unlike URL, doesn't have `base` parameter because geo URIs can't be relative
-	 * @param {string|URL|GeoURL} urlString - anything that URL constructor accepts as a first parameter
+	 * Create a GeoURL from a string or another URL object
+	 * 
+	 * Expected to be almost always invoked with one parameter because there's not much use of relative references in case of geo URIs.
+	 * At best you can add a hash to a base geo URI using a relative reference, but hashes in geo URIs a probably not widely used.
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
 	 */
-	constructor(urlString) {
-		this.#url = new URL(urlString)
+	constructor(url, base) {
+		this.#url = new URL(url, base)
 		if (this.#url.protocol != "geo:") {
 			throw new TypeError(`Invalid protocol ${this.#url.protocol}`)
 		}

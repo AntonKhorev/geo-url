@@ -62,6 +62,10 @@ describe("GeoURL", () => {
 		const url = new GeoURL(sourceUrl)
 		expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
 	})
+	test("Allows to add hash to base geo uri", () => {
+		const url = new GeoURL("#hash", "geo:12,34")
+		expect(url.toString()).toBe("geo:12,34#hash")
+	})
 
 	test("Provides protocol getter", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
