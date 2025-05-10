@@ -15,6 +15,8 @@ const markerSource = new VectorSource()
 const view = new View({
 	center: [30, 60],
 	zoom: 13,
+	maxZoom: 19,
+	multiWorld: true
 })
 
 new Map({
