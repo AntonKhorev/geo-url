@@ -29,6 +29,10 @@ export class GeoURL {
 		}
 	}
 
+	static parse(url) {
+		return new GeoURL(url)
+	}
+
 	/**
 	 * Serialize the URL, which is the same as converting it to a string
 	 * @returns {string}

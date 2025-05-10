@@ -67,6 +67,11 @@ describe("GeoURL", () => {
 		expect(url.toString()).toBe("geo:12,34#hash")
 	})
 
+	test("Parses valid geo URI", () => {
+		const url = GeoURL.parse("geo:12,34")
+		expect(url.toString()).toBe("geo:12,34")
+	})
+
 	test("Provides protocol getter", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
 		expect(url.protocol).toBe("geo:")
