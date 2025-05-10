@@ -34,6 +34,9 @@ export class GeoURL {
 		return this.#url.toString()
 	}
 
+	get hash() {
+		return this.#url.hash
+	}
 	get href() {
 		return this.#url.href
 	}
