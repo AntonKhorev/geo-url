@@ -30,7 +30,7 @@ export class GeoURL {
 	}
 
 	static parse(url) {
-		return new GeoURL(url)
+		return new this(url)
 	}
 
 	/**

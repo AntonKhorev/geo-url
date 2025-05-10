@@ -69,6 +69,7 @@ describe("GeoURL", () => {
 
 	test("Parses valid geo URI", () => {
 		const url = GeoURL.parse("geo:12,34")
+		expect(url).toBeInstanceOf(GeoURL)
 		expect(url.toString()).toBe("geo:12,34")
 	})
 
@@ -352,6 +353,12 @@ describe("WGS84GeoURL", () => {
 	test("Allows to add hash to base geo uri", () => {
 		const url = new WGS84GeoURL("#hash", "geo:12,34")
 		expect(url.toString()).toBe("geo:12,34#hash")
+	})
+
+	test("Parses valid geo URI", () => {
+		const url = WGS84GeoURL.parse("geo:12,34")
+		expect(url).toBeInstanceOf(WGS84GeoURL)
+		expect(url.toString()).toBe("geo:12,34")
 	})
 
 	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
