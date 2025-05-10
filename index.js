@@ -46,23 +46,41 @@ export class GeoURL {
 		return this.#url.toString()
 	}
 
-	get hash() {
-		return this.#url.hash
-	}
 	get href() {
 		return this.#url.href
 	}
-	get pathname() {
-		return this.#url.pathname
+	get origin() {
+		return this.#url.origin
 	}
 	get protocol() {
 		return this.#url.protocol
+	}
+	get username() {
+		return this.#url.username
+	}
+	get password() {
+		return this.#url.password
+	}
+	get host() {
+		return this.#url.host
+	}
+	get hostname() {
+		return this.#url.hostname
+	}
+	get port() {
+		return this.#url.port
+	}
+	get pathname() {
+		return this.#url.pathname
 	}
 	get search() {
 		return this.#url.search
 	}
 	get searchParams() {
 		return this.#url.searchParams
+	}
+	get hash() {
+		return this.#url.hash
 	}
 
 	/**

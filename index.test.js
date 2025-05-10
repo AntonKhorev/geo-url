@@ -80,6 +80,30 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.href).toBe("geo:47.6,-122.3?z=11")
 	})
+	test("Provides origin getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		expect(url.origin).toBe("null")
+	})
+	test("Provides username getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		expect(url.username).toBe("")
+	})
+	test("Provides password getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		expect(url.password).toBe("")
+	})
+	test("Provides host getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		expect(url.host).toBe("")
+	})
+	test("Provides hostname getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		expect(url.hostname).toBe("")
+	})
+	test("Provides port getter", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		expect(url.port).toBe("")
+	})
 	test("Provides pathname getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.pathname).toBe("47.6,-122.3")
