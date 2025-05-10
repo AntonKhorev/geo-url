@@ -31,8 +31,20 @@ async function generateDemos() {
 	await fs.copyFile("demos/index.html", "pages/demos/index.html")
 	for (const dirEntry of await fs.readdir("demos", { withFileTypes: true })) {
 		if (!dirEntry.isDirectory()) continue
+
 		await fs.mkdir(`pages/demos/${dirEntry.name}`)
-		await fs.copyFile(`demos/${dirEntry.name}/index.html`, `pages/demos/${dirEntry.name}/index.html`)
+
+		const sourceJavascript = await fs.readFile(`demos/${dirEntry.name}/index.js`, "utf-8")
+		const sourceHtml = await fs.readFile(`demos/${dirEntry.name}/index.html`, "utf-8")
+		const transformedHtml = sourceHtml.replace("</body>",
+			"<details>" +
+			"<summary>javascript code</summary>" +
+			`<pre><code>${escapeHtml(sourceJavascript)}</code></pre>` +
+			"</details>" +
+			"</body>"
+		)
+		await fs.writeFile(`pages/demos/${dirEntry.name}/index.html`, transformedHtml)
+
 		const bundle = await rollup({
 			input: `demos/${dirEntry.name}/index.js`,
 			plugins: [
@@ -49,4 +61,13 @@ async function generateDemos() {
 		})
 		await bundle.close()
 	}
+}
+
+function escapeHtml(html) {
+	return html
+		.replaceAll("&", "&amp;")
+		.replaceAll("<", "&lt;")
+		.replaceAll(">", "&gt;")
+		.replaceAll('"', "&quot;")
+		.replaceAll("'", "&#039;")
 }
