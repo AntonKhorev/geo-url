@@ -3,7 +3,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Geo URI Properties Demo</title>
+	<title>Geo URI OpenLayers Map Demo</title>
+	<link rel="stylesheet" href="../../openlayers.css">
 	<style>
 		.major-input {
 			margin: 1rem 0;
@@ -13,11 +14,8 @@
 			box-sizing: border-box;
 			width: 100%;
 		}
-		table.properties th {
-			text-align: end;
-		}
-		table.properties td.special {
-			color: #888;
+		#map {
+			height: 25rem;
 		}
 	</style>
 	<script src="index.js" type="module"></script>
@@ -28,10 +26,6 @@
 			Geo URI: <input id="geo-uri-input">
 		</label>
 	</div>
-	<div>
-		<table id="properties-table" class="properties">
-			<caption>Geo URI Properties</caption>
-		</table>
-	</div>
+	<div id="map"></div>
 </body>
 </html>
