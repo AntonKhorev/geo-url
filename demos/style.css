@@ -1,0 +1,22 @@
+.major-input {
+	margin: 1rem 0;
+}
+.major-input input {
+	display: block;
+	box-sizing: border-box;
+	width: 100%;
+}
+table.properties th {
+	text-align: end;
+}
+table.properties td.special {
+	color: #888;
+}
+#map {
+	height: 25rem;
+}
+details {
+	margin: 1rem 0;
+	border: solid 2px #888;
+	padding: 1em;
+}

@@ -29,6 +29,8 @@ async function generateDemos() {
 	await fs.copyFile("node_modules/ol/ol.css", "pages/openlayers.css")
 	await fs.mkdir("pages/demos", { recursive: true })
 	await fs.copyFile("demos/index.html", "pages/demos/index.html")
+	await fs.copyFile("demos/style.css", "pages/demos/style.css")
+
 	for (const dirEntry of await fs.readdir("demos", { withFileTypes: true })) {
 		if (!dirEntry.isDirectory()) continue
 
