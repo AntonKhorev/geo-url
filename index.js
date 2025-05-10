@@ -29,6 +29,13 @@ export class GeoURL {
 		}
 	}
 
+	/**
+	 * Create a GeoURL or return null on error
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @returns {GeoURL|null}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static|MDN} for parse() static method
+	 */
 	static parse(url, base) {
 		try {
 			return new this(url, base)
@@ -206,6 +213,16 @@ export class WGS84GeoURL extends GeoURL {
 			throw new TypeError(`Longitude ${this.lon} outside of the allowed range`)
 		}
 	}
+
+	/**
+	 * Create a WGS84GeoURL or return null on error
+	 * @function parse
+	 * @memberof WGS84GeoURL
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @returns {WGS84GeoURL|null}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static|MDN} for parse() static method
+	 */
 
 	/**
 	 * Latitude-longitude pair
