@@ -44,6 +44,13 @@ export class GeoURL {
 		}
 	}
 
+	/**
+	 * Check if url is parsable as a valid geo URI
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @returns {boolean}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static|MDN} for canParse() static method
+	 */
 	static canParse(url, base) {
 		return this.parse(url, base) !== null
 	}
@@ -226,6 +233,16 @@ export class WGS84GeoURL extends GeoURL {
 	 * @param {string|URL|GeoURL} base - base geo URI
 	 * @returns {WGS84GeoURL|null}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static|MDN} for parse() static method
+	 */
+
+	/**
+	 * Check if url is parsable as a valid WGS84 geo URI
+	 * @function canParse
+	 * @memberof WGS84GeoURL
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @returns {boolean}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static|MDN} for canParse() static method
 	 */
 
 	/**
