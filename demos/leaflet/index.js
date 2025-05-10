@@ -31,5 +31,5 @@ function updateMap() {
 		} else {
 			map.setView(url.latLng, url.z)
 		}
-	} catch (ex) {}
+	} catch {}
 }
