@@ -44,6 +44,10 @@ export class GeoURL {
 		}
 	}
 
+	static canParse(url, base) {
+		return this.parse(url, base) !== null
+	}
+
 	/**
 	 * Serialize the URL, which is the same as converting it to a string
 	 * @returns {string}

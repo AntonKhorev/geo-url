@@ -86,6 +86,19 @@ describe("GeoURL", () => {
 		expect(url.toString()).toBe("geo:12,34#hash")
 	})
 
+	test("Checks if can parse valid geo URI", () => {
+		expect(GeoURL.canParse("geo:12,34")).toBe(true)
+	})
+	test("Checks if can parse invalid geo URI but valid URL", () => {
+		expect(GeoURL.canParse("geo:12")).toBe(false)
+	})
+	test("Checks if can parse invalid URL", () => {
+		expect(GeoURL.canParse("xz")).toBe(false)
+	})
+	test("Checks if can parse valid relative geo URI", () => {
+		expect(GeoURL.canParse("#hash", "geo:12,34")).toBe(true)
+	})
+
 	test("Provides protocol getter", () => {
 		const url = new GeoURL("geo:13.4125,103.8667")
 		expect(url.protocol).toBe("geo:")
@@ -376,6 +389,14 @@ describe("WGS84GeoURL", () => {
 	test("Parses valid non-WGS84 geo URL", () => {
 		const url = WGS84GeoURL.parse("geo:0,0;crs=unknown")
 		expect(url).toBeNull()
+	})
+
+	test("Checks if can parse valid geo URI", () => {
+		expect(WGS84GeoURL.canParse("geo:12,34")).toBe(true)
+
+	})
+	test("Checks if can parse valid non-WGS84 geo URL", () => {
+		expect(WGS84GeoURL.canParse("geo:0,0;crs=unknown")).toBe(false)
 	})
 
 	test("Has latLon/lonLat/*lng array properties for simple 2-coordinate url", () => {
