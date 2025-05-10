@@ -19,7 +19,8 @@ const view = new View({
 	center: fromLonLat([30, 60], "EPSG:3857"),
 	zoom: 13,
 	maxZoom: 19,
-	multiWorld: true
+	multiWorld: true,
+	constrainResolution: true
 })
 
 new Map({
