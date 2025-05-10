@@ -12,6 +12,10 @@ import { useGeographic } from "ol/proj"
 useGeographic()
 
 const markerSource = new VectorSource()
+const view = new View({
+	center: [30, 60],
+	zoom: 13,
+})
 
 new Map({
 	target: "map",
@@ -23,10 +27,7 @@ new Map({
 			source: markerSource
 		})
 	],
-	view: new View({
-		center: [30, 60],
-		zoom: 13,
-	}),
+	view
 })
 
 const $geoUriInput = document.getElementById("geo-uri-input")
@@ -43,5 +44,6 @@ function updateMap() {
 				geometry: new Point(url.lonLat),
 			})
 		)
+		view.setCenter(url.lonLat)
 	} catch {}
 }
