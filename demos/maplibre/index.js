@@ -52,7 +52,11 @@ map.on("load", () => {
 				map.panTo(url)
 			} else {
 				map.getSource("circleMarkerSource").setData(turfCircle(url.lngLat, url.u / 1000))
+			}
+			if (url.z == null && url.u != null) {
 				map.fitBounds(maplibregl.LngLatBounds.fromLngLat(url, url.u * 2), { linear: true })
+			} else {
+				map.easeTo({ center: url, zoom: url.z })
 			}
 		} catch {}
 	}
