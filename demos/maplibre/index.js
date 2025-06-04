@@ -19,6 +19,7 @@ function updateMap() {
 	marker?.remove()
 	try {
 		const url = new WGS84GeoURL($geoUriInput.value)
-		marker = new maplibregl.Marker().setLngLat(url.lngLat).addTo(map)
+		marker = new maplibregl.Marker().setLngLat(url).addTo(map)
+		map.panTo(url)
 	} catch {}
 }
