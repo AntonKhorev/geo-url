@@ -27,6 +27,7 @@ async function generateDemos() {
 	await fs.copyFile("node_modules/leaflet/dist/leaflet.css", "pages/leaflet.css")
 	await fs.cp("node_modules/leaflet/dist/images", "pages/images", { recursive: true })
 	await fs.copyFile("node_modules/ol/ol.css", "pages/openlayers.css")
+	await fs.copyFile("node_modules/maplibre-gl/dist/maplibre-gl.css", "pages/maplibre.css")
 	await fs.mkdir("pages/demos", { recursive: true })
 	await fs.copyFile("demos/index.html", "pages/demos/index.html")
 	await fs.copyFile("demos/style.css", "pages/demos/style.css")
@@ -39,11 +40,11 @@ async function generateDemos() {
 		const sourceJavascript = await fs.readFile(`demos/${dirEntry.name}/index.js`, "utf-8")
 		const sourceHtml = await fs.readFile(`demos/${dirEntry.name}/index.html`, "utf-8")
 		const transformedHtml = sourceHtml.replace("</body>",
-			"<details>" +
-			"<summary>javascript code</summary>" +
+			`<details class="js">` +
+			`<summary>javascript code</summary>` +
 			`<pre><code>${escapeHtml(sourceJavascript)}</code></pre>` +
-			"</details>" +
-			"</body>"
+			`</details>` +
+			`</body>`
 		)
 		await fs.writeFile(`pages/demos/${dirEntry.name}/index.html`, transformedHtml)
 
