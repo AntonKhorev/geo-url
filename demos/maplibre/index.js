@@ -6,7 +6,9 @@ const map = new maplibregl.Map({
 	center: [30, 60],
 	zoom: 13,
 	container: "map"
-})
+}).addControl(
+	new maplibregl.ScaleControl()
+)
 
 let marker
 
