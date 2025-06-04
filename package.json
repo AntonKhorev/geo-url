@@ -28,6 +28,7 @@
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.1",
     "@rollup/plugin-node-resolve": "^16.0.1",
+    "@turf/circle": "^7.2.0",
     "docdash": "^2.0.2",
     "jsdoc": "^4.0.4",
     "leaflet": "^1.9.4",
