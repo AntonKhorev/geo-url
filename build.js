@@ -29,8 +29,18 @@ async function generateDemos() {
 	await fs.copyFile("node_modules/ol/ol.css", "pages/openlayers.css")
 	await fs.copyFile("node_modules/maplibre-gl/dist/maplibre-gl.css", "pages/maplibre.css")
 	await fs.mkdir("pages/demos", { recursive: true })
-	await fs.copyFile("demos/index.html", "pages/demos/index.html")
 	await fs.copyFile("demos/style.css", "pages/demos/style.css")
+
+	{
+		const sourceHtml = await fs.readFile("demos/index.html", "utf-8")
+		const transformedHtml = sourceHtml.replace("<body>",
+			`<body>\n` +
+			`	<nav>\n` +
+			`		<a href="..">Home</a> &gt; <strong>Demos</strong>\n` +
+			`	</nav>\n`
+		)
+		await fs.writeFile(`pages/demos/index.html`, transformedHtml)
+	}
 
 	for (const dirEntry of await fs.readdir("demos", { withFileTypes: true })) {
 		if (!dirEntry.isDirectory()) continue
@@ -44,6 +54,11 @@ async function generateDemos() {
 			`	<link rel="stylesheet" href="../../styles/prettify.css">\n` +
 			`	<script src="../../scripts/prettify/prettify.js"></script>\n` +
 			`</head>`
+		).replace("<body>",
+			`<body>\n` +
+			`	<nav>\n` +
+			`		<a href="../..">Home</a> &gt; <a href="..">Demos</a> &gt; <strong>${dirEntry.name}</strong>\n` +
+			`	</nav>\n`
 		).replace("</body>",
 			`<details class="js">\n` +
 			`<summary>javascript code</summary>\n` +
