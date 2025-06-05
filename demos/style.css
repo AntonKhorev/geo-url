@@ -17,6 +17,7 @@ table.properties td.special {
 }
 details.js {
 	margin: 1rem 0;
-	border: solid 2px #888;
 	padding: 1em;
+	background: #0d152a;
+	color: #aeaeae;
 }

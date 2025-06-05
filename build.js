@@ -39,11 +39,17 @@ async function generateDemos() {
 
 		const sourceJavascript = await fs.readFile(`demos/${dirEntry.name}/index.js`, "utf-8")
 		const sourceHtml = await fs.readFile(`demos/${dirEntry.name}/index.html`, "utf-8")
-		const transformedHtml = sourceHtml.replace("</body>",
-			`<details class="js">` +
-			`<summary>javascript code</summary>` +
-			`<pre><code>${escapeHtml(sourceJavascript)}</code></pre>` +
-			`</details>` +
+		const transformedHtml = sourceHtml.replace("</head>",
+			// https://github.com/googlearchive/code-prettify
+			`	<link rel="stylesheet" href="../../styles/prettify.css">\n` +
+			`	<script src="../../scripts/prettify/prettify.js"></script>\n` +
+			`</head>`
+		).replace("</body>",
+			`<details class="js">\n` +
+			`<summary>javascript code</summary>\n` +
+			`<pre class="prettyprint source"><code>${escapeHtml(sourceJavascript)}</code></pre>\n` +
+			`</details>\n` +
+			`<script>prettyPrint()</script>\n` +
 			`</body>`
 		)
 		await fs.writeFile(`pages/demos/${dirEntry.name}/index.html`, transformedHtml)
