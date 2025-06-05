@@ -35,7 +35,7 @@ async function generateDemos() {
 		const sourceHtml = await fs.readFile("demos/index.html", "utf-8")
 		const transformedHtml = sourceHtml.replace("<body>",
 			`<body>\n` +
-			`	<nav>\n` +
+			`	<nav class="pages">\n` +
 			`		<a href="..">Home</a> &gt; <strong>Demos</strong>\n` +
 			`	</nav>\n`
 		)
@@ -56,7 +56,7 @@ async function generateDemos() {
 			`</head>`
 		).replace("<body>",
 			`<body>\n` +
-			`	<nav>\n` +
+			`	<nav class="pages">\n` +
 			`		<a href="../..">Home</a> &gt; <a href="..">Demos</a> &gt; <strong>${dirEntry.name}</strong>\n` +
 			`	</nav>\n`
 		).replace("</body>",
