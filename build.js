@@ -30,10 +30,14 @@ async function generateDemos() {
 	await fs.copyFile("node_modules/maplibre-gl/dist/maplibre-gl.css", "pages/maplibre.css")
 	await fs.mkdir("pages/demos", { recursive: true })
 	await fs.copyFile("demos/style.css", "pages/demos/style.css")
+	await fs.copyFile("demos/jsdoc.css", "pages/demos/jsdoc.css")
 
 	{
 		const sourceHtml = await fs.readFile("demos/index.html", "utf-8")
-		const transformedHtml = sourceHtml.replace("<body>",
+		const transformedHtml = sourceHtml.replace("</head>",
+			`	<link rel="stylesheet" href="jsdoc.css">\n` +
+			`</head>`
+		).replace("<body>",
 			`<body>\n` +
 			`	<nav class="pages">\n` +
 			`		<a href="..">Home</a> &gt; <strong>Demos</strong>\n` +
@@ -50,6 +54,7 @@ async function generateDemos() {
 		const sourceJavascript = await fs.readFile(`demos/${dirEntry.name}/index.js`, "utf-8")
 		const sourceHtml = await fs.readFile(`demos/${dirEntry.name}/index.html`, "utf-8")
 		const transformedHtml = sourceHtml.replace("</head>",
+			`	<link rel="stylesheet" href="../jsdoc.css">\n` +
 			// https://github.com/googlearchive/code-prettify
 			`	<link rel="stylesheet" href="../../styles/prettify.css">\n` +
 			`	<script src="../../scripts/prettify/prettify.js"></script>\n` +
