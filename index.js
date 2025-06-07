@@ -112,6 +112,12 @@ export class GeoURL {
 		this.#url.search = value
 	}
 
+	/**
+	 * URLSearchParams object
+	 * @type {URLSearchParams}
+	 * @readonly
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/searchParams|MDN} for searchParams property
+	 */
 	get searchParams() {
 		return this.#url.searchParams
 	}
