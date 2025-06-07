@@ -1,6 +1,61 @@
 import { describe, test, expect } from "vitest"
 
-import { GeoURL, WGS84GeoURL } from "./index.js"
+import { GeoParams, GeoURL, WGS84GeoURL } from "./index.js"
+
+describe("GeoParams", () => {
+	test("Gets a null value for a parameter from empty string", () => {
+		const params = new GeoParams("")
+		expect(params.get("foo")).toBeNull()
+	})
+	test("Gets a null value for a missing parameter from a single-parameter string", () => {
+		const params = new GeoParams("foo=42")
+		expect(params.get("bar")).toBeNull()
+	})
+	test("Gets a parameter value from a single-parameter string", () => {
+		const params = new GeoParams("foo=42")
+		expect(params.get("foo")).toBe("42")
+	})
+	test("Gets a value with '&'", () => {
+		const params = new GeoParams("foo=bar&baz")
+		expect(params.get("foo")).toBe("bar&baz")
+		expect(params.get("baz")).toBeNull()
+	})
+	test("Gets a value with multiple '&'", () => {
+		const params = new GeoParams("foo=bar&baz&zab&rab")
+		expect(params.get("foo")).toBe("bar&baz&zab&rab")
+		expect(params.get("baz")).toBeNull()
+		expect(params.get("zab")).toBeNull()
+		expect(params.get("rab")).toBeNull()
+	})
+	test("Preserves the value case", () => {
+		const params = new GeoParams("foo=BaR")
+		expect(params.get("foo")).toBe("BaR")
+	})
+	test("Preserves the value case of a crs param", () => {
+		const params = new GeoParams("crs=WGS84")
+		expect(params.get("crs")).toBe("WGS84")
+	})
+	test("Gets a value of a param with a mixed-case name when requesting in lowercase", () => {
+		const params = new GeoParams("FoO=bar")
+		expect(params.get("foo")).toBe("bar")
+	})
+	test("Gets a value of a param with a mixed-case name when requesting in uppercase", () => {
+		const params = new GeoParams("FoO=bar")
+		expect(params.get("FOO")).toBe("bar")
+	})
+	test("Gets a flag parameter", () => {
+		const params = new GeoParams("flag")
+		expect(params.get("flag")).toBe("")
+	})
+	test("Doesn't decode '+' in a value", () => {
+		const params = new GeoParams("plus=+")
+		expect(params.get("plus")).toBe("+")
+	})
+	test("Percent-decodes a value", () => {
+		const params = new GeoParams("decode=%31%32%33")
+		expect(params.get("decode")).toBe("123")
+	})
+})
 
 describe("GeoURL", () => {
 	test("Fails when no parameters given", () => {
@@ -285,55 +340,20 @@ describe("GeoURL", () => {
 		expect(url.z).toBe(13)
 	})
 
-	test("Provides geoParams.get() for missing values", () => {
+	test("Gets geoParams for empty params", () => {
 		const url = new GeoURL("geo:0,0")
 		expect(url.geoParams.get("foo")).toBeNull()
 	})
-	test("Provides geoParams.get() for regular values", () => {
-		const url = new GeoURL("geo:0,0;foo=bar")
-		expect(url.geoParams.get("foo")).toBe("bar")
+	test("Gets geoParams for a single parameter", () => {
+		const url = new GeoURL("geo:0,0;foo=42")
+		expect(url.geoParams.get("foo")).toBe("42")
+		expect(url.geoParams.get("bar")).toBeNull()
 	})
-	test("Provides geoParams.get() for values with '&'", () => {
-		const url = new GeoURL("geo:0,0;foo=bar&baz")
-		expect(url.geoParams.get("foo")).toBe("bar&baz")
-		expect(url.geoParams.get("baz")).toBeNull()
-	})
-	test("Provides geoParams.get() for values with multiple '&'", () => {
-		const url = new GeoURL("geo:0,0;foo=bar&baz&zab&rab")
-		expect(url.geoParams.get("foo")).toBe("bar&baz&zab&rab")
-		expect(url.geoParams.get("baz")).toBeNull()
-		expect(url.geoParams.get("zab")).toBeNull()
-		expect(url.geoParams.get("rab")).toBeNull()
-	})
-	test("Provides geoParams.get() preserving value case", () => {
-		const url = new GeoURL("geo:0,0;foo=BaR")
-		expect(url.geoParams.get("foo")).toBe("BaR")
-	})
-	test("Provides geoParams.get() preserving value case of crs param", () => {
-		const url = new GeoURL("geo:0,0;crs=WGS84")
-		expect(url.geoParams.get("crs")).toBe("WGS84")
-	})
-	test("Provides geoParams.get() for mixed-case names", () => {
-		const url = new GeoURL("geo:0,0;FoO=bar")
-		expect(url.geoParams.get("foo")).toBe("bar")
-	})
-	test("Provides geoParams.get() for mixed-case names when requesting uppercase name", () => {
-		const url = new GeoURL("geo:0,0;FoO=bar")
-		expect(url.geoParams.get("FOO")).toBe("bar")
-	})
-	test("Provides geoParams.get() for flags", () => {
+	test("Gets geoParams for a single flag parameter", () => {
 		const url = new GeoURL("geo:0,0;flag")
 		expect(url.geoParams.get("flag")).toBe("")
 	})
-	test("Doesn't decode '+' in geo params", () => {
-		const url = new GeoURL("geo:0,0;plus=+")
-		expect(url.geoParams.get("plus")).toBe("+")
-	})
-	test("Percent-decodes geo params", () => {
-		const url = new GeoURL("geo:0,0;decode=%31%32%33")
-		expect(url.geoParams.get("decode")).toBe("123")
-	})
-	test("Provides geoParams.set() for existing geo parameter", () => {
+	test("Gets an existing geo parameter", () => {
 		const url = new GeoURL("geo:0,0;foo=bar")
 		url.geoParams.set("foo", "baz")
 		expect(url.geoParams.get("foo")).toBe("baz")

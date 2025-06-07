@@ -30,7 +30,7 @@ export class GeoParams {
 	/**
 	 * Get the value associated to the given parameter
 	 * @param {string} name
-	 * @returns {string|null}
+	 * @returns {string|null} - parameter value or null for a missing parameter
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/get|MDN} for the similar method of URLSearchParams
 	 */
 	get(name) {
