@@ -98,7 +98,11 @@ export class GeoParams {
 			}
 		}
 
-		kvs.push(this.#makeKv(name, value))
+		if (name == "u") {
+			kvs.unshift(this.#makeKv(name, value))
+		} else {
+			kvs.push(this.#makeKv(name, value))
+		}
 	}
 
 	#makeKv(name, value) {

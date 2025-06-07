@@ -323,6 +323,27 @@ describe("GeoURL", () => {
 		expect(url.geoParams.get("hello")).toBe("world")
 		expect(url.toString()).toBe("geo:12,34;foo=qwe;hello=world")
 	})
+	test("Updates u property through geo params", () => {
+		const url = new GeoURL("geo:0,0;u=12.34")
+		url.geoParams.set("u", "43.21")
+		expect(url.toString()).toBe("geo:0,0;u=43.21")
+		expect(url.geoParams.get("u")).toBe("43.21")
+		expect(url.u).toBe(43.21)
+	})
+	test("Adds u property through geo params", () => {
+		const url = new GeoURL("geo:0,0")
+		url.geoParams.set("u", "43.21")
+		expect(url.toString()).toBe("geo:0,0;u=43.21")
+		expect(url.geoParams.get("u")).toBe("43.21")
+		expect(url.u).toBe(43.21)
+	})
+	test("Adds u property through geo params to existing geo params", () => {
+		const url = new GeoURL("geo:0,0;foo=bar")
+		url.geoParams.set("u", "15.16")
+		expect(url.toString()).toBe("geo:0,0;u=15.16;foo=bar")
+		expect(url.geoParams.get("u")).toBe("15.16")
+		expect(url.u).toBe(15.16)
+	})
 
 	test("Has crs property with default value for missing crs", () => {
 		const url = new GeoURL("geo:0,0")
