@@ -69,6 +69,12 @@ export class GeoParams {
 		this.#writeCoordsAndKvs(coords, kvs)
 	}
 
+	/**
+	 * Delete the specified parameter
+	 * @param {string} name
+	 * @returns {void}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/delete|MDN} for the similar method of URLSearchParams
+	 */
 	delete(name) {
 		const [coords, kvs] = this.#readCoordsAndKvs()
 		const lcName = name.toLowerCase()
