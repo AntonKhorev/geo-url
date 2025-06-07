@@ -114,6 +114,12 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("crs=DEF34;foo=bar")
 		expect(params.get("crs")).toBe("DEF34")
 	})
+	test("Adds crs param to existing params ignoring the name case", () => {
+		const params = new GeoParams("foo=bar")
+		params.set("cRS", "DEF34")
+		expect(params.toString()).toBe("cRS=DEF34;foo=bar")
+		expect(params.get("crs")).toBe("DEF34")
+	})
 
 	test("Updates u param", () => {
 		const params = new GeoParams("u=12.34")
