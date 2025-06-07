@@ -83,6 +83,12 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("foo=%25%25")
 		expect(params.get("foo")).toBe("%%")
 	})
+	test("Encodes parameter-reserved chars when setting a parameter", () => {
+		const params = new GeoParams("foo=old")
+		params.set("foo", ` "#%,/;<=>?@\\^\`{|}`)
+		expect(params.toString()).toBe("foo=%20%22%23%25%2C%2F%3B%3C%3D%3E%3F%40%5C%5E%60%7B%7C%7D")
+		expect(params.get("foo")).toBe(` "#%,/;<=>?@\\^\`{|}`)
+	})
 	test("Doesn't encode allowed chars when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
 		params.set("foo", 
