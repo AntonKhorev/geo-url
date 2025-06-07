@@ -289,27 +289,39 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0")
 		expect(url.geoParams.get("foo")).toBeNull()
 	})
-	test("Gets geoParams for a single parameter", () => {
+	test("Gets geoParams for a single param", () => {
 		const url = new GeoURL("geo:0,0;foo=42")
 		expect(url.geoParams.get("foo")).toBe("42")
 		expect(url.geoParams.get("bar")).toBeNull()
 	})
-	test("Gets geoParams for a single flag parameter", () => {
+	test("Gets geoParams for a single flag param", () => {
 		const url = new GeoURL("geo:0,0;flag")
 		expect(url.geoParams.get("flag")).toBe("")
 	})
-	test("Sets an existing geo parameter", () => {
+	test("Sets an existing geo param", () => {
 		const url = new GeoURL("geo:0,0;foo=bar")
 		url.geoParams.set("foo", "baz")
 		expect(url.geoParams.get("foo")).toBe("baz")
 		expect(url.toString()).toBe("geo:0,0;foo=baz")
 	})
-	test("Keeps other url parts when setting a geo parameter", () => {
+	test("Keeps other url parts when setting a geo param", () => {
 		const url = new GeoURL("geo:12,34;key=test?z=78#id9")
 		url.geoParams.set("key", "toast")
 		expect(url.toString()).toBe("geo:12,34;key=toast?z=78#id9")
 		expect(url.search).toBe("?z=78")
 		expect(url.hash).toBe("#id9")
+	})
+	test("Adds a new geo param by setting to empty params", () => {
+		const url = new GeoURL("geo:12,34")
+		url.geoParams.set("hello", "world")
+		expect(url.geoParams.get("hello")).toBe("world")
+		expect(url.toString()).toBe("geo:12,34;hello=world")
+	})
+	test("Adds a new geo param by setting to nonempty params", () => {
+		const url = new GeoURL("geo:12,34;foo=qwe")
+		url.geoParams.set("hello", "world")
+		expect(url.geoParams.get("hello")).toBe("world")
+		expect(url.toString()).toBe("geo:12,34;foo=qwe;hello=world")
 	})
 
 	test("Has crs property with default value for missing crs", () => {

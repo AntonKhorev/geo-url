@@ -34,12 +34,7 @@ export class GeoParams {
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/get|MDN} for the similar method of URLSearchParams
 	 */
 	get(name) {
-		let kvs
-		if (this.#url) {
-			[, ...kvs] = this.#url.pathname.split(";")
-		} else {
-			kvs = this.#p.split(";")
-		}
+		const [, kvs] = this.#readCoordsAndKvs()
 
 		for (const kv of kvs) {
 			const [k, v] = kv.split("=")
@@ -58,29 +53,9 @@ export class GeoParams {
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/set|MDN} for the similar method of URLSearchParams
 	 */
 	set(name, value) {
-		let coordinatesString, kvs
-		if (this.#url) {
-			[coordinatesString, ...kvs] = this.#url.pathname.split(";")
-		} else {
-			kvs = this.#p.split(";")
-		}
+		const [coordinatesString, kvs] = this.#readCoordsAndKvs()
 
-		for (const [i, kv] of kvs.entries()) {
-			const [k] = kv.split("=")
-			if (k.toLowerCase() == name.toLowerCase()) {
-				if (value == "") {
-					kvs[i] = k
-				} else {
-					const pUnreservedChars = "[]:&+$"
-					let encodedValue = encodeURIComponent(value)
-					for (const c of pUnreservedChars) {
-						encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
-					}
-					kvs[i] = `${k}=${encodedValue}`
-				}
-				break
-			}
-		}
+		this.#setKvs(kvs, name, value)
 
 		if (this.#url) {
 			this.#url.href = `${this.#url.protocol}${coordinatesString};${kvs.join(";")}${this.#url.search}${this.#url.hash}`
@@ -99,6 +74,48 @@ export class GeoParams {
 			return paramsString
 		} else {
 			return this.#p
+		}
+	}
+
+	#readCoordsAndKvs() {
+		if (this.#url) {
+			const [coordinatesString, ...kvs] = this.#url.pathname.split(";")
+			return [coordinatesString, kvs]
+		} else if (this.#p == "") {
+			return [null, []]
+		} else {
+			const kvs = this.#p.split(";")
+			return [null, kvs]
+		}
+	}
+
+	#setKvs(kvs, name, value) {
+		for (const [i, kv] of kvs.entries()) {
+			const [k] = kv.split("=")
+			if (k.toLowerCase() == name.toLowerCase()) {
+				if (value == "") {
+					kvs[i] = k
+				} else {
+					const pUnreservedChars = "[]:&+$"
+					let encodedValue = encodeURIComponent(value)
+					for (const c of pUnreservedChars) {
+						encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
+					}
+					kvs[i] = `${k}=${encodedValue}`
+				}
+				return
+			}
+		}
+
+		if (value == "") {
+			kvs.push(name)
+		} else {
+			const pUnreservedChars = "[]:&+$"
+			let encodedValue = encodeURIComponent(value)
+			for (const c of pUnreservedChars) {
+				encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
+			}
+			kvs.push(`${name}=${encodedValue}`)
 		}
 	}
 }

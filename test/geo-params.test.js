@@ -77,6 +77,18 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("foo")
 		expect(params.get("foo")).toBe("")
 	})
+	test("Adds a new param by setting to empty params", () => {
+		const params = new GeoParams("")
+		params.set("hello", "world")
+		expect(params.get("hello")).toBe("world")
+		expect(params.toString()).toBe("hello=world")
+	})
+	test("Adds a new param by setting to nonempty params", () => {
+		const params = new GeoParams("foo=qwe")
+		params.set("hello", "world")
+		expect(params.get("hello")).toBe("world")
+		expect(params.toString()).toBe("foo=qwe;hello=world")
+	})
 
 	test("Encodes '%' when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
