@@ -1,6 +1,12 @@
 "use strict"
 
 /**
+ * @typedef {Object} GeoURLParameters
+ * @property {function(string): string|null} get
+ * @property {function(string, string): void} set
+ */
+
+/**
  * URL interface for geo URI with an arbitrary CRS
  */
 export class GeoURL {
@@ -162,19 +168,32 @@ export class GeoURL {
 		this.z = value
 	}
 
+	/**
+	 * geo URI parameters object
+	 * @type {GeoURLParameters}
+	 */
 	get geoParams() {
-		const [_coordinatesString, ...paramStrings] = this.pathname.split(";")
-		const processedParamStrings = paramStrings.map(paramString => {
-			const [name, value] = paramString.split("=")
-			return [name.toLowerCase(), decodeURIComponent(value || "")]
-		})
-		const paramsMap = new Map(processedParamStrings)
-
 		return {
 			get: name => {
-				const value = paramsMap.get(name.toLowerCase())
-				if (value == null) return null // Map returns undefined, but URLSearchParams returns null
-				return value
+				const [, ...paramStrings] = this.pathname.split(";")
+				for (const paramString of paramStrings) {
+					const [existingName, existingValue] = paramString.split("=")
+					if (existingName.toLowerCase() == name.toLowerCase()) {
+						return decodeURIComponent(existingValue || "")
+					}
+				}
+				return null
+			},
+			set: (name, value) => {
+				const [coordinatesString, ...paramStrings] = this.pathname.split(";")
+				for (const [i, paramString] of paramStrings.entries()) {
+					const [existingName] = paramString.split("=")
+					if (existingName.toLowerCase() == name.toLowerCase()) {
+						paramStrings[i] = `${existingName}=${value}`
+						break
+					}
+				}
+				this.#url.href = this.#url.protocol + [coordinatesString, ...paramStrings].join(";")
 			}
 		}
 	}

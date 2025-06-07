@@ -333,6 +333,12 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0;decode=%31%32%33")
 		expect(url.geoParams.get("decode")).toBe("123")
 	})
+	test("Provides geoParams.set() for existing geo parameter", () => {
+		const url = new GeoURL("geo:0,0;foo=bar")
+		url.geoParams.set("foo", "baz")
+		expect(url.geoParams.get("foo")).toBe("baz")
+		expect(url.toString()).toBe("geo:0,0;foo=baz")
+	})
 
 	test("Has crs property with default value for missing crs", () => {
 		const url = new GeoURL("geo:0,0")
