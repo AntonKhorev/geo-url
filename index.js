@@ -99,9 +99,19 @@ export class GeoURL {
 	get pathname() {
 		return this.#url.pathname
 	}
+
+	/**
+	 * URL search/query string
+	 * @type {string}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/search|MDN} for search property
+	 */
 	get search() {
 		return this.#url.search
 	}
+	set search(value) {
+		this.#url.search = value
+	}
+
 	get searchParams() {
 		return this.#url.searchParams
 	}

@@ -140,10 +140,57 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.pathname).toBe("47.6,-122.3")
 	})
-	test("Provides search getter", () => {
+
+	test("Gets search property", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.search).toBe("?z=11")
 	})
+	test("Sets search property", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.search = "x=12"
+		expect(url.search).toBe("?x=12")
+		expect(url.toString()).toBe("geo:47.6,-122.3?x=12")
+		expect(url.z).toBeUndefined()
+		expect(searchParams).toStrictEqual(new URLSearchParams({ x: 12 }))
+	})
+	test("Sets search property with leading '?'", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.search = "?x=12"
+		expect(url.search).toBe("?x=12")
+		expect(url.toString()).toBe("geo:47.6,-122.3?x=12")
+		expect(url.z).toBeUndefined()
+		expect(searchParams).toStrictEqual(new URLSearchParams({ x: 12 }))
+	})
+	test("Sets search property to empty string", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.search = ""
+		expect(url.search).toBe("")
+		expect(url.toString()).toBe("geo:47.6,-122.3")
+		expect(url.z).toBeUndefined()
+		expect(searchParams).toStrictEqual(new URLSearchParams())
+	})
+	test("Sets search property to '?'", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.search = "?"
+		expect(url.search).toBe("")
+		expect(url.toString()).toBe("geo:47.6,-122.3?")
+		expect(url.z).toBeUndefined()
+		expect(searchParams).toStrictEqual(new URLSearchParams())
+	})
+	test("Sets search property to a new z value", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.search = "z=12"
+		expect(url.search).toBe("?z=12")
+		expect(url.toString()).toBe("geo:47.6,-122.3?z=12")
+		expect(url.z).toBe(12)
+		expect(searchParams).toStrictEqual(new URLSearchParams({ z: 12 }))
+	})
+
 	test("Provides searchParams getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.searchParams).toStrictEqual(new URLSearchParams({ z: 11 }))
