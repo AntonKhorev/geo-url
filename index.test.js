@@ -191,10 +191,16 @@ describe("GeoURL", () => {
 		expect(searchParams).toStrictEqual(new URLSearchParams({ z: 12 }))
 	})
 
-	test("Provides searchParams getter", () => {
+	test("Gets searchParams property", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.searchParams).toStrictEqual(new URLSearchParams({ z: 11 }))
 	})
+	test("Updates z through searchParams property", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		url.searchParams.set("z", 15)
+		expect(url.z).toBe(15)
+	})
+
 	test("Provides hash getter", () => {
 		const url = new GeoURL("geo:12,34#some-id")
 		expect(url.hash).toBe("#some-id")
