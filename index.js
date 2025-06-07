@@ -68,7 +68,7 @@ export class GeoParams {
 		for (const [i, kv] of kvs.entries()) {
 			const [k] = kv.split("=")
 			if (k.toLowerCase() == name.toLowerCase()) {
-				const encodedValue = value.replace("%", encodeURIComponent("%"))
+				const encodedValue = value.replaceAll("%", encodeURIComponent("%"))
 				kvs[i] = `${k}=${encodedValue}`
 				break
 			}

@@ -68,14 +68,20 @@ describe("GeoParams", () => {
 	test("Sets an existing parameter", () => {
 		const params = new GeoParams("foo=old")
 		params.set("foo", "new")
-		expect(params.get("foo")).toBe("new")
 		expect(params.toString()).toBe("foo=new")
+		expect(params.get("foo")).toBe("new")
 	})
 	test("Encodes '%' when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
 		params.set("foo", "%")
-		expect(params.get("foo")).toBe("%")
 		expect(params.toString()).toBe("foo=%25")
+		expect(params.get("foo")).toBe("%")
+	})
+	test("Encodes multiple '%' when setting a parameter", () => {
+		const params = new GeoParams("foo=old")
+		params.set("foo", "%%")
+		expect(params.toString()).toBe("foo=%25%25")
+		expect(params.get("foo")).toBe("%%")
 	})
 	test("Doesn't encode allowed chars when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
@@ -83,7 +89,7 @@ describe("GeoParams", () => {
 			"[]:&+$" + // p-unreserved
 			"-_.!~*'()" // mark
 		)
-		expect(params.get("foo")).toBe("[]:&+$-_.!~*'()")
 		expect(params.toString()).toBe("foo=[]:&+$-_.!~*'()")
+		expect(params.get("foo")).toBe("[]:&+$-_.!~*'()")
 	})
 })
