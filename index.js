@@ -71,7 +71,7 @@ export class GeoParams {
 				const pUnreservedChars = "[]:&+$"
 				let encodedValue = encodeURIComponent(value)
 				for (const c of pUnreservedChars) {
-					encodedValue = encodedValue.replace(encodeURIComponent(c), c)
+					encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
 				}
 				kvs[i] = `${k}=${encodedValue}`
 				break

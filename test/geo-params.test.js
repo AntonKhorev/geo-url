@@ -98,4 +98,10 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("foo=[]:&+$-_.!~*'()")
 		expect(params.get("foo")).toBe("[]:&+$-_.!~*'()")
 	})
+	test("Doesn't encode repeated allowed chars when setting a parameter", () => {
+		const params = new GeoParams("foo=old")
+		params.set("foo", "$$")
+		expect(params.toString()).toBe("foo=$$")
+		expect(params.get("foo")).toBe("$$")
+	})
 })
