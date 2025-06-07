@@ -62,18 +62,27 @@ export class GeoParams {
 			this.#beforeSetHook(name, value)
 		}
 
-		const [coordinatesString, kvs] = this.#readCoordsAndKvs()
+		const [coords, kvs] = this.#readCoordsAndKvs()
 
 		this.#setKvs(kvs, name, value)
 
-		if (this.#url) {
-			this.#url.href = `${this.#url.protocol}${coordinatesString};${kvs.join(";")}${this.#url.search}${this.#url.hash}`
-		} else {
-			this.#p = kvs.join(";")
-		}
+		this.#writeCoordsAndKvs(coords, kvs)
 	}
 
 	delete(name) {
+		const [coords, kvs] = this.#readCoordsAndKvs()
+		const lcName = name.toLowerCase()
+
+		for (const [i, kv] of kvs.entries()) {
+			const [k] = kv.split("=")
+			const lcK = k.toLowerCase()
+			if (lcK == lcName) {
+				kvs.splice(i, 1)
+				break
+			}
+		}
+
+		this.#writeCoordsAndKvs(coords, kvs)
 	}
 
 	/**
@@ -91,8 +100,8 @@ export class GeoParams {
 
 	#readCoordsAndKvs() {
 		if (this.#url) {
-			const [coordinatesString, ...kvs] = this.#url.pathname.split(";")
-			return [coordinatesString, kvs]
+			const [coords, ...kvs] = this.#url.pathname.split(";")
+			return [coords, kvs]
 		} else if (this.#p == "") {
 			return [null, []]
 		} else {
@@ -124,6 +133,14 @@ export class GeoParams {
 			kvs.unshift(newKv)
 		} else {
 			kvs.push(newKv)
+		}
+	}
+
+	#writeCoordsAndKvs(coords, kvs) {
+		if (this.#url) {
+			this.#url.href = `${this.#url.protocol}${[coords, ...kvs].join(";")}${this.#url.search}${this.#url.hash}`
+		} else {
+			this.#p = kvs.join(";")
 		}
 	}
 

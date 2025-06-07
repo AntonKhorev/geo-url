@@ -108,6 +108,30 @@ describe("GeoParams", () => {
 		expect(params.get("hello")).toBeNull()
 		expect(params.toString()).toBe("goodbye=world")
 	})
+	test("Deletes the only param", () => {
+		const params = new GeoParams("foo=42")
+		params.delete("foo")
+		expect(params.get("foo")).toBeNull()
+		expect(params.toString()).toBe("")
+	})
+	test("Deletes the first param", () => {
+		const params = new GeoParams("foo=42;bar=23")
+		params.delete("foo")
+		expect(params.get("foo")).toBeNull()
+		expect(params.toString()).toBe("bar=23")
+	})
+	test("Deletes the last param", () => {
+		const params = new GeoParams("foo=42;bar=23")
+		params.delete("bar")
+		expect(params.get("bar")).toBeNull()
+		expect(params.toString()).toBe("foo=42")
+	})
+	test("Deletes the middle param", () => {
+		const params = new GeoParams("foo=42;bar=23;baz=12")
+		params.delete("bar")
+		expect(params.get("bar")).toBeNull()
+		expect(params.toString()).toBe("foo=42;baz=12")
+	})
 
 	test("Updates crs param", () => {
 		const params = new GeoParams("crs=ABC12")
