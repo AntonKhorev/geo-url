@@ -324,6 +324,19 @@ describe("GeoURL", () => {
 		expect(url.toString()).toBe("geo:12,34;foo=qwe;hello=world")
 	})
 
+	test("Does nothing when deleting from empty geo params", () => {
+		const url = new GeoURL("geo:12,34")
+		url.geoParams.delete("hello")
+		expect(url.geoParams.get("hello")).toBeNull()
+		expect(url.toString()).toBe("geo:12,34")
+	})
+	test("Does nothing when deleting a nonexisting geo param", () => {
+		const url = new GeoURL("geo:12,34;goodbye=world")
+		url.geoParams.delete("hello")
+		expect(url.geoParams.get("hello")).toBeNull()
+		expect(url.toString()).toBe("geo:12,34;goodbye=world")
+	})
+
 	test("Updates crs property through geo params", () => {
 		const url = new GeoURL("geo:0,0;crs=ABC12")
 		url.geoParams.set("crs", "DEF34")

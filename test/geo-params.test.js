@@ -96,6 +96,19 @@ describe("GeoParams", () => {
 		expect(params.get("hello")).toBe("world")
 	})
 
+	test("Does nothing when deleting from empty params", () => {
+		const params = new GeoParams("")
+		params.delete("hello")
+		expect(params.get("hello")).toBeNull()
+		expect(params.toString()).toBe("")
+	})
+	test("Does nothing when deleting a nonexisting param", () => {
+		const params = new GeoParams("goodbye=world")
+		params.delete("hello")
+		expect(params.get("hello")).toBeNull()
+		expect(params.toString()).toBe("goodbye=world")
+	})
+
 	test("Updates crs param", () => {
 		const params = new GeoParams("crs=ABC12")
 		params.set("crs", "DEF34")

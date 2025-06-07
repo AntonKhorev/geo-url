@@ -73,6 +73,9 @@ export class GeoParams {
 		}
 	}
 
+	delete(name) {
+	}
+
 	/**
 	 * Convert the parameters to a string
 	 * @returns {string} - a semicolon-separated list of parameters, the part of RFC 5870 geo URI that comes after the coordinates
