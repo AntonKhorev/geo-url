@@ -3,6 +3,15 @@ import { describe, test, expect } from "vitest"
 import { GeoParams, GeoURL, WGS84GeoURL } from "./index.js"
 
 describe("GeoParams", () => {
+	test("Converts empty params to a string", () => {
+		const params = new GeoParams("")
+		expect(params.toString()).toBe("") 
+	})
+	test("Converts params to a string", () => {
+		const params = new GeoParams("hello=world;yes;year=2025")
+		expect(params.toString()).toBe("hello=world;yes;year=2025")
+	})
+
 	test("Gets a null value for a parameter from empty string", () => {
 		const params = new GeoParams("")
 		expect(params.get("foo")).toBeNull()
