@@ -206,19 +206,19 @@ describe("GeoURL", () => {
 		expect(url.hash).toBe("#some-id")
 	})
 
-	test("Provides z getter for undefined name and value", () => {
+	test("Gets z property for undefined name and value", () => {
 		const url = new GeoURL("geo:47.6,-122.3")
 		expect(url.z).toBeUndefined()
 	})
-	test("Provides z getter for name without value", () => {
+	test("Gets z property for name without value", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z")
 		expect(url.z).toBeUndefined()
 	})
-	test("Provides z getter for name with empty value", () => {
+	test("Gets z property for name with empty value", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=")
 		expect(url.z).toBeUndefined()
 	})
-	test("Provides z getter", () => {
+	test("Gets z property", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		expect(url.z).toBe(11)
 	})
@@ -242,6 +242,15 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:48.858249,2.294541;skip=lol&z?z=19")
 		expect(url.z).toBe(19)
 	})
+	test("Sets z", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.z = 13
+		expect(url.z).toBe(13)
+		expect(url.toString()).toBe("geo:47.6,-122.3?z=13")
+		expect(searchParams).toStrictEqual(new URLSearchParams({ z: 13 }))
+	})
+
 	test("Provides zoom alias getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=10")
 		expect(url.zoom).toBe(10)

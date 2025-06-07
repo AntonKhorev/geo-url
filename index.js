@@ -131,6 +131,9 @@ export class GeoURL {
 	get z() {
 		return parseNumber(this.searchParams.get("z"))
 	}
+	set z(value) {
+		this.#url.searchParams.set("z", value)
+	}
 	/**
 	 * Zoom level
 	 * 
