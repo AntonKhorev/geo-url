@@ -74,7 +74,7 @@ export class GeoParams {
 		}
 
 		if (this.#url) {
-			this.#url.href = `${this.#url.protocol}${coordinatesString};${kvs.join(";")}`
+			this.#url.href = `${this.#url.protocol}${coordinatesString};${kvs.join(";")}${this.#url.search}${this.#url.hash}`
 		} else {
 			this.#p = kvs.join(";")
 		}

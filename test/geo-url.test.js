@@ -298,11 +298,18 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:0,0;flag")
 		expect(url.geoParams.get("flag")).toBe("")
 	})
-	test("Gets an existing geo parameter", () => {
+	test("Sets an existing geo parameter", () => {
 		const url = new GeoURL("geo:0,0;foo=bar")
 		url.geoParams.set("foo", "baz")
 		expect(url.geoParams.get("foo")).toBe("baz")
 		expect(url.toString()).toBe("geo:0,0;foo=baz")
+	})
+	test("Keeps other url parts when setting a geo parameter", () => {
+		const url = new GeoURL("geo:12,34;key=test?z=78#id9")
+		url.geoParams.set("key", "toast")
+		expect(url.toString()).toBe("geo:12,34;key=toast?z=78#id9")
+		expect(url.search).toBe("?z=78")
+		expect(url.hash).toBe("#id9")
 	})
 
 	test("Has crs property with default value for missing crs", () => {
