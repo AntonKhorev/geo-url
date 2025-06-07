@@ -77,6 +77,12 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("foo")
 		expect(params.get("foo")).toBe("")
 	})
+	test("Updates the case of an existing parameter name", () => {
+		const params = new GeoParams("FoO=value")
+		params.set("fOo", "value")
+		expect(params.toString()).toBe("fOo=value")
+		expect(params.get("foo")).toBe("value")
+	})
 	test("Adds a new param by setting to empty params", () => {
 		const params = new GeoParams("")
 		params.set("hello", "world")

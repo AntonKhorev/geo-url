@@ -94,14 +94,14 @@ export class GeoParams {
 			const [k] = kv.split("=")
 			if (k.toLowerCase() == name.toLowerCase()) {
 				if (value == "") {
-					kvs[i] = k
+					kvs[i] = name
 				} else {
 					const pUnreservedChars = "[]:&+$"
 					let encodedValue = encodeURIComponent(value)
 					for (const c of pUnreservedChars) {
 						encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
 					}
-					kvs[i] = `${k}=${encodedValue}`
+					kvs[i] = `${name}=${encodedValue}`
 				}
 				return
 			}
