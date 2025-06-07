@@ -157,6 +157,12 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("crs=ABC12;u=15.16")
 		expect(params.get("u")).toBe("15.16")
 	})
+	test("Adds u param to an existing crs and other param", () => {
+		const params = new GeoParams("crs=ABC12;fizz=buzz")
+		params.set("u", "15.16")
+		expect(params.toString()).toBe("crs=ABC12;u=15.16;fizz=buzz")
+		expect(params.get("u")).toBe("15.16")
+	})
 
 	test("Encodes '%' when setting a parameter", () => {
 		const params = new GeoParams("foo=old")

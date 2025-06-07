@@ -92,23 +92,26 @@ export class GeoParams {
 	#setKvs(kvs, name, value) {
 		const lcName = name.toLowerCase()
 		let hasCrs = false
+		const newKv = this.#makeKv(name, value)
 
 		for (const [i, kv] of kvs.entries()) {
 			const [k] = kv.split("=")
 			const lcK = k.toLowerCase()
-			hasCrs ||= lcK == "crs"
+			if (i == 0) {
+				hasCrs = lcK == "crs"
+			}
 			if (lcK == lcName) {
-				kvs[i] = this.#makeKv(name, value)
+				kvs[i] = newKv
 				return
 			}
 		}
 
-		if (lcName == "crs") {
-			kvs.unshift(this.#makeKv(name, value))
-		} else if (lcName == "u" && !hasCrs) {
-			kvs.unshift(this.#makeKv(name, value))
+		if (lcName == "u" && hasCrs) {
+			kvs.splice(1, 0, newKv)
+		} else if (lcName == "crs" || lcName == "u") {
+			kvs.unshift(newKv)
 		} else {
-			kvs.push(this.#makeKv(name, value))
+			kvs.push(newKv)
 		}
 	}
 
