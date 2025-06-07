@@ -370,6 +370,13 @@ describe("GeoURL", () => {
 		expect(url.geoParams.get("crs")).toBe("DEF34")
 		expect(url.crs).toBe("def34")
 	})
+	test("Deleted crs property through geo params", () => {
+		const url = new GeoURL("geo:0,0;crs=UNK")
+		url.geoParams.delete("crs")
+		expect(url.toString()).toBe("geo:0,0")
+		expect(url.geoParams.get("crs")).toBeNull()
+		expect(url.crs).toBe("wgs84")
+	})
 
 	test("Updates u property through geo params", () => {
 		const url = new GeoURL("geo:0,0;u=12.34")
@@ -391,6 +398,13 @@ describe("GeoURL", () => {
 		expect(url.toString()).toBe("geo:0,0;u=15.16;foo=bar")
 		expect(url.geoParams.get("u")).toBe("15.16")
 		expect(url.u).toBe(15.16)
+	})
+	test("Deleted u property through geo params", () => {
+		const url = new GeoURL("geo:0,0;u=12.34")
+		url.geoParams.delete("u")
+		expect(url.toString()).toBe("geo:0,0")
+		expect(url.geoParams.get("u")).toBeNull()
+		expect(url.u).toBeUndefined()
 	})
 
 	test("Has crs property with default value for missing crs", () => {
