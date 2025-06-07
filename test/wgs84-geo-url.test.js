@@ -42,6 +42,24 @@ describe("WGS84GeoURL", () => {
 		expect(url.toString()).toBe("geo:12,34#hash")
 	})
 
+	test("Allows updating crs to a matching value through geo params", () => {
+		const url = new WGS84GeoURL("geo:0,0")
+		url.geoParams.set("crs", "wgs84")
+		expect(url.toString()).toBe("geo:0,0;crs=wgs84")
+	})
+	test("Allows updating crs to a matching value through geo params ignoring case", () => {
+		const url = new WGS84GeoURL("geo:0,0")
+		url.geoParams.set("cRs", "wGs84")
+		expect(url.toString()).toBe("geo:0,0;cRs=wGs84")
+	})
+	test("Rejects updating crs to a non-matching value through geo params", () => {
+		const url = new WGS84GeoURL("geo:0,0")
+		expect(
+			() => url.geoParams.set("crs", "oops")
+		).toThrow(TypeError)
+		expect(url.toString()).toBe("geo:0,0")
+	})
+
 	test("Parses valid geo URI", () => {
 		const url = WGS84GeoURL.parse("geo:12,34")
 		expect(url).toBeInstanceOf(WGS84GeoURL)

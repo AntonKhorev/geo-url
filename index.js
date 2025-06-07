@@ -1,6 +1,7 @@
 "use strict"
 
 let setGeoURLParamsURL
+let setGeoURLParamsBeforeSetHook
 
 /**
  * Geo URI Parameters as defined in RFC 5870
@@ -11,11 +12,15 @@ let setGeoURLParamsURL
 export class GeoParams {
 	#p
 	#url
+	#beforeSetHook
 
 	// see https://github.com/nodejs/node/blob/0c6e16bc849450a450a9d2dbfbf6244c04f90642/lib/internal/url.js#L319 for a similar approach
 	static {
 		setGeoURLParamsURL = (obj, url) => {
 			obj.#url = url
+		}
+		setGeoURLParamsBeforeSetHook = (obj, beforeSetHook) => {
+			obj.#beforeSetHook = beforeSetHook
 		}
 	}
 
@@ -53,6 +58,10 @@ export class GeoParams {
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/set|MDN} for the similar method of URLSearchParams
 	 */
 	set(name, value) {
+		if (this.#beforeSetHook) {
+			this.#beforeSetHook(name, value)
+		}
+
 		const [coordinatesString, kvs] = this.#readCoordsAndKvs()
 
 		this.#setKvs(kvs, name, value)
@@ -402,6 +411,22 @@ export class WGS84GeoURL extends GeoURL {
 	 * @returns {boolean}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static|MDN} for canParse() static method
 	 */
+
+	/**
+	 * geo URI parameters object
+	 * 
+	 * The returned object will throw a TypeError if the "crs" parameter is updated to anything other than "wgs84", case-insensitively.
+	 * @type {GeoParams}
+	 */
+	get geoParams() {
+		const params = super.geoParams
+		setGeoURLParamsBeforeSetHook(params, (name, value) => {
+			if (name.toLowerCase() == "crs" && value.toLowerCase() != "wgs84") {
+				throw new TypeError(`geoParams setter: ${value} is not a valid value for crs of WGS84GeoURL`)
+			}
+		})
+		return params
+	}
 
 	/**
 	 * Latitude-longitude pair
