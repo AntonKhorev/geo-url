@@ -71,6 +71,13 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("foo=new")
 		expect(params.get("foo")).toBe("new")
 	})
+	test("Sets an existing parameter to a flag", () => {
+		const params = new GeoParams("foo=old")
+		params.set("foo", "")
+		expect(params.toString()).toBe("foo")
+		expect(params.get("foo")).toBe("")
+	})
+
 	test("Encodes '%' when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
 		params.set("foo", "%")

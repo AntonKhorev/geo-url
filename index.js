@@ -68,12 +68,16 @@ export class GeoParams {
 		for (const [i, kv] of kvs.entries()) {
 			const [k] = kv.split("=")
 			if (k.toLowerCase() == name.toLowerCase()) {
-				const pUnreservedChars = "[]:&+$"
-				let encodedValue = encodeURIComponent(value)
-				for (const c of pUnreservedChars) {
-					encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
+				if (value == "") {
+					kvs[i] = k
+				} else {
+					const pUnreservedChars = "[]:&+$"
+					let encodedValue = encodeURIComponent(value)
+					for (const c of pUnreservedChars) {
+						encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
+					}
+					kvs[i] = `${k}=${encodedValue}`
 				}
-				kvs[i] = `${k}=${encodedValue}`
 				break
 			}
 		}
