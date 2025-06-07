@@ -1,10 +1,98 @@
 "use strict"
 
+let setGeoURLParamsURL
+
 /**
- * @typedef {Object} GeoURLParameters
- * @property {function(string): string|null} get
- * @property {function(string, string): void} set
+ * Geo URI Parameters as defined in RFC 5870
+ * 
+ * Intended to be similar to {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams|URLSearchParams},
+ * with an {@link https://url.spec.whatwg.org/#concept-urlsearchparams-url-object|associated URL object}.
  */
+export class GeoParams {
+	#p
+	#url
+
+	// see https://github.com/nodejs/node/blob/0c6e16bc849450a450a9d2dbfbf6244c04f90642/lib/internal/url.js#L319 for a similar approach
+	static {
+		setGeoURLParamsURL = (obj, url) => {
+			obj.#url = url
+		}
+	}
+
+	/**
+	 * @param {string} p
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|RFC 5870} for p syntax
+	 */
+	constructor(p) {
+		this.#p = String(p)
+	}
+
+	/**
+	 * Get the value associated to the given parameter
+	 * @param {string} name
+	 * @returns {string|null}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/get|MDN} for the similar method of URLSearchParams
+	 */
+	get(name) {
+		let kvs
+		if (this.#url) {
+			[, ...kvs] = this.#url.pathname.split(";")
+		} else {
+			kvs = this.#p.split(";")
+		}
+
+		for (const kv of kvs) {
+			const [k, v] = kv.split("=")
+			if (k.toLowerCase() == name.toLowerCase()) {
+				return decodeURIComponent(v || "")
+			}
+		}
+		return null
+	}
+
+	/**
+	 * Set the value associated with a given parameter to the given value
+	 * @param {string} name
+	 * @param {string} value
+	 * @returns {void}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/set|MDN} for the similar method of URLSearchParams
+	 */
+	set(name, value) {
+		let coordinatesString, kvs
+		if (this.#url) {
+			[coordinatesString, ...kvs] = this.#url.pathname.split(";")
+		} else {
+			kvs = this.#p.split(";")
+		}
+
+		for (const [i, kv] of kvs.entries()) {
+			const [k] = kv.split("=")
+			if (k.toLowerCase() == name.toLowerCase()) {
+				kvs[i] = `${k}=${value}`
+				break
+			}
+		}
+
+		if (this.#url) {
+			this.#url.href = `${this.#url.protocol}${coordinatesString};${kvs.join(";")}`
+		} else {
+			this.#p = kvs.join(";")
+		}
+	}
+
+	/**
+	 * Convert the parameters to a string
+	 * @returns {string} - a semicolon-separated list of parameters, the part of RFC 5870 geo URI that comes after the coordinates
+	 */
+	toString() {
+		if (this.#url) {
+			[, paramsString] = this.#url.pathname.split(/;(.*)/)
+			return paramsString
+		} else {
+			return this.#p
+		}
+	}
+}
 
 /**
  * URL interface for geo URI with an arbitrary CRS
@@ -170,32 +258,12 @@ export class GeoURL {
 
 	/**
 	 * geo URI parameters object
-	 * @type {GeoURLParameters}
+	 * @type {GeoParams}
 	 */
 	get geoParams() {
-		return {
-			get: name => {
-				const [, ...paramStrings] = this.pathname.split(";")
-				for (const paramString of paramStrings) {
-					const [existingName, existingValue] = paramString.split("=")
-					if (existingName.toLowerCase() == name.toLowerCase()) {
-						return decodeURIComponent(existingValue || "")
-					}
-				}
-				return null
-			},
-			set: (name, value) => {
-				const [coordinatesString, ...paramStrings] = this.pathname.split(";")
-				for (const [i, paramString] of paramStrings.entries()) {
-					const [existingName] = paramString.split("=")
-					if (existingName.toLowerCase() == name.toLowerCase()) {
-						paramStrings[i] = `${existingName}=${value}`
-						break
-					}
-				}
-				this.#url.href = this.#url.protocol + [coordinatesString, ...paramStrings].join(";")
-			}
-		}
+		const gp = new GeoParams("")
+		setGeoURLParamsURL(gp, this.#url)
+		return gp
 	}
 
 	get crs() {
