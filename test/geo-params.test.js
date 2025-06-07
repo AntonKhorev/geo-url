@@ -132,6 +132,12 @@ describe("GeoParams", () => {
 		expect(params.get("bar")).toBeNull()
 		expect(params.toString()).toBe("foo=42;baz=12")
 	})
+	test("Deletes a param ignoring the name case", () => {
+		const params = new GeoParams("foo=42")
+		params.delete("FoO")
+		expect(params.get("foo")).toBeNull()
+		expect(params.toString()).toBe("")
+	})
 
 	test("Updates crs param", () => {
 		const params = new GeoParams("crs=ABC12")
