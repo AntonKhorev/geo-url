@@ -91,16 +91,21 @@ export class GeoParams {
 
 	#setKvs(kvs, name, value) {
 		const lcName = name.toLowerCase()
+		let hasCrs = false
 
 		for (const [i, kv] of kvs.entries()) {
 			const [k] = kv.split("=")
-			if (k.toLowerCase() == lcName) {
+			const lcK = k.toLowerCase()
+			hasCrs ||= lcK == "crs"
+			if (lcK == lcName) {
 				kvs[i] = this.#makeKv(name, value)
 				return
 			}
 		}
 
-		if (lcName == "crs" || lcName == "u") {
+		if (lcName == "crs") {
+			kvs.unshift(this.#makeKv(name, value))
+		} else if (lcName == "u" && !hasCrs) {
 			kvs.unshift(this.#makeKv(name, value))
 		} else {
 			kvs.push(this.#makeKv(name, value))
