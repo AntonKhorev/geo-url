@@ -98,7 +98,7 @@ export class GeoParams {
 			}
 		}
 
-		if (name == "u") {
+		if (name.toLowerCase() == "u") {
 			kvs.unshift(this.#makeKv(name, value))
 		} else {
 			kvs.push(this.#makeKv(name, value))
