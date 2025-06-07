@@ -115,8 +115,17 @@ export class GeoURL {
 	get searchParams() {
 		return this.#url.searchParams
 	}
+
+	/**
+	 * URL hash property containing the fragment identifier
+	 * @type {string}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/hash|MDN} for hash property
+	 */
 	get hash() {
 		return this.#url.hash
+	}
+	set hash(value) {
+		this.#url.hash = value
 	}
 
 	/**

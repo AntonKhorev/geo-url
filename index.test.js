@@ -201,9 +201,33 @@ describe("GeoURL", () => {
 		expect(url.z).toBe(15)
 	})
 
-	test("Provides hash getter", () => {
+	test("Gets hash property", () => {
 		const url = new GeoURL("geo:12,34#some-id")
 		expect(url.hash).toBe("#some-id")
+	})
+	test("Sets hash property", () => {
+		const url = new GeoURL("geo:12,34#some-id")
+		url.hash = "other-id"
+		expect(url.hash).toBe("#other-id")
+		expect(url.toString()).toBe("geo:12,34#other-id")
+	})
+	test("Sets hash property with leading '#'", () => {
+		const url = new GeoURL("geo:12,34#some-id")
+		url.hash = "#other-id"
+		expect(url.hash).toBe("#other-id")
+		expect(url.toString()).toBe("geo:12,34#other-id")
+	})
+	test("Sets hash property to empty string", () => {
+		const url = new GeoURL("geo:12,34#some-id")
+		url.hash = ""
+		expect(url.hash).toBe("")
+		expect(url.toString()).toBe("geo:12,34")
+	})
+	test("Sets hash property to '#'", () => {
+		const url = new GeoURL("geo:12,34#some-id")
+		url.hash = "#"
+		expect(url.hash).toBe("")
+		expect(url.toString()).toBe("geo:12,34#")
 	})
 
 	test("Gets z property for undefined name and value", () => {
