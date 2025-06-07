@@ -95,6 +95,26 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("foo=qwe;hello=world")
 		expect(params.get("hello")).toBe("world")
 	})
+
+	test("Updates crs param", () => {
+		const params = new GeoParams("crs=ABC12")
+		params.set("crs", "DEF34")
+		expect(params.toString()).toBe("crs=DEF34")
+		expect(params.get("crs")).toBe("DEF34")
+	})
+	test("Adds crs param", () => {
+		const params = new GeoParams("")
+		params.set("crs", "DEF34")
+		expect(params.toString()).toBe("crs=DEF34")
+		expect(params.get("crs")).toBe("DEF34")
+	})
+	test("Adds crs param to existing params", () => {
+		const params = new GeoParams("foo=bar")
+		params.set("crs", "DEF34")
+		expect(params.toString()).toBe("crs=DEF34;foo=bar")
+		expect(params.get("crs")).toBe("DEF34")
+	})
+
 	test("Updates u param", () => {
 		const params = new GeoParams("u=12.34")
 		params.set("u", "43.21")

@@ -98,7 +98,7 @@ export class GeoParams {
 			}
 		}
 
-		if (name.toLowerCase() == "u") {
+		if (name == "crs" || name.toLowerCase() == "u") {
 			kvs.unshift(this.#makeKv(name, value))
 		} else {
 			kvs.push(this.#makeKv(name, value))
@@ -289,6 +289,13 @@ export class GeoURL {
 		return gp
 	}
 
+	/**
+	 * Coordinate reference system
+	 * 
+	 * Converted to lowercase if present in the URL.
+	 * Has the default value of "wgs84" if not present.
+	 * @type {string}
+	 */
 	get crs() {
 		const crsWithPreservedCase = this.geoParams.get("crs") || "wgs84"
 		return crsWithPreservedCase.toLowerCase()
