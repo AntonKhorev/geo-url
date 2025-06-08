@@ -397,6 +397,7 @@ export class GeoURL {
 	 * 
 	 * Equals to undefined for missing u geo parameter.
 	 * Setting to undefined deletes the parameter.
+	 * Setting keeps the number up to a nanometer precision.
 	 * @type {number|undefined}
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.3|RFC 5870} for parameter description
 	 */
@@ -405,7 +406,8 @@ export class GeoURL {
 	}
 	set u(value) {
 		if (value != null) {
-			this.geoParams.set("u", value)
+			const stringValue = value.toFixed(9).replace(/\.?0+$/, "")
+			this.geoParams.set("u", stringValue)
 		} else {
 			this.geoParams.delete("u")
 		}

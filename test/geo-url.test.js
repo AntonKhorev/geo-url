@@ -543,6 +543,31 @@ describe("GeoURL", () => {
 		expect(params.get("u")).toBeNull()
 		expect(url.u).toBeUndefined()
 	})
+	test("Formats u property in fixed-point notation", () => {
+		const url = new GeoURL("geo:1,2")
+		url.u = 0.0000001
+		expect(url.geoParams.get("u")).toBe("0.0000001")
+	})
+	test("Formats u property in fixed-point notation up to a nanometer precision", () => {
+		const url = new GeoURL("geo:1,2")
+		url.u = 0.000000001
+		expect(url.geoParams.get("u")).toBe("0.000000001")
+	})
+	test("Formats u property in fixed-point notation up to a nanometer precision but not beyond", () => {
+		const url = new GeoURL("geo:1,2")
+		url.u = 0.0000000001
+		expect(url.geoParams.get("u")).toBe("0")
+	})
+	test("Formats u property in fixed-point notation with a reasonable precision for arithmetic", () => {
+		const url = new GeoURL("geo:1,2")
+		url.u = 0.1 + 0.2
+		expect(url.geoParams.get("u")).toBe("0.3")
+	})
+	test("Formats u property keeping trailing zeros for integer values", () => {
+		const url = new GeoURL("geo:1,2")
+		url.u = 1000
+		expect(url.geoParams.get("u")).toBe("1000")
+	})
 	test("Sets u property to undefined deleting its geo parameter", () => {
 		const url = new GeoURL("geo:1,2;u=3")
 		const params = url.geoParams
