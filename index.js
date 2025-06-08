@@ -33,6 +33,18 @@ export class GeoParams {
 	}
 
 	/**
+	 * Total number of parameter entries
+	 * @type {number}
+	 * @readonly
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/size|MDN} for the similar property of URLSearchParams
+	 */
+	get size() {
+		const [, kvs] = this.#readCoordsAndKvs()
+
+		return kvs.length
+	}
+
+	/**
 	 * Get the value associated to the given parameter
 	 * @param {string} name
 	 * @returns {string|null} - parameter value or null for a missing parameter

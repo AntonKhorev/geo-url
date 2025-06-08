@@ -12,6 +12,19 @@ describe("GeoParams", () => {
 		expect(params.toString()).toBe("hello=world;yes;year=2025")
 	})
 
+	test("Has size == 0 for empty params", () => {
+		const params = new GeoParams("")
+		expect(params.size).toBe(0)
+	})
+	test("Has size == 1 for a single param", () => {
+		const params = new GeoParams("one")
+		expect(params.size).toBe(1)
+	})
+	test("Has size property for multiple params", () => {
+		const params = new GeoParams("one;two=2")
+		expect(params.size).toBe(2)
+	})
+
 	test("Gets a null value for a parameter from empty string", () => {
 		const params = new GeoParams("")
 		expect(params.get("foo")).toBeNull()
