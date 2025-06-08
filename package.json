@@ -18,7 +18,7 @@
   "bugs": {
     "url": "https://github.com/AntonKhorev/geo-url/issues"
   },
-  "homepage": "https://github.com/AntonKhorev/geo-url",
+  "homepage": "https://antonkhorev.github.io/geo-url/",
   "main": "index.js",
   "files": [],
   "scripts": {
