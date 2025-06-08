@@ -270,9 +270,25 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=11")
 		const searchParams = url.searchParams
 		url.z = 13
-		expect(url.z).toBe(13)
-		expect(url.toString()).toBe("geo:47.6,-122.3?z=13")
 		expect(searchParams).toStrictEqual(new URLSearchParams({ z: 13 }))
+		expect(url.toString()).toBe("geo:47.6,-122.3?z=13")
+		expect(url.z).toBe(13)
+	})
+	test("Deletes z search param by setting to undefined", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11")
+		const searchParams = url.searchParams
+		url.z = undefined
+		expect(searchParams).toStrictEqual(new URLSearchParams({}))
+		expect(url.toString()).toBe("geo:47.6,-122.3")
+		expect(url.z).toBeUndefined()
+	})
+	test("Deletes multiple z search params by setting to undefined", () => {
+		const url = new GeoURL("geo:47.6,-122.3?z=11&z=12")
+		const searchParams = url.searchParams
+		url.z = undefined
+		expect(searchParams).toStrictEqual(new URLSearchParams({}))
+		expect(url.toString()).toBe("geo:47.6,-122.3")
+		expect(url.z).toBeUndefined()
 	})
 
 	test("Provides zoom alias getter", () => {

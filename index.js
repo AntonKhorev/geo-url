@@ -298,7 +298,10 @@ export class GeoURL {
 
 	/**
 	 * Zoom level
-	 * 
+	 *
+	 * Equals to undefined for missing z search parameter.
+	 * Setting to undefined deletes the parameter.
+	 *
 	 * Example values:
 	 * - 0 is for the entire world in one map tile
 	 * - 14 is when buildings become visible on OpenStreetMap standard map rendering
@@ -309,7 +312,11 @@ export class GeoURL {
 		return parseNumber(this.searchParams.get("z"))
 	}
 	set z(value) {
-		this.#url.searchParams.set("z", value)
+		if (value != null) {
+			this.#url.searchParams.set("z", value)
+		} else {
+			this.#url.searchParams.delete("z")
+		}
 	}
 	/**
 	 * Zoom level
@@ -374,6 +381,9 @@ export class GeoURL {
 
 	/**
 	 * Uncertainty in meters
+	 * 
+	 * Equals to undefined for missing u geo parameter.
+	 * Setting to undefined deletes the parameter.
 	 * @type {number|undefined}
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.3|RFC 5870} for parameter description
 	 */
