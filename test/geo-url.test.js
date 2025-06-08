@@ -535,4 +535,12 @@ describe("GeoURL", () => {
 		expect(params.get("u")).toBe("4")
 		expect(url.u).toBe(4)
 	})
+	test("Does nothing when setting u property to undefined if its geo parameter is missing", () => {
+		const url = new GeoURL("geo:1,2")
+		const params = url.geoParams
+		url.u = undefined
+		expect(url.toString()).toBe("geo:1,2")
+		expect(params.get("u")).toBeNull()
+		expect(url.u).toBeUndefined()
+	})
 })

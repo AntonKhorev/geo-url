@@ -392,7 +392,9 @@ export class GeoURL {
 		return parseNumber(this.geoParams.get("u"))
 	}
 	set u(value) {
-		this.geoParams.set("u", value)
+		if (value != null) {
+			this.geoParams.set("u", value)
+		}
 	}
 	/**
 	 * Uncertainty in meters
