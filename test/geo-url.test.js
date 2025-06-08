@@ -551,4 +551,13 @@ describe("GeoURL", () => {
 		expect(params.get("u")).toBeNull()
 		expect(url.u).toBeUndefined()
 	})
+	test("Sets uncertainty property updating its geo parameter", () => {
+		const url = new GeoURL("geo:1,2;u=3")
+		const params = url.geoParams
+		url.uncertainty = 4
+		expect(url.toString()).toBe("geo:1,2;u=4")
+		expect(params.get("u")).toBe("4")
+		expect(url.u).toBe(4)
+		expect(url.uncertainty).toBe(4)
+	})
 })

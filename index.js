@@ -407,6 +407,9 @@ export class GeoURL {
 	get uncertainty() {
 		return this.u
 	}
+	set uncertainty(value) {
+		this.u = value
+	}
 }
 
 /**
