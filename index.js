@@ -313,6 +313,7 @@ export class GeoURL {
 	 *
 	 * Equals to undefined for missing z search parameter.
 	 * Setting to undefined deletes the parameter.
+	 * Numeric precision is the same as when setting {@link GeoURL#u} because Google documentation doesn't specify it.
 	 *
 	 * Example values:
 	 * - 0 is for the entire world in one map tile
@@ -325,7 +326,7 @@ export class GeoURL {
 	}
 	set z(value) {
 		if (value != null) {
-			this.#url.searchParams.set("z", value)
+			this.#url.searchParams.set("z", formatNumber(value))
 		} else {
 			this.#url.searchParams.delete("z")
 		}
@@ -406,8 +407,7 @@ export class GeoURL {
 	}
 	set u(value) {
 		if (value != null) {
-			const stringValue = value.toFixed(9).replace(/\.?0+$/, "")
-			this.geoParams.set("u", stringValue)
+			this.geoParams.set("u", formatNumber(value))
 		} else {
 			this.geoParams.delete("u")
 		}
@@ -591,4 +591,8 @@ export class WGS84GeoURL extends GeoURL {
 function parseNumber(s) {
 	const v = parseFloat(s)
 	return isNaN(v) ? undefined : v
+}
+
+function formatNumber(n) {
+	return n.toFixed(9).replace(/\.?0+$/, "")
 }

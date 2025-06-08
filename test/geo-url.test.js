@@ -290,6 +290,11 @@ describe("GeoURL", () => {
 		expect(url.toString()).toBe("geo:47.6,-122.3")
 		expect(url.z).toBeUndefined()
 	})
+	test("Formats z property in fixed-point notation with a reasonable precision for arithmetic", () => {
+		const url = new GeoURL("geo:1,2")
+		url.z = 0.1 + 0.2
+		expect(url.searchParams.get("z")).toBe("0.3")
+	})
 
 	test("Provides zoom alias getter", () => {
 		const url = new GeoURL("geo:47.6,-122.3?z=10")
