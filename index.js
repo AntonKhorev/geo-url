@@ -394,6 +394,8 @@ export class GeoURL {
 	set u(value) {
 		if (value != null) {
 			this.geoParams.set("u", value)
+		} else {
+			this.geoParams.delete("u")
 		}
 	}
 	/**

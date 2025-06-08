@@ -543,4 +543,12 @@ describe("GeoURL", () => {
 		expect(params.get("u")).toBeNull()
 		expect(url.u).toBeUndefined()
 	})
+	test("Sets u property to undefined deleting its geo parameter", () => {
+		const url = new GeoURL("geo:1,2;u=3")
+		const params = url.geoParams
+		url.u = undefined
+		expect(url.toString()).toBe("geo:1,2")
+		expect(params.get("u")).toBeNull()
+		expect(url.u).toBeUndefined()
+	})
 })
