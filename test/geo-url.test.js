@@ -503,11 +503,11 @@ describe("GeoURL", () => {
 		expect(url.coordC).toBe(43.21)
 	})
 
-	test("Has u property for missing uncertainty param", () => {
+	test("Gets u property from url with a missing uncertainty param", () => {
 		const url = new GeoURL("geo:0,0")
 		expect(url.u).toBeUndefined()
 	})
-	test("Has u property", () => {
+	test("Gets u property", () => {
 		const url = new GeoURL("geo:0,0;u=12.34")
 		expect(url.u).toBe(12.34)
 	})
@@ -515,8 +515,24 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:60,30;u=1000;v=&u")
 		expect(url.u).toBe(1000)
 	})
-	test("Has uncertainty property alias", () => {
+	test("Gets uncertainty property alias", () => {
 		const url = new GeoURL("geo:0,0;u=23.45")
 		expect(url.uncertainty).toBe(23.45)
+	})
+	test("Sets u property adding its geo parameter", () => {
+		const url = new GeoURL("geo:1,2")
+		const params = url.geoParams
+		url.u = 3
+		expect(url.toString()).toBe("geo:1,2;u=3")
+		expect(params.get("u")).toBe("3")
+		expect(url.u).toBe(3)
+	})
+	test("Sets u property updating its geo parameter", () => {
+		const url = new GeoURL("geo:1,2;u=3")
+		const params = url.geoParams
+		url.u = 4
+		expect(url.toString()).toBe("geo:1,2;u=4")
+		expect(params.get("u")).toBe("4")
+		expect(url.u).toBe(4)
 	})
 })
