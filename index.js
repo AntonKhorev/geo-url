@@ -333,6 +333,7 @@ export class GeoURL {
 
 	/**
 	 * geo URI parameters object
+	 * @readonly
 	 * @type {GeoParams}
 	 */
 	get geoParams() {
