@@ -51,30 +51,31 @@ updateMap()
 
 function updateMap() {
 	markerSource.clear()
-	try {
-		const url = new WGS84GeoURL($geoUriInput.value)
-		const center = fromLonLat(url.lonLat, "EPSG:3857")
-		if (url.u == null) {
-			markerSource.addFeature(
-				new Feature({
-					geometry: new Point(center)
-				})
-			)
-		} else {
-			const radius = url.u / getPointResolution("EPSG:3857", 1, center, "m")
-			markerSource.addFeature(
-				new Feature({
-					geometry: new Circle(center, radius)
-				})
-			)
-		}
-		if (url.z == null && url.u != null) {
-			const radius = 2 * url.u / getPointResolution("EPSG:3857", 1, center, "m")
-			const geometry = new Circle(center, radius)
-			view.fit(geometry)
-		} else {
-			view.setCenter(center)
-			if (url.z != null) view.setZoom(url.z)
-		}
-	} catch {}
+
+	const url = WGS84GeoURL.parse($geoUriInput.value)
+	if (!url) return
+
+	const center = fromLonLat(url.lonLat, "EPSG:3857")
+	if (url.u == null) {
+		markerSource.addFeature(
+			new Feature({
+				geometry: new Point(center)
+			})
+		)
+	} else {
+		const radius = url.u / getPointResolution("EPSG:3857", 1, center, "m")
+		markerSource.addFeature(
+			new Feature({
+				geometry: new Circle(center, radius)
+			})
+		)
+	}
+	if (url.z == null && url.u != null) {
+		const radius = 2 * url.u / getPointResolution("EPSG:3857", 1, center, "m")
+		const geometry = new Circle(center, radius)
+		view.fit(geometry)
+	} else {
+		view.setCenter(center)
+		if (url.z != null) view.setZoom(url.z)
+	}
 }

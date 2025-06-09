@@ -45,19 +45,20 @@ map.on("load", () => {
 	function updateMap() {
 		map.getSource("circleMarkerSource").setData(emptySourceData)
 		marker?.remove()
-		try {
-			const url = new WGS84GeoURL($geoUriInput.value)
-			if (url.u == null) {
-				marker = new maplibregl.Marker().setLngLat(url).addTo(map)
-				map.panTo(url)
-			} else {
-				map.getSource("circleMarkerSource").setData(turfCircle(url.lngLat, url.u / 1000))
-			}
-			if (url.z == null && url.u != null) {
-				map.fitBounds(maplibregl.LngLatBounds.fromLngLat(url, url.u * 2), { linear: true })
-			} else {
-				map.easeTo({ center: url, zoom: url.z })
-			}
-		} catch {}
+
+		const url = WGS84GeoURL.parse($geoUriInput.value)
+		if (!url) return
+
+		if (url.u == null) {
+			marker = new maplibregl.Marker().setLngLat(url).addTo(map)
+			map.panTo(url)
+		} else {
+			map.getSource("circleMarkerSource").setData(turfCircle(url.lngLat, url.u / 1000))
+		}
+		if (url.z == null && url.u != null) {
+			map.fitBounds(maplibregl.LngLatBounds.fromLngLat(url, url.u * 2), { linear: true })
+		} else {
+			map.easeTo({ center: url, zoom: url.z })
+		}
 	}
 })

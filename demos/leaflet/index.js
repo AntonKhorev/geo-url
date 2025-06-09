@@ -18,18 +18,19 @@ updateMap()
 
 function updateMap() {
 	markerLayer.clearLayers()
-	try {
-		const url = new WGS84GeoURL($geoUriInput.value)
-		if (url.u == null) {
-			L.marker(url.latLng).addTo(markerLayer)
-		} else {
-			L.circle(url.latLng, { radius: url.u }).addTo(markerLayer)
-		}
-		if (url.z == null && url.u != null) {
-			const bounds = L.latLng(url.latLng).toBounds(url.u * 4)
-			map.fitBounds(bounds)
-		} else {
-			map.setView(url.latLng, url.z)
-		}
-	} catch {}
+
+	const url = WGS84GeoURL.parse($geoUriInput.value)
+	if (!url) return
+
+	if (url.u == null) {
+		L.marker(url.latLng).addTo(markerLayer)
+	} else {
+		L.circle(url.latLng, { radius: url.u }).addTo(markerLayer)
+	}
+	if (url.z == null && url.u != null) {
+		const bounds = L.latLng(url.latLng).toBounds(url.u * 4)
+		map.fitBounds(bounds)
+	} else {
+		map.setView(url.latLng, url.z)
+	}
 }
