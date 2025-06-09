@@ -252,7 +252,7 @@ describe("GeoParams", () => {
 	})
 	test("Doesn't encode allowed chars when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
-		params.set("foo", 
+		params.set("foo",
 			"[]:&+$" + // p-unreserved
 			"-_.!~*'()" // mark
 		)

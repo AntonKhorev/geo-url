@@ -5,7 +5,7 @@ let setGeoURLParamsBeforeSetHook
 
 /**
  * Geo URI Parameters as defined in RFC 5870
- * 
+ *
  * Intended to be similar to {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams|URLSearchParams},
  * with an {@link https://url.spec.whatwg.org/#concept-urlsearchparams-url-object|associated URL object}.
  */
@@ -183,7 +183,7 @@ export class GeoURL {
 
 	/**
 	 * Create a GeoURL from a string or another URL object
-	 * 
+	 *
 	 * Expected to be almost always invoked with one parameter because there's not much use of relative references in case of geo URIs.
 	 * At best you can add a hash to a base geo URI using a relative reference, but hashes in geo URIs a probably not widely used.
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
@@ -333,7 +333,7 @@ export class GeoURL {
 	}
 	/**
 	 * Zoom level
-	 * 
+	 *
 	 * A longer name for {@link GeoURL#z}
 	 * @type {number|undefined}
 	 */
@@ -357,7 +357,7 @@ export class GeoURL {
 
 	/**
 	 * Coordinate reference system
-	 * 
+	 *
 	 * Converted to lowercase if present in the URL.
 	 * Has the default value of "wgs84" if not present.
 	 * @type {string}
@@ -395,7 +395,7 @@ export class GeoURL {
 
 	/**
 	 * Uncertainty in meters
-	 * 
+	 *
 	 * Equals to undefined for missing u geo parameter.
 	 * Setting to undefined deletes the parameter.
 	 * Setting keeps the number up to a nanometer precision.
@@ -475,7 +475,7 @@ export class WGS84GeoURL extends GeoURL {
 
 	/**
 	 * geo URI parameters object
-	 * 
+	 *
 	 * The returned object will throw a TypeError if the "crs" parameter is updated to anything other than "wgs84", case-insensitively.
 	 * @type {GeoParams}
 	 */
@@ -509,7 +509,7 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Longitude-latitude pair
-	 * 
+	 *
 	 * The order is swapped as compared with the URI and {@link WGS84GeoURL#latLon}
 	 * @type {number[]}
 	 */
@@ -518,7 +518,7 @@ export class WGS84GeoURL extends GeoURL {
 	}
 	/**
 	 * Longitude-latitude pair
-	 * 
+	 *
 	 * An alternative name for {@link WGS84GeoURL#lonLat}
 	 * @type {number[]}
 	 */

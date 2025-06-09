@@ -10,7 +10,8 @@ export default defineConfig([
 			"@stylistic": stylistic
 		},
 		rules: {
-			"@stylistic/space-infix-ops": "error"
+			"@stylistic/no-trailing-spaces": "error",
+			"@stylistic/space-infix-ops": "error",
 		}
 	}
 ])
