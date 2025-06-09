@@ -46,7 +46,7 @@ new Map({
 
 const $geoUriInput = document.getElementById("geo-uri-input")
 
-$geoUriInput.oninput = updateMap
+$geoUriInput.oninput = debounce(updateMap)
 updateMap()
 
 function updateMap() {
@@ -77,5 +77,13 @@ function updateMap() {
 	} else {
 		view.setCenter(center)
 		if (url.z != null) view.setZoom(url.z)
+	}
+}
+
+function debounce(fn, ms = 300) {
+	let timeout
+	return () => {
+		clearTimeout(timeout)
+		timeout = setTimeout(fn, ms)
 	}
 }

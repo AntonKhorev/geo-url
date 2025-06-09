@@ -39,7 +39,7 @@ map.on("load", () => {
 
 	const $geoUriInput = document.getElementById("geo-uri-input")
 
-	$geoUriInput.oninput = updateMap
+	$geoUriInput.oninput = debounce(updateMap)
 	updateMap()
 
 	function updateMap() {
@@ -62,3 +62,11 @@ map.on("load", () => {
 		}
 	}
 })
+
+function debounce(fn, ms = 300) {
+	let timeout
+	return () => {
+		clearTimeout(timeout)
+		timeout = setTimeout(fn, ms)
+	}
+}

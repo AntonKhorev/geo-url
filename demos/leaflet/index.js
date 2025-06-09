@@ -13,7 +13,7 @@ const markerLayer = L.layerGroup().addTo(map)
 
 const $geoUriInput = document.getElementById("geo-uri-input")
 
-$geoUriInput.oninput = updateMap
+$geoUriInput.oninput = debounce(updateMap)
 updateMap()
 
 function updateMap() {
@@ -32,5 +32,13 @@ function updateMap() {
 		map.fitBounds(bounds)
 	} else {
 		map.setView(url.latLng, url.z)
+	}
+}
+
+function debounce(fn, ms = 300) {
+	let timeout
+	return () => {
+		clearTimeout(timeout)
+		timeout = setTimeout(fn, ms)
 	}
 }
