@@ -1,3 +1,5 @@
+name: Publish on GitHub Pages
+
 on:
   push:
     branches: [ "master" ]
