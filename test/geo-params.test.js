@@ -232,6 +232,11 @@ describe("GeoParams", () => {
 		expect(params.get("u")).toBe("15.16")
 	})
 
+	test("Indicates that empty params don't have the given param", () => {
+		const params = new GeoParams("")
+		expect(params.has("foo")).toBe(false)
+	})
+
 	test("Encodes '%' when setting a parameter", () => {
 		const params = new GeoParams("foo=old")
 		params.set("foo", "%")

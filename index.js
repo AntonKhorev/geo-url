@@ -103,6 +103,10 @@ export class GeoParams {
 		this.#writeCoordsAndKvs(coords, kvs)
 	}
 
+	has(name) {
+		return false
+	}
+
 	/**
 	 * Convert the parameters to a string
 	 *
