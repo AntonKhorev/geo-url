@@ -1,7 +1,7 @@
 "use strict"
 
-let setGeoURLParamsURL
-let setGeoURLParamsBeforeSetHook
+let setGeoParamsURL
+let setGeoParamsBeforeSetHook
 
 /**
  * Geo URI Parameters as defined in RFC 5870
@@ -16,10 +16,10 @@ export class GeoParams {
 
 	// see https://github.com/nodejs/node/blob/0c6e16bc849450a450a9d2dbfbf6244c04f90642/lib/internal/url.js#L319 for a similar approach
 	static {
-		setGeoURLParamsURL = (obj, url) => {
+		setGeoParamsURL = (obj, url) => {
 			obj.#url = url
 		}
-		setGeoURLParamsBeforeSetHook = (obj, beforeSetHook) => {
+		setGeoParamsBeforeSetHook = (obj, beforeSetHook) => {
 			obj.#beforeSetHook = beforeSetHook
 		}
 	}
@@ -371,7 +371,7 @@ export class GeoURL {
 	 */
 	get geoParams() {
 		const gp = new GeoParams("")
-		setGeoURLParamsURL(gp, this.#url)
+		setGeoParamsURL(gp, this.#url)
 		return gp
 	}
 
@@ -501,7 +501,7 @@ export class WGS84GeoURL extends GeoURL {
 	 */
 	get geoParams() {
 		const params = super.geoParams
-		setGeoURLParamsBeforeSetHook(params, (name, value) => {
+		setGeoParamsBeforeSetHook(params, (name, value) => {
 			if (name.toLowerCase() == "crs" && value.toLowerCase() != "wgs84") {
 				throw new TypeError(`geoParams setter: ${value} is not a valid value for crs of WGS84GeoURL`)
 			}
