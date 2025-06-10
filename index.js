@@ -103,6 +103,16 @@ export class GeoParams {
 		this.#writeCoordsAndKvs(coords, kvs)
 	}
 
+	/**
+	 * Indicate whether the specified parameter is present
+	 *
+	 * Check if a parameter with a given name is present.
+	 * If `value` is specified, also check if the parameter has this value.
+	 * @param {string} name
+	 * @param {string|undefined} value - optional value to check
+	 * @returns {boolean}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/has|MDN} for the similar method of URLSearchParams
+	 */
 	has(name, value) {
 		const [, kvs] = this.#readCoordsAndKvs()
 		for (const kv of kvs) {
