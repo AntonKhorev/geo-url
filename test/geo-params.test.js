@@ -259,6 +259,7 @@ describe("GeoParams", () => {
 			const params = new GeoParams("FoO=42")
 			expect(params.has("fOo")).toBe(true)
 		})
+
 		test("returns false if the value of existing parameter doesn't match", () => {
 			const params = new GeoParams("foo=42")
 			expect(params.has("foo", "43")).toBe(false)
@@ -267,9 +268,17 @@ describe("GeoParams", () => {
 			const params = new GeoParams("foo=42")
 			expect(params.has("foo", "42")).toBe(true)
 		})
-		test("returns false if the value of existing parameter doesn't match an empty string", () => {
+		test("returns false if the parameter exists but isn't a flag", () => {
 			const params = new GeoParams("foo=42")
 			expect(params.has("foo", "")).toBe(false)
+		})
+		test("returns false if the parameter doesn't exists when testing for a flag", () => {
+			const params = new GeoParams("")
+			expect(params.has("foo", "")).toBe(false)
+		})
+		test("returns true if the parameter exists and is a flag", () => {
+			const params = new GeoParams("foo")
+			expect(params.has("foo", "")).toBe(true)
 		})
 	})
 

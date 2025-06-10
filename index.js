@@ -109,7 +109,7 @@ export class GeoParams {
 			const [k, v] = kv.split("=")
 			if (k.toLowerCase() == name.toLowerCase()) {
 				if (value != null) {
-					return v == value
+					return (v ?? "") == value
 				} else {
 					return true
 				}
