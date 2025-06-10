@@ -105,7 +105,17 @@ export class GeoParams {
 
 	/**
 	 * Convert the parameters to a string
-	 * @returns {string} - a semicolon-separated list of parameters, the part of RFC 5870 geo URI that comes after the coordinates
+	 *
+	 * The string is a semicolon-separated list of geo parameters.
+	 * This is the part of RFC 5870 geo URI that comes after the coordinates.
+	 * The `;` that separates the coordinates and the parameters is not included in the string.
+	 *
+	 * Each geo parameter is represented by:
+	 * - `name=value`
+	 * - `name` without both `value` and `=` if the value is an empty string
+	 *   (a "flag" type parameter discussed in the parameter registry section of {@link https://datatracker.ietf.org/doc/html/rfc5870#section-4|RFC 5870})
+	 * @returns {string}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/toString|MDN} for the similar method of URLSearchParams
 	 */
 	toString() {
 		if (this.#url) {
