@@ -108,7 +108,7 @@ export class GeoParams {
 		for (const kv of kvs) {
 			const [k, v] = kv.split("=")
 			if (k.toLowerCase() == name.toLowerCase()) {
-				if (value) {
+				if (value != null) {
 					return v == value
 				} else {
 					return true

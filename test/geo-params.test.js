@@ -267,6 +267,10 @@ describe("GeoParams", () => {
 			const params = new GeoParams("foo=42")
 			expect(params.has("foo", "42")).toBe(true)
 		})
+		test("returns false if the value of existing parameter doesn't match an empty string", () => {
+			const params = new GeoParams("foo=42")
+			expect(params.has("foo", "")).toBe(false)
+		})
 	})
 
 	describe("value conversion", () => {
