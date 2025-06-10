@@ -236,6 +236,14 @@ describe("GeoParams", () => {
 		const params = new GeoParams("")
 		expect(params.has("foo")).toBe(false)
 	})
+	test("Indicates that a missing parameter is not present", () => {
+		const params = new GeoParams("foo=42")
+		expect(params.has("bar")).toBe(false)
+	})
+	test("Indicates that a parameter is present", () => {
+		const params = new GeoParams("foo=42")
+		expect(params.has("foo")).toBe(true)
+	})
 
 	test("Encodes '%' when setting a parameter", () => {
 		const params = new GeoParams("foo=old")

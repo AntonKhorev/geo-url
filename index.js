@@ -104,6 +104,12 @@ export class GeoParams {
 	}
 
 	has(name) {
+		const [, kvs] = this.#readCoordsAndKvs()
+		for (const kv of kvs) {
+			const [k, v] = kv.split("=")
+			if (k == name) return true
+		}
+
 		return false
 	}
 
