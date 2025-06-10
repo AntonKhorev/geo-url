@@ -255,6 +255,10 @@ describe("GeoParams", () => {
 			const params = new GeoParams("foo=42")
 			expect(params.has("foo")).toBe(true)
 		})
+		test("Indicates that a parameter is present", () => {
+			const params = new GeoParams("FoO=42")
+			expect(params.has("fOo")).toBe(true)
+		})
 	})
 
 	describe("value conversion", () => {
