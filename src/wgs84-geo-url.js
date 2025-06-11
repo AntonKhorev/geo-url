@@ -1,0 +1,164 @@
+import { setGeoParamsBeforeSetHook } from "./geo-params.js"
+import { GeoURL } from "./geo-url.js"
+
+/**
+ * URL interface for WGS84 geo URI with latitude, longitude and possibly altitude
+ * @extends GeoURL
+ */
+export class WGS84GeoURL extends GeoURL {
+	/**
+	 * Create a WGS84GeoURL from a string
+	 *
+	 * Limited to WGS84 URIs, which lets interpret them as containing latitude/longitude/altitude.
+	 * But that's almost all of the geo URIs because no other CRS is currently supported by RFC 5870.
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
+	 */
+	constructor(url, base) {
+		super(url, base)
+		if (this.crs != "wgs84") {
+			throw new TypeError(`Unexpected CRS ${this.crs}`)
+		}
+		if (this.lat < -90 || this.lat > 90) {
+			throw new TypeError(`Latitude ${this.lat} outside of the allowed range`)
+		}
+		if (this.lon < -180 || this.lon > 180) {
+			throw new TypeError(`Longitude ${this.lon} outside of the allowed range`)
+		}
+	}
+
+	/**
+	 * Create a WGS84GeoURL or return null on error
+	 * @function parse
+	 * @memberof WGS84GeoURL
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @returns {WGS84GeoURL|null}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static|MDN} for parse() static method
+	 */
+
+	/**
+	 * Check if url is parsable as a valid WGS84 geo URI
+	 * @function canParse
+	 * @memberof WGS84GeoURL
+	 * @param {string|URL|GeoURL} url - geo URI or relative reference
+	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @returns {boolean}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static|MDN} for canParse() static method
+	 */
+
+	/**
+	 * geo URI parameters object
+	 *
+	 * The returned object will throw a TypeError if the "crs" parameter is updated to anything other than "wgs84", case-insensitively.
+	 * @type {GeoParams}
+	 */
+	get geoParams() {
+		const params = super.geoParams
+		setGeoParamsBeforeSetHook(params, (name, value) => {
+			if (name.toLowerCase() == "crs" && value.toLowerCase() != "wgs84") {
+				throw new TypeError(`geoParams setter: ${value} is not a valid value for crs of WGS84GeoURL`)
+			}
+		})
+		return params
+	}
+
+	/**
+	 * Latitude-longitude pair
+	 * @type {number[]}
+	 */
+	get latLon() {
+		return [this.lat, this.lon]
+	}
+	/**
+	 * Latitude-longitude pair
+	 *
+	 * An alternative name for {@link WGS84GeoURL#latLon}, favored by Leaflet
+	 * @type {number[]}
+	 * @example
+	 * L.marker(url.latLng)
+	 */
+	get latLng() {
+		return this.latLon
+	}
+	/**
+	 * Longitude-latitude pair
+	 *
+	 * The order is swapped as compared with the URI and {@link WGS84GeoURL#latLon}
+	 * @type {number[]}
+	 */
+	get lonLat() {
+		return [this.lon, this.lat]
+	}
+	/**
+	 * Longitude-latitude pair
+	 *
+	 * An alternative name for {@link WGS84GeoURL#lonLat}
+	 * @type {number[]}
+	 */
+	get lngLat() {
+		return this.lonLat
+	}
+
+	/**
+	 * Latitude in decimal degrees between -90 and 90
+	 * @type {number}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 */
+	get lat() {
+		return this.coordA
+	}
+	/**
+	 * Latitude in decimal degrees between -90 and 90
+	 *
+	 * A longer name for {@link WGS84GeoURL#lat}
+	 * @type {number}
+	 */
+	get latitude() {
+		return this.coordA
+	}
+	/**
+	 * Longitude in decimal degrees between -180 and 180
+	 * @type {number}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 */
+	get lon() {
+		return this.coordB
+	}
+	/**
+	 * Longitude in decimal degrees between -180 and 180
+	 *
+	 * An alternative name for {@link WGS84GeoURL#lon}, as used for example in Leaflet
+	 * @type {number}
+	 */
+	get lng() {
+		return this.coordB
+	}
+	/**
+	 * Longitude in decimal degrees between -180 and 180
+	 *
+	 * A longer name for {@link WGS84GeoURL#lon}
+	 * @type {number}
+	 */
+	get longitude() {
+		return this.coordB
+	}
+	/**
+	 * Altitude in meters
+	 * @type {number|undefined}
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 */
+	get alt() {
+		return this.coordC
+	}
+	/**
+	 * Altitude in meters
+	 *
+	 * A longer name for {@link WGS84GeoURL#alt}
+	 * @type {number|undefined}
+	 */
+	get altitude() {
+		return this.coordC
+	}
+}
