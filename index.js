@@ -169,7 +169,7 @@ export class GeoParams {
 
 		function readParam(param) {
 			const [k, v] = param.split("=")
-			return [k.toLowerCase(), decodeURIComponent(v ?? "")]
+			return [k, decodeURIComponent(v ?? "")]
 		}
 	}
 

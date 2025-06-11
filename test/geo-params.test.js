@@ -99,7 +99,7 @@ describe("GeoParams", () => {
 			expect(params.get("foo")).toBe("")
 			expect(params.size).toBe(1)
 		})
-		test("updates the case of an existing parameter name", () => {
+		test("updates the name case of the updated parameter", () => {
 			const params = new GeoParams("FoO=value")
 			params.set("fOo", "value")
 			expect(params.toString()).toBe("fOo=value")
@@ -118,6 +118,13 @@ describe("GeoParams", () => {
 			params.set("hello", "world")
 			expect(params.toString()).toBe("foo=qwe;hello=world")
 			expect(params.get("hello")).toBe("world")
+			expect(params.size).toBe(2)
+		})
+		test("preserves the name case of unmodified parameters", () => {
+			const params = new GeoParams("foo=42;BaR=23")
+			params.set("foo", "45")
+			expect(params.toString()).toBe("foo=45;BaR=23")
+			expect(params.get("foo")).toBe("45")
 			expect(params.size).toBe(2)
 		})
 
