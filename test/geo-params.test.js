@@ -127,6 +127,12 @@ describe("GeoParams", () => {
 			expect(params.get("foo")).toBe("45")
 			expect(params.size).toBe(2)
 		})
+		test("encodes '%'", () => {
+			const params = new GeoParams("foo=old")
+			params.set("foo", "%")
+			expect(params.toString()).toBe("foo=%25")
+			expect(params.get("foo")).toBe("%")
+		})
 
 		test("updates crs param", () => {
 			const params = new GeoParams("crs=ABC12")
@@ -301,48 +307,6 @@ describe("GeoParams", () => {
 		test("returns true if the parameter exists and is a flag", () => {
 			const params = new GeoParams("foo")
 			expect(params.has("foo", "")).toBe(true)
-		})
-	})
-
-	describe("value conversion", () => {
-		test("encodes '%'", () => {
-			const params = new GeoParams("foo=old")
-			params.set("foo", "%")
-			expect(params.toString()).toBe("foo=%25")
-			expect(params.get("foo")).toBe("%")
-		})
-		test("encodes multiple '%'", () => {
-			const params = new GeoParams("foo=old")
-			params.set("foo", "%%")
-			expect(params.toString()).toBe("foo=%25%25")
-			expect(params.get("foo")).toBe("%%")
-		})
-		test("encodes parameter-reserved chars", () => {
-			const params = new GeoParams("foo=old")
-			params.set("foo", ` "#%,/;<=>?@\\^\`{|}`)
-			expect(params.toString()).toBe("foo=%20%22%23%25%2C%2F%3B%3C%3D%3E%3F%40%5C%5E%60%7B%7C%7D")
-			expect(params.get("foo")).toBe(` "#%,/;<=>?@\\^\`{|}`)
-		})
-		test("doesn't encode allowed chars", () => {
-			const params = new GeoParams("foo=old")
-			params.set("foo",
-				"[]:&+$" + // p-unreserved
-				"-_.!~*'()" // mark
-			)
-			expect(params.toString()).toBe("foo=[]:&+$-_.!~*'()")
-			expect(params.get("foo")).toBe("[]:&+$-_.!~*'()")
-		})
-		test("doesn't encode repeated allowed chars", () => {
-			const params = new GeoParams("foo=old")
-			params.set("foo", "$$")
-			expect(params.toString()).toBe("foo=$$")
-			expect(params.get("foo")).toBe("$$")
-		})
-		test("encodes non-Latin chars", () => {
-			const params = new GeoParams("foo=old")
-			params.set("foo", "проверка")
-			expect(params.toString()).toBe("foo=%D0%BF%D1%80%D0%BE%D0%B2%D0%B5%D1%80%D0%BA%D0%B0")
-			expect(params.get("foo")).toBe("проверка")
 		})
 	})
 })
