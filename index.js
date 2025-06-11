@@ -53,10 +53,9 @@ export class GeoParams {
 	get(name) {
 		const [, kvs] = this.#readCoordsAndKvs()
 
-		for (const kv of kvs) {
-			const [k, v] = kv.split("=")
+		for (const [k, v] of kvs) {
 			if (k.toLowerCase() == name.toLowerCase()) {
-				return decodeURIComponent(v || "")
+				return v
 			}
 		}
 		return null
@@ -83,21 +82,27 @@ export class GeoParams {
 
 	/**
 	 * Delete the specified parameter
+	 *
+	 * Delete a parameter with the given name.
+	 * If `value` is specified, delete only if the parameter has this value.
 	 * @param {string} name
+	 * @param {string|undefined} value - optional value to check
 	 * @returns {void}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/delete|MDN} for the similar method of URLSearchParams
 	 */
-	delete(name) {
+	delete(name, value) {
 		const [coords, kvs] = this.#readCoordsAndKvs()
 		const lcName = name.toLowerCase()
 
-		for (const [i, kv] of kvs.entries()) {
-			const [k] = kv.split("=")
+		for (const [i, [k, v]] of kvs.entries()) {
 			const lcK = k.toLowerCase()
-			if (lcK == lcName) {
-				kvs.splice(i, 1)
-				break
+			if (lcK != lcName) continue
+			if (value != null) {
+				if (v != value) continue
 			}
+
+			kvs.splice(i, 1)
+			break
 		}
 
 		this.#writeCoordsAndKvs(coords, kvs)
@@ -106,7 +111,7 @@ export class GeoParams {
 	/**
 	 * Indicate whether the specified parameter is present
 	 *
-	 * Check if a parameter with a given name is present.
+	 * Check if a parameter with the given name is present.
 	 * If `value` is specified, also check if the parameter has this value.
 	 * @param {string} name
 	 * @param {string|undefined} value - optional value to check
@@ -115,8 +120,7 @@ export class GeoParams {
 	 */
 	has(name, value) {
 		const [, kvs] = this.#readCoordsAndKvs()
-		for (const kv of kvs) {
-			const [k, v] = kv.split("=")
+		for (const [k, v] of kvs) {
 			if (k.toLowerCase() == name.toLowerCase()) {
 				if (value != null) {
 					return (v ?? "") == value
@@ -154,51 +158,55 @@ export class GeoParams {
 
 	#readCoordsAndKvs() {
 		if (this.#url) {
-			const [coords, ...kvs] = this.#url.pathname.split(";")
-			return [coords, kvs]
+			const [coords, ...params] = this.#url.pathname.split(";")
+			return [coords, params.map(readParam)]
 		} else if (this.#p == "") {
 			return [null, []]
 		} else {
-			const kvs = this.#p.split(";")
-			return [null, kvs]
+			const params = this.#p.split(";")
+			return [null, params.map(readParam)]
+		}
+
+		function readParam(param) {
+			const [k, v] = param.split("=")
+			return [k.toLowerCase(), decodeURIComponent(v ?? "")]
 		}
 	}
 
 	#setKvs(kvs, name, value) {
 		const lcName = name.toLowerCase()
 		let hasCrs = false
-		const newKv = this.#makeKv(name, value)
 
-		for (const [i, kv] of kvs.entries()) {
-			const [k] = kv.split("=")
+		for (const [i, [k]] of kvs.entries()) {
 			const lcK = k.toLowerCase()
 			if (i == 0) {
 				hasCrs = lcK == "crs"
 			}
 			if (lcK == lcName) {
-				kvs[i] = newKv
+				kvs[i] = [name, value]
 				return
 			}
 		}
 
 		if (lcName == "u" && hasCrs) {
-			kvs.splice(1, 0, newKv)
+			kvs.splice(1, 0, [name, value])
 		} else if (lcName == "crs" || lcName == "u") {
-			kvs.unshift(newKv)
+			kvs.unshift([name, value])
 		} else {
-			kvs.push(newKv)
+			kvs.push([name, value])
 		}
 	}
 
 	#writeCoordsAndKvs(coords, kvs) {
+		const params = kvs.map(([k, v]) => this.#writeParam(k, v))
 		if (this.#url) {
-			this.#url.href = `${this.#url.protocol}${[coords, ...kvs].join(";")}${this.#url.search}${this.#url.hash}`
+			this.#url.href = `${this.#url.protocol}${[coords, ...params].join(";")}${this.#url.search}${this.#url.hash}`
 		} else {
-			this.#p = kvs.join(";")
+			this.#p = params.join(";")
 		}
 	}
 
-	#makeKv(name, value) {
+	#writeParam(name, value) {
 		if (value == "") return name
 
 		const pUnreservedChars = "[]:&+$"

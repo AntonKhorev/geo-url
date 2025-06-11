@@ -240,6 +240,21 @@ describe("GeoParams", () => {
 			expect(params.get("foo")).toBeNull()
 			expect(params.size).toBe(0)
 		})
+
+		test("deletes a param if the value matches", () => {
+			const params = new GeoParams("foo=42")
+			params.delete("foo", "42")
+			expect(params.toString()).toBe("")
+			expect(params.get("foo")).toBeNull()
+			expect(params.size).toBe(0)
+		})
+		test("keeps a param if the value doesn't match", () => {
+			const params = new GeoParams("foo=42")
+			params.delete("foo", "43")
+			expect(params.toString()).toBe("foo=42")
+			expect(params.get("foo")).toBe("42")
+			expect(params.size).toBe(1)
+		})
 	})
 
 	describe("has", () => {
