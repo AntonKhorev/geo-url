@@ -1,0 +1,217 @@
+export let setGeoParamsURL
+export let setGeoParamsBeforeSetHook
+
+/**
+ * Geo URI Parameters as defined in RFC 5870
+ *
+ * Intended to be similar to {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams|URLSearchParams},
+ * with an {@link https://url.spec.whatwg.org/#concept-urlsearchparams-url-object|associated URL object}.
+ */
+export class GeoParams {
+	#p
+	#url
+	#beforeSetHook
+
+	// see https://github.com/nodejs/node/blob/0c6e16bc849450a450a9d2dbfbf6244c04f90642/lib/internal/url.js#L319 for a similar approach
+	static {
+		setGeoParamsURL = (obj, url) => {
+			obj.#url = url
+		}
+		setGeoParamsBeforeSetHook = (obj, beforeSetHook) => {
+			obj.#beforeSetHook = beforeSetHook
+		}
+	}
+
+	/**
+	 * @param {string} p
+	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|RFC 5870} for p syntax
+	 */
+	constructor(p) {
+		this.#p = String(p)
+	}
+
+	/**
+	 * Total number of parameter entries
+	 * @type {number}
+	 * @readonly
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/size|MDN} for the similar property of URLSearchParams
+	 */
+	get size() {
+		const [, kvs] = this.#readCoordsAndKvs()
+
+		return kvs.length
+	}
+
+	/**
+	 * Get the value associated to the given parameter
+	 * @param {string} name
+	 * @returns {string|null} - parameter value or null for a missing parameter
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/get|MDN} for the similar method of URLSearchParams
+	 */
+	get(name) {
+		const [, kvs] = this.#readCoordsAndKvs()
+
+		for (const [k, v] of kvs) {
+			if (k.toLowerCase() == name.toLowerCase()) {
+				return v
+			}
+		}
+		return null
+	}
+
+	/**
+	 * Set the value associated with a given parameter to the given value
+	 * @param {string} name
+	 * @param {string} value
+	 * @returns {void}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/set|MDN} for the similar method of URLSearchParams
+	 */
+	set(name, value) {
+		if (this.#beforeSetHook) {
+			this.#beforeSetHook(name, value)
+		}
+
+		const [coords, kvs] = this.#readCoordsAndKvs()
+
+		this.#setKvs(kvs, name, value)
+
+		this.#writeCoordsAndKvs(coords, kvs)
+	}
+
+	/**
+	 * Delete the specified parameter
+	 *
+	 * Delete a parameter with the given name.
+	 * If `value` is specified, delete only if the parameter has this value.
+	 * @param {string} name
+	 * @param {string|undefined} value - optional value to check
+	 * @returns {void}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/delete|MDN} for the similar method of URLSearchParams
+	 */
+	delete(name, value) {
+		const [coords, kvs] = this.#readCoordsAndKvs()
+		const lcName = name.toLowerCase()
+
+		for (const [i, [k, v]] of kvs.entries()) {
+			const lcK = k.toLowerCase()
+			if (lcK != lcName) continue
+			if (value != null) {
+				if (v != value) continue
+			}
+
+			kvs.splice(i, 1)
+			break
+		}
+
+		this.#writeCoordsAndKvs(coords, kvs)
+	}
+
+	/**
+	 * Indicate whether the specified parameter is present
+	 *
+	 * Check if a parameter with the given name is present.
+	 * If `value` is specified, also check if the parameter has this value.
+	 * @param {string} name
+	 * @param {string|undefined} value - optional value to check
+	 * @returns {boolean}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/has|MDN} for the similar method of URLSearchParams
+	 */
+	has(name, value) {
+		const [, kvs] = this.#readCoordsAndKvs()
+		for (const [k, v] of kvs) {
+			if (k.toLowerCase() == name.toLowerCase()) {
+				if (value != null) {
+					return (v ?? "") == value
+				} else {
+					return true
+				}
+			}
+		}
+
+		return false
+	}
+
+	/**
+	 * Convert the parameters to a string
+	 *
+	 * The string is a semicolon-separated list of geo parameters.
+	 * This is the part of RFC 5870 geo URI that comes after the coordinates.
+	 * The `;` that separates the coordinates and the parameters is not included in the string.
+	 *
+	 * Each geo parameter is represented by:
+	 * - `name=value`
+	 * - `name` without both `value` and `=` if the value is an empty string
+	 *   (a "flag" type parameter discussed in the parameter registry section of {@link https://datatracker.ietf.org/doc/html/rfc5870#section-4|RFC 5870})
+	 * @returns {string}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/toString|MDN} for the similar method of URLSearchParams
+	 */
+	toString() {
+		if (this.#url) {
+			[, paramsString] = this.#url.pathname.split(/;(.*)/)
+			return paramsString
+		} else {
+			return this.#p
+		}
+	}
+
+	#readCoordsAndKvs() {
+		if (this.#url) {
+			const [coords, ...params] = this.#url.pathname.split(";")
+			return [coords, params.map(readParam)]
+		} else if (this.#p == "") {
+			return [null, []]
+		} else {
+			const params = this.#p.split(";")
+			return [null, params.map(readParam)]
+		}
+
+		function readParam(param) {
+			const [k, v] = param.split("=")
+			return [k, decodeURIComponent(v ?? "")]
+		}
+	}
+
+	#setKvs(kvs, name, value) {
+		const lcName = name.toLowerCase()
+		let hasCrs = false
+
+		for (const [i, [k]] of kvs.entries()) {
+			const lcK = k.toLowerCase()
+			if (i == 0) {
+				hasCrs = lcK == "crs"
+			}
+			if (lcK == lcName) {
+				kvs[i] = [name, value]
+				return
+			}
+		}
+
+		if (lcName == "u" && hasCrs) {
+			kvs.splice(1, 0, [name, value])
+		} else if (lcName == "crs" || lcName == "u") {
+			kvs.unshift([name, value])
+		} else {
+			kvs.push([name, value])
+		}
+	}
+
+	#writeCoordsAndKvs(coords, kvs) {
+		const params = kvs.map(([k, v]) => this.#writeParam(k, v))
+		if (this.#url) {
+			this.#url.href = `${this.#url.protocol}${[coords, ...params].join(";")}${this.#url.search}${this.#url.hash}`
+		} else {
+			this.#p = params.join(";")
+		}
+	}
+
+	#writeParam(name, value) {
+		if (value == "") return name
+
+		const pUnreservedChars = "[]:&+$"
+		let encodedValue = encodeURIComponent(value)
+		for (const c of pUnreservedChars) {
+			encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
+		}
+		return `${name}=${encodedValue}`
+	}
+}

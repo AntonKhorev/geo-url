@@ -20,7 +20,7 @@
   },
   "homepage": "https://antonkhorev.github.io/geo-url/",
   "main": "src/index.js",
-  "files": [],
+  "files": ["src"],
   "scripts": {
     "build": "node build.js",
     "test": "vitest"
