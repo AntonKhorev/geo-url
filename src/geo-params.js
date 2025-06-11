@@ -1,3 +1,5 @@
+import { readParam, writeParam } from "./param.js"
+
 export let setGeoParamsURL
 export let setGeoParamsBeforeSetHook
 
@@ -164,11 +166,6 @@ export class GeoParams {
 			const params = this.#p.split(";")
 			return [null, params.map(readParam)]
 		}
-
-		function readParam(param) {
-			const [k, v] = param.split("=")
-			return [k, decodeURIComponent(v ?? "")]
-		}
 	}
 
 	#setKvs(kvs, name, value) {
@@ -196,22 +193,11 @@ export class GeoParams {
 	}
 
 	#writeCoordsAndKvs(coords, kvs) {
-		const params = kvs.map(([k, v]) => this.#writeParam(k, v))
+		const params = kvs.map(([k, v]) => writeParam(k, v))
 		if (this.#url) {
 			this.#url.href = `${this.#url.protocol}${[coords, ...params].join(";")}${this.#url.search}${this.#url.hash}`
 		} else {
 			this.#p = params.join(";")
 		}
-	}
-
-	#writeParam(name, value) {
-		if (value == "") return name
-
-		const pUnreservedChars = "[]:&+$"
-		let encodedValue = encodeURIComponent(value)
-		for (const c of pUnreservedChars) {
-			encodedValue = encodedValue.replaceAll(encodeURIComponent(c), c)
-		}
-		return `${name}=${encodedValue}`
 	}
 }
