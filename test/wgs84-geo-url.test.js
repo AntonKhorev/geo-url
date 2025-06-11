@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest"
 
-import { WGS84GeoURL } from "../index.js"
+import { WGS84GeoURL } from "../src/index.js"
 
 describe("WGS84GeoURL", () => {
 	test("Fails when no parameters given", () => {

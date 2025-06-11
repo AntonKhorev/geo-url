@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest"
 
-import { GeoURL } from "../index.js"
+import { GeoURL } from "../src/index.js"
 
 describe("GeoURL", () => {
 	test("Fails when no parameters given", () => {

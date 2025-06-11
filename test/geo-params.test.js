@@ -1,6 +1,6 @@
 import { describe, test, expect } from "vitest"
 
-import { GeoParams } from "../index.js"
+import { GeoParams } from "../src/index.js"
 
 describe("GeoParams", () => {
 	describe("constructor", () => {

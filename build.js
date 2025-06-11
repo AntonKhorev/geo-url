@@ -4,6 +4,8 @@ import { rollup } from "rollup"
 import alias from "@rollup/plugin-alias"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 
+const packageJson = JSON.parse(await fs.readFile("package.json", "utf-8"))
+
 await cleanupDirectory("pages")
 await generateJsdoc("pages")
 await generateDemos()
@@ -16,7 +18,7 @@ async function cleanupDirectory(dir) {
 }
 
 function generateJsdoc(dir) {
-	const child = spawn("npx", ["jsdoc", "index.js", "README.md", "-c", "jsdoc/conf.json", "-d", dir])
+	const child = spawn("npx", ["jsdoc", packageJson.main, "README.md", "-c", "jsdoc/conf.json", "-d", dir])
 	return new Promise((resolve, reject) => {
 		child.on('error', reject)
 		child.on('close', code => code == 0 ? resolve() : reject())
@@ -79,7 +81,7 @@ async function generateDemos() {
 			plugins: [
 				alias({
 					entries: [
-						{ find: "@antonkhorev/geo-url", replacement: `${import.meta.dirname}/index.js` }
+						{ find: "@antonkhorev/geo-url", replacement: `${import.meta.dirname}/${packageJson.main}` }
 					]
 				}),
 				nodeResolve()
