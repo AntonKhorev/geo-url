@@ -236,9 +236,9 @@ export class GeoParams {
 		}
 	}
 
-	forEach(callback) {
+	forEach(callback, thisArg) {
 		for (const [k, v] of this) {
-			callback(v, k, this)
+			callback.call(thisArg, v, k, this)
 		}
 	}
 
