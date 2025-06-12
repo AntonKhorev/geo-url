@@ -16,6 +16,40 @@ describe("GeoParams", () => {
 			const params = new GeoParams("hello=world;yes;year=2025")
 			expect(params.toString()).toBe("hello=world;yes;year=2025")
 		})
+		test("initializes with an empty array", () => {
+			const params = new GeoParams([])
+			expect(params.toString()).toBe("")
+		})
+		test("fails on a nested array with too few members", () => {
+			expect(
+				() => new GeoParams([["foo"]])
+			).toThrow(TypeError)
+		})
+		test("fails on a nested array with too many members", () => {
+			expect(
+				() => new GeoParams([["foo", "bar", "baz"]])
+			).toThrow(TypeError)
+		})
+		test("initializes with an array containing one pair", () => {
+			const params = new GeoParams([["foo", "abc"]])
+			expect(params.toString()).toBe("foo=abc")
+		})
+		test("initializes with an array containing two pairs", () => {
+			const params = new GeoParams([["foo", "abc"], ["bar", "def"]])
+			expect(params.toString()).toBe("foo=abc;bar=def")
+		})
+		test("initializes with an array containing a regular param and crs", () => {
+			const params = new GeoParams([["foo", "abc"], ["crs", "wgs84"]])
+			expect(params.toString()).toBe("crs=wgs84;foo=abc")
+		})
+		test("initializes with an array containing a regular param and u", () => {
+			const params = new GeoParams([["foo", "abc"], ["u", "10"]])
+			expect(params.toString()).toBe("u=10;foo=abc")
+		})
+		test("initializes with an array containing a regular param, crs and u", () => {
+			const params = new GeoParams([["foo", "abc"], ["crs", "wgs84"], ["u", "10"]])
+			expect(params.toString()).toBe("crs=wgs84;u=10;foo=abc")
+		})
 	})
 
 	describe("size", () => {

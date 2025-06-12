@@ -25,11 +25,32 @@ export class GeoParams {
 	}
 
 	/**
-	 * @param {string|undefined} p
-	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|RFC 5870} for p syntax
+	 * Create a new GeoParams object
+	 *
+	 * `options` is one of:
+	 * - undefined (skipped parameter) to construct empty geo parameters
+	 * - string to construct geo parameters according to geo URI parameters syntax,
+	 *   which is a `p` rule in {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|URI Scheme Syntax}
+	 *   except without the leading `;` separator
+	 * - array of name-value string pairs
+	 * @param {string|string[][]|undefined} options
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams|MDN} for the similar URLSearchParams constructor
 	 */
-	constructor(p) {
-		this.#p = String(p ?? "")
+	constructor(options) {
+		if (options == null) {
+			this.#p = ""
+		} else if (typeof options == "string") {
+			this.#p = options
+		} else {
+			const kvs = []
+			for (const kv of options) {
+				if (kv.length != 2) {
+					throw new TypeError(`GeoParams constructor: Expected 2 items in pair but got ${kv.length}`)
+				}
+				this.#setKvs(kvs, ...kv)
+			}
+			this.#writeCoordsAndKvs(null, kvs)
+		}
 	}
 
 	/**
