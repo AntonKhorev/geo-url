@@ -33,7 +33,8 @@ export class GeoParams {
 	 *   which is a `p` rule in {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|URI Scheme Syntax}
 	 *   except without the leading `;` separator
 	 * - array of name-value string pairs
-	 * @param {string|string[][]} [options]
+	 * - record of string keys and string values
+	 * @param {string|string[][]|Object.<string, string>} [options]
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams|MDN} for the similar URLSearchParams constructor
 	 */
 	constructor(options) {
@@ -51,7 +52,11 @@ export class GeoParams {
 			}
 			this.#writeCoordsAndKvs(null, kvs)
 		} else {
-			this.#p = ""
+			const kvs = []
+			for (const kv of Object.entries(options)) {
+				this.#setKvs(kvs, ...kv)
+			}
+			this.#writeCoordsAndKvs(null, kvs)
 		}
 	}
 

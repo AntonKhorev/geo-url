@@ -54,6 +54,26 @@ describe("GeoParams", () => {
 			const params = new GeoParams({})
 			expect(params.toString()).toBe("")
 		})
+		test("initializes with a record containing one param", () => {
+			const params = new GeoParams({ foo: "abc" })
+			expect(params.toString()).toBe("foo=abc")
+		})
+		test("initializes with a record containing two params", () => {
+			const params = new GeoParams({ foo: "abc", bar: "def" })
+			expect(params.toString()).toBe("foo=abc;bar=def")
+		})
+		test("initializes with a record containing a regular param and crs", () => {
+			const params = new GeoParams({ foo: "abc", crs: "wgs84" })
+			expect(params.toString()).toBe("crs=wgs84;foo=abc")
+		})
+		test("initializes with a record containing a regular param and u", () => {
+			const params = new GeoParams({ foo: "abc", u: "10" })
+			expect(params.toString()).toBe("u=10;foo=abc")
+		})
+		test("initializes with a record containing a regular param, crs and u", () => {
+			const params = new GeoParams({ foo: "abc", crs: "wgs84", u: "10" })
+			expect(params.toString()).toBe("crs=wgs84;u=10;foo=abc")
+		})
 	})
 
 	describe("size", () => {
