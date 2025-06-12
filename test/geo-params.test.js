@@ -372,6 +372,24 @@ describe("GeoParams", () => {
 		})
 	})
 
+	describe("Symbol.iterator", () => {
+		test("iterates through empty parameters", () => {
+			const params = new GeoParams()
+			expect([...params]).toEqual([])
+		})
+		test("iterates through parameters", () => {
+			const params = new GeoParams("first=one;second=two")
+			expect([...params]).toEqual([["first", "one"], ["second", "two"]])
+		})
+		test("adheres to the iterator protocol", () => {
+			const params = new GeoParams("first=one;second=two")
+			const iterator = params[Symbol.iterator]()
+			expect(iterator.next()).toMatchObject({ done: false, value: ["first", "one"] })
+			expect(iterator.next()).toMatchObject({ done: false, value: ["second", "two"] })
+			expect(iterator.next()).toMatchObject({ done: true })
+		})
+	})
+
 	describe("entries", () => {
 		test("iterates through empty parameters", () => {
 			const params = new GeoParams()

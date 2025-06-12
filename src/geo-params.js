@@ -158,6 +158,17 @@ export class GeoParams {
 
 	/**
 	 * Get an iterable for all name-value pairs of parameters
+	 * @returns {Iterator.<string[]>}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams#urlsearchparamssymbol.iterator|MDN} for the similar method of URLSearchParams
+	 */
+	[Symbol.iterator]() {
+		return this.entries()
+	}
+
+	/**
+	 * Get an iterable for all name-value pairs of parameters
+	 *
+	 * Same as iterating through a geo params object directly.
 	 * @returns {Iterable.<string[]>}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/entries|MDN} for the similar method of URLSearchParams
 	 */
