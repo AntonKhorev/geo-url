@@ -78,7 +78,7 @@ describe("GeoParams", () => {
 
 	describe("size", () => {
 		test("is 0 for empty params", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			expect(params.size).toBe(0)
 		})
 		test("is 1 for a single param", () => {
@@ -93,7 +93,7 @@ describe("GeoParams", () => {
 
 	describe("get", () => {
 		test("returns a null value for a parameter from empty string", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			expect(params.get("foo")).toBeNull()
 		})
 		test("returns a null value for a missing parameter from a single-parameter string", () => {
@@ -169,7 +169,7 @@ describe("GeoParams", () => {
 			expect(params.size).toBe(1)
 		})
 		test("adds a new param to empty params", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			params.set("hello", "world")
 			expect(params.toString()).toBe("hello=world")
 			expect(params.get("hello")).toBe("world")
@@ -203,7 +203,7 @@ describe("GeoParams", () => {
 			expect(params.get("crs")).toBe("DEF34")
 		})
 		test("adds crs param", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			params.set("crs", "DEF34")
 			expect(params.toString()).toBe("crs=DEF34")
 			expect(params.get("crs")).toBe("DEF34")
@@ -234,7 +234,7 @@ describe("GeoParams", () => {
 			expect(params.get("u")).toBe("43.21")
 		})
 		test("adds u param to empty params", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			params.set("u", "43.21")
 			expect(params.toString()).toBe("u=43.21")
 			expect(params.get("u")).toBe("43.21")
@@ -267,7 +267,7 @@ describe("GeoParams", () => {
 
 	describe("delete", () => {
 		test("does nothing for empty params", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			params.delete("hello")
 			expect(params.toString()).toBe("")
 			expect(params.get("hello")).toBeNull()
@@ -334,7 +334,7 @@ describe("GeoParams", () => {
 
 	describe("has", () => {
 		test("returns false for empty params", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			expect(params.has("foo")).toBe(false)
 		})
 		test("returns false for a missing parameter", () => {
@@ -363,7 +363,7 @@ describe("GeoParams", () => {
 			expect(params.has("foo", "")).toBe(false)
 		})
 		test("returns false if the parameter doesn't exists when testing for a flag", () => {
-			const params = new GeoParams("")
+			const params = new GeoParams()
 			expect(params.has("foo", "")).toBe(false)
 		})
 		test("returns true if the parameter exists and is a flag", () => {
