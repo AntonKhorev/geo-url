@@ -382,4 +382,26 @@ describe("GeoParams", () => {
 			expect([...params.entries()]).toEqual([["first", "one"], ["second", "two"]])
 		})
 	})
+
+	describe("keys", () => {
+		test("iterates through empty parameters", () => {
+			const params = new GeoParams()
+			expect([...params.keys()]).toEqual([])
+		})
+		test("iterates through parameters", () => {
+			const params = new GeoParams("first=one;second=two")
+			expect([...params.keys()]).toEqual(["first", "second"])
+		})
+	})
+
+	describe("values", () => {
+		test("iterates through empty parameters", () => {
+			const params = new GeoParams()
+			expect([...params.values()]).toEqual([])
+		})
+		test("iterates through parameters", () => {
+			const params = new GeoParams("first=one;second=two")
+			expect([...params.values()]).toEqual(["one", "two"])
+		})
+	})
 })

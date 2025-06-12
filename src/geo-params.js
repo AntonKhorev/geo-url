@@ -169,6 +169,30 @@ export class GeoParams {
 	}
 
 	/**
+	 * Get an iterable for all names of parameters
+	 * @returns {Iterable.<string>}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/keys|MDN} for the similar method of URLSearchParams
+	 */
+	*keys() {
+		const [, kvs] = this.#readCoordsAndKvs()
+		for (const [k] of kvs) {
+			yield k
+		}
+	}
+
+	/**
+	 * Get an iterable for all values of parameters
+	 * @returns {Iterable.<string>}
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/values|MDN} for the similar method of URLSearchParams
+	 */
+	*values() {
+		const [, kvs] = this.#readCoordsAndKvs()
+		for (const [, v] of kvs) {
+			yield v
+		}
+	}
+
+	/**
 	 * Convert the parameters to a string
 	 *
 	 * The string is a semicolon-separated list of geo parameters.
