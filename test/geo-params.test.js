@@ -430,5 +430,17 @@ describe("GeoParams", () => {
 			params.forEach(callback)
 			expect(callback).not.toHaveBeenCalled()
 		})
+		test("runs the callback once for one parameter", () => {
+			const params = new GeoParams("first=one")
+			const callback = vi.fn()
+			params.forEach(callback)
+			expect(callback).toHaveBeenCalledTimes(1)
+		})
+		test("runs the callback twice for two parameters", () => {
+			const params = new GeoParams("first=one;second=two")
+			const callback = vi.fn()
+			params.forEach(callback)
+			expect(callback).toHaveBeenCalledTimes(2)
+		})
 	})
 })

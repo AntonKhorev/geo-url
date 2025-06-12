@@ -237,6 +237,9 @@ export class GeoParams {
 	}
 
 	forEach(callback) {
+		for (const kv of this) {
+			callback()
+		}
 	}
 
 	#readCoordsAndKvs() {
