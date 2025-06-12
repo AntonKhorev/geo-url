@@ -12,6 +12,7 @@ export default defineConfig([
 		rules: {
 			"@stylistic/eol-last": "error",
 			"@stylistic/no-trailing-spaces": "error",
+			"@stylistic/object-curly-spacing": ["error", "always"],
 			"@stylistic/space-infix-ops": "error",
 		}
 	}
