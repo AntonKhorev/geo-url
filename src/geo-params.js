@@ -236,6 +236,19 @@ export class GeoParams {
 		}
 	}
 
+	/**
+	 * Callback function type to be used with {@link GeoParams#forEach}
+	 * @callback forEachCallback
+	 * @param {string} value - parameter value
+	 * @param {string} name - parameter name
+	 * @param {GeoParams} geoParams - the `GeoParams` object the `forEach()` was called upon
+	 */
+	/**
+	 * Iterate through all parameters via a callback function
+	 * @param {forEachCallback} callback - function to execute on each element
+	 * @param {*} [thisArg] - value to use as `this` when executing `callback`
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/forEach|MDN} for the similar method of URLSearchParams
+	 */
 	forEach(callback, thisArg) {
 		for (const [k, v] of this) {
 			callback.call(thisArg, v, k, this)
