@@ -8,6 +8,16 @@ export let setGeoParamsBeforeSetHook
  *
  * Intended to be similar to {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams|URLSearchParams},
  * with an {@link https://url.spec.whatwg.org/#concept-urlsearchparams-url-object|associated URL object}.
+ *
+ * The following methods of `URLSearchParams` are not implemented in `GeoParams` because they only make sense for repeated parameters:
+ * - `append`
+ * - `getAll`
+ *
+ * `crs` and `u` parameters can't be repeated according to the {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|URI Scheme Syntax}.
+ * It's not so clear about other parameters
+ * because RFC 5870 talks about sets of parameters and parameter names in the {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.4|URI Comparison section}.
+ * `GeoParams` assumes that parameters can't be repeated.
+ * Practically it doesn't matter much because the only commonly used parameter should be `u`.
  */
 export class GeoParams {
 	#p
