@@ -237,8 +237,8 @@ export class GeoParams {
 	}
 
 	forEach(callback) {
-		for (const kv of this) {
-			callback()
+		for (const [k, v] of this) {
+			callback(v, k, this)
 		}
 	}
 
