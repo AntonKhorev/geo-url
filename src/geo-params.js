@@ -236,6 +236,9 @@ export class GeoParams {
 		}
 	}
 
+	forEach(callback) {
+	}
+
 	#readCoordsAndKvs() {
 		if (this.#url) {
 			const [coords, ...params] = this.#url.pathname.split(";")

@@ -1,4 +1,4 @@
-import { describe, test, expect } from "vitest"
+import { describe, test, expect, vi } from "vitest"
 
 import { GeoParams } from "../src/index.js"
 
@@ -420,6 +420,15 @@ describe("GeoParams", () => {
 		test("iterates through parameters", () => {
 			const params = new GeoParams("first=one;second=two")
 			expect([...params.values()]).toEqual(["one", "two"])
+		})
+	})
+
+	describe("forEach", () => {
+		test("doesn't run the callback for empty parameters", () => {
+			const params = new GeoParams()
+			const callback = vi.fn()
+			params.forEach(callback)
+			expect(callback).not.toHaveBeenCalled()
 		})
 	})
 })
