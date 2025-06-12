@@ -42,18 +42,13 @@ export class GeoParams {
 			this.#p = ""
 		} else if (typeof options == "string") {
 			this.#p = options
-		} else if (options?.[Symbol.iterator]) {
+		} else {
+			const iterable = options?.[Symbol.iterator] ? options : Object.entries(options)
 			const kvs = []
-			for (const kv of options) {
+			for (const kv of iterable) {
 				if (kv.length != 2) {
 					throw new TypeError(`GeoParams constructor: Expected 2 items in pair but got ${kv.length}`)
 				}
-				this.#setKvs(kvs, ...kv)
-			}
-			this.#writeCoordsAndKvs(null, kvs)
-		} else {
-			const kvs = []
-			for (const kv of Object.entries(options)) {
 				this.#setKvs(kvs, ...kv)
 			}
 			this.#writeCoordsAndKvs(null, kvs)
