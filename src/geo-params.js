@@ -28,12 +28,12 @@ export class GeoParams {
 	 * Create a new GeoParams object
 	 *
 	 * `options` is one of:
-	 * - undefined (skipped parameter) to construct empty geo parameters
+	 * - undefined to construct empty geo parameters
 	 * - string to construct geo parameters according to geo URI parameters syntax,
 	 *   which is a `p` rule in {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|URI Scheme Syntax}
 	 *   except without the leading `;` separator
 	 * - array of name-value string pairs
-	 * @param {string|string[][]|undefined} options
+	 * @param {string|string[][]} [options]
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/URLSearchParams|MDN} for the similar URLSearchParams constructor
 	 */
 	constructor(options) {
@@ -107,7 +107,7 @@ export class GeoParams {
 	 * Delete a parameter with the given name.
 	 * If `value` is specified, delete only if the parameter has this value.
 	 * @param {string} name
-	 * @param {string|undefined} value - optional value to check
+	 * @param {string} [value] - optional value to check
 	 * @returns {void}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/delete|MDN} for the similar method of URLSearchParams
 	 */
@@ -135,7 +135,7 @@ export class GeoParams {
 	 * Check if a parameter with the given name is present.
 	 * If `value` is specified, also check if the parameter has this value.
 	 * @param {string} name
-	 * @param {string|undefined} value - optional value to check
+	 * @param {string} [value] - optional value to check
 	 * @returns {boolean}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URLSearchParams/has|MDN} for the similar method of URLSearchParams
 	 */
