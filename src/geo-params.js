@@ -41,7 +41,7 @@ export class GeoParams {
 			this.#p = ""
 		} else if (typeof options == "string") {
 			this.#p = options
-		} else {
+		} else if (options?.[Symbol.iterator]) {
 			const kvs = []
 			for (const kv of options) {
 				if (kv.length != 2) {
@@ -50,6 +50,8 @@ export class GeoParams {
 				this.#setKvs(kvs, ...kv)
 			}
 			this.#writeCoordsAndKvs(null, kvs)
+		} else {
+			this.#p = ""
 		}
 	}
 

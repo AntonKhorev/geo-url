@@ -50,6 +50,10 @@ describe("GeoParams", () => {
 			const params = new GeoParams([["foo", "abc"], ["crs", "wgs84"], ["u", "10"]])
 			expect(params.toString()).toBe("crs=wgs84;u=10;foo=abc")
 		})
+		test("initializes with an empty record", () => {
+			const params = new GeoParams({})
+			expect(params.toString()).toBe("")
+		})
 	})
 
 	describe("size", () => {
