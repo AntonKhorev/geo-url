@@ -371,4 +371,15 @@ describe("GeoParams", () => {
 			expect(params.has("foo", "")).toBe(true)
 		})
 	})
+
+	describe("entries", () => {
+		test("iterates through empty parameters", () => {
+			const params = new GeoParams()
+			expect([...params.entries()]).toEqual([])
+		})
+		test("iterates through parameters", () => {
+			const params = new GeoParams("first=one;second=two")
+			expect([...params.entries()]).toEqual([["first", "one"], ["second", "two"]])
+		})
+	})
 })
