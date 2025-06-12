@@ -25,11 +25,11 @@ export class GeoParams {
 	}
 
 	/**
-	 * @param {string} p
+	 * @param {string|undefined} p
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.3|RFC 5870} for p syntax
 	 */
 	constructor(p) {
-		this.#p = String(p)
+		this.#p = String(p ?? "")
 	}
 
 	/**

@@ -4,11 +4,15 @@ import { GeoParams } from "../src/index.js"
 
 describe("GeoParams", () => {
 	describe("constructor", () => {
-		test("converts empty params to a string", () => {
+		test("initializes without a parameter", () => {
+			const params = new GeoParams()
+			expect(params.toString()).toBe("")
+		})
+		test("initializes with an empty string", () => {
 			const params = new GeoParams("")
 			expect(params.toString()).toBe("")
 		})
-		test("converts params to a string", () => {
+		test("initializes with a string", () => {
 			const params = new GeoParams("hello=world;yes;year=2025")
 			expect(params.toString()).toBe("hello=world;yes;year=2025")
 		})
