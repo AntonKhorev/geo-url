@@ -192,6 +192,9 @@ export class GeoURL {
 		const crsWithPreservedCase = this.geoParams.get("crs") || "wgs84"
 		return crsWithPreservedCase.toLowerCase()
 	}
+	set crs(value) {
+	}
+
 	get CRS() {
 		return this.crs
 	}
