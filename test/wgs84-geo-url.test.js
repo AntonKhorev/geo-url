@@ -64,6 +64,34 @@ describe("WGS84GeoURL", () => {
 		})
 	})
 
+	describe("crs", () => {
+		describe("on an url without crs", () => {
+			const urlString = "geo:0,0"
+			for (const value of ["wgs84", "WGS84"]) test(`does nothing when setting to '${value}'`, () => {
+				const url = new WGS84GeoURL(urlString)
+				url.crs = value
+				expect(url.crs).toBe("wgs84")
+				expect(url.toString()).toBe("geo:0,0")
+			})
+		})
+		for (const oldValue of ["wgs84", "WGS84"]) describe(`on an url with crs=${oldValue}`, () => {
+			const urlString = `geo:0,0;crs=${oldValue}`
+			for (const value of ["wgs84", "WGS84"]) test(`removes the crs geo param when setting to '${value}'`, () => {
+				const url = new WGS84GeoURL(urlString)
+				url.crs = value
+				expect(url.crs).toBe("wgs84")
+				expect(url.toString()).toBe("geo:0,0")
+			})
+		})
+		test("rejects updating to a disallowed value", () => {
+			const url = new WGS84GeoURL("geo:0,0")
+			expect(
+				() => url.crs = "oops"
+			).toThrow(TypeError)
+			expect(url.toString()).toBe("geo:0,0")
+		})
+	})
+
 	describe("parse", () => {
 		test("supports valid geo URIs", () => {
 			const url = WGS84GeoURL.parse("geo:12,34")
