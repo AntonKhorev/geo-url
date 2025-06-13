@@ -185,7 +185,10 @@ export class GeoURL {
 	 * Coordinate reference system
 	 *
 	 * Converted to lowercase if present in the URL.
-	 * Has the default value of "wgs84" if not present.
+	 * Also converted to lowercase on write.
+	 *
+	 * Has the default value of `wgs84` if not present.
+	 * Deleted from geo params when setting to `wgs84`, ignoring the case.
 	 * @type {string}
 	 */
 	get crs() {
@@ -201,6 +204,12 @@ export class GeoURL {
 		}
 	}
 
+	/**
+	 * Coordinate reference system
+	 *
+	 * An alternative name for {@link GeoURL#crs}
+	 * @type {string}
+	 */
 	get CRS() {
 		return this.crs
 	}
