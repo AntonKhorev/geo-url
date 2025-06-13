@@ -221,6 +221,11 @@ export class GeoURL {
 		const [coordinatesString] = this.pathname.split(";")
 		return coordinatesString
 	}
+	set coordinatesString(value) {
+		const [, ...params] = this.pathname.split(";")
+		this.#url.href = `${this.#url.protocol}${[value, ...params].join(";")}${this.#url.search}${this.#url.hash}`
+	}
+
 	get coordinates() {
 		if (this.#coordinates) {
 			return this.#coordinates

@@ -552,6 +552,13 @@ describe("GeoURL", () => {
 			const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
 			expect(url.coordinatesString).toBe("48.198634,16.371648")
 		})
+
+		test("sets the value to a two-coordinate string", () => {
+			const url = new GeoURL("geo:0,0")
+			url.coordinatesString = "60,30"
+			expect(url.coordinatesString).toBe("60,30")
+			expect(url.toString()).toBe("geo:60,30")
+		})
 	})
 
 	describe("coordinates", () => {
