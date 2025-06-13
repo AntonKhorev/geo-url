@@ -519,6 +519,12 @@ describe("GeoURL", () => {
 			expect(url.crs).toBe("zxc")
 			expect(url.toString()).toBe("geo:0,0;crs=zxc")
 		})
+		test("converts the value to lowercase before setting", () => {
+			const url = new GeoURL("geo:0,0")
+			url.crs = "ZXC"
+			expect(url.crs).toBe("zxc")
+			expect(url.toString()).toBe("geo:0,0;crs=zxc")
+		})
 	})
 
 	describe("CRS", () => {
