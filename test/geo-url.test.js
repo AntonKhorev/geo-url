@@ -532,6 +532,11 @@ describe("GeoURL", () => {
 			const url = new GeoURL("geo:0,0;crs=whatever123")
 			expect(url.CRS).toBe("whatever123")
 		})
+		test("sets the crs value", () => {
+			const url = new GeoURL("geo:0,0;crs=whatever123")
+			url.CRS = "never-mind-456"
+			expect(url.CRS).toBe("never-mind-456")
+		})
 	})
 
 	describe("coordinatesString", () => {

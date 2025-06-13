@@ -204,6 +204,9 @@ export class GeoURL {
 	get CRS() {
 		return this.crs
 	}
+	set CRS(value) {
+		this.crs = value
+	}
 
 	get coordinatesString() {
 		const [coordinatesString] = this.pathname.split(";")
