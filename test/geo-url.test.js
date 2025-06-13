@@ -507,6 +507,12 @@ describe("GeoURL", () => {
 				expect(url.toString()).toBe(urlString)
 			})
 		})
+		test("sets the value", () => {
+			const url = new GeoURL("geo:0,0")
+			url.crs = "zxc"
+			expect(url.crs).toBe("zxc")
+			expect(url.toString()).toBe("geo:0,0;crs=zxc")
+		})
 	})
 
 	describe("CRS", () => {
