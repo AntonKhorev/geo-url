@@ -18,7 +18,8 @@ async function cleanupDirectory(dir) {
 }
 
 function generateJsdoc(dir) {
-	const child = spawn("npx", ["jsdoc", "src", "README.md", "-c", "jsdoc/conf.json", "-d", dir])
+	const filenames = ["src/geo-params.js", "src/geo-url.js", "src/wgs84-geo-url.js", "README.md"]
+	const child = spawn("npx", ["jsdoc", ...filenames, "-c", "jsdoc/conf.json", "-d", dir])
 	return new Promise((resolve, reject) => {
 		child.on('error', reject)
 		child.on('close', code => code == 0 ? resolve() : reject())
