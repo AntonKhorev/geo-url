@@ -1,4 +1,5 @@
 import { GeoParams, setGeoParamsURL } from "./geo-params.js"
+import { setURLPathname } from "./url.js"
 
 /**
  * URL interface for geo URI with an arbitrary CRS
@@ -223,7 +224,7 @@ export class GeoURL {
 	}
 	set coordinatesString(value) {
 		const [, ...params] = this.pathname.split(";")
-		this.#url.href = `${this.#url.protocol}${[value, ...params].join(";")}${this.#url.search}${this.#url.hash}`
+		setURLPathname(this.#url, [value, ...params].join(";"))
 	}
 
 	get coordinates() {

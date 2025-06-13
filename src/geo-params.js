@@ -1,4 +1,5 @@
 import { readParam, writeParam } from "./param.js"
+import { setURLPathname } from "./url.js"
 
 export let setGeoParamsURL
 export let setGeoParamsBeforeSetHook
@@ -294,7 +295,7 @@ export class GeoParams {
 	#writeCoordsAndKvs(coords, kvs) {
 		const params = kvs.map(([k, v]) => writeParam(k, v))
 		if (this.#url) {
-			this.#url.href = `${this.#url.protocol}${[coords, ...params].join(";")}${this.#url.search}${this.#url.hash}`
+			setURLPathname(this.#url, [coords, ...params].join(";"))
 		} else {
 			this.#p = params.join(";")
 		}
