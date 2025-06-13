@@ -13,6 +13,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org/
           cache: npm
       - run: npm ci
       - run: npx eslint
@@ -25,6 +26,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org/
           cache: npm
       - run: npm ci
       - run: npm test
@@ -38,6 +40,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
+          registry-url: https://registry.npmjs.org/
           cache: npm
       - run: npm ci
       - name: Build static files
