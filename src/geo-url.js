@@ -195,6 +195,8 @@ export class GeoURL {
 	set crs(value) {
 		if (value.toLowerCase() != "wgs84") {
 			this.geoParams.set("crs", value)
+		} else {
+			this.geoParams.delete("crs")
 		}
 	}
 

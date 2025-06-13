@@ -495,16 +495,22 @@ describe("GeoURL", () => {
 			const url = new GeoURL("geo:0,0;crs=whatever123")
 			expect(url.crs).toBe("whatever123")
 		})
-		for (const [urlString, title] of [
-			["geo:0,0", "on an url without crs"],
-			["geo:0,0;crs=wgs84", "on an url with crs=wgs84"],
-			["geo:0,0;crs=WGS84", "on an url with crs=WGS84"],
-		]) describe(title, () => {
+		describe("on an url without crs", () => {
+			const urlString = "geo:0,0"
 			for (const value of ["wgs84", "WGS84"]) test(`does nothing when setting to '${value}'`, () => {
 				const url = new GeoURL(urlString)
 				url.crs = value
 				expect(url.crs).toBe("wgs84")
-				expect(url.toString()).toBe(urlString)
+				expect(url.toString()).toBe("geo:0,0")
+			})
+		})
+		for (const oldValue of ["wgs84", "WGS84", "something-else"]) describe(`on an url with crs=${oldValue}`, () => {
+			const urlString = `geo:0,0;crs=${oldValue}`
+			for (const value of ["wgs84", "WGS84"]) test(`removes the crs geo param when setting to '${value}'`, () => {
+				const url = new GeoURL(urlString)
+				url.crs = value
+				expect(url.crs).toBe("wgs84")
+				expect(url.toString()).toBe("geo:0,0")
 			})
 		})
 		test("sets the value", () => {
