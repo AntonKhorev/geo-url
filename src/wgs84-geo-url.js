@@ -143,10 +143,26 @@ export class WGS84GeoURL extends GeoURL {
 	 * Latitude in decimal degrees between -90 and 90
 	 * @type {number}
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
+	 * console.log(url.lat) // outputs "13.4125"
 	 */
 	get lat() {
 		return this.coordA
 	}
+	/**
+	 * Set the latitude
+	 * @method
+	 * @memberof WGS84GeoURL
+	 * @name set lat
+	 * @param {number} value - latitude in decimal degrees between -90 and 90
+	 * @throws {TypeError} if the value is out of range
+	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
+	 * url.lat = 16.4321
+	 * console.log(url.toString()) // outputs "geo:16.4321,103.8667"
+	 * @see {@link WGS84GeoURL#lat} for the corresponding getter
+	 */
 	set lat(value) {
 		this.coordA = value
 	}
@@ -168,10 +184,26 @@ export class WGS84GeoURL extends GeoURL {
 	 * Longitude in decimal degrees between -180 and 180
 	 * @type {number}
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
+	 * console.log(url.lon) // outputs "103.8667"
 	 */
 	get lon() {
 		return this.coordB
 	}
+	/**
+	 * Set the longitude
+	 * @method
+	 * @memberof WGS84GeoURL
+	 * @name set lon
+	 * @param {number} value - longitude in decimal degrees between -180 and 180
+	 * @throws {TypeError} if the value is out of range
+	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
+	 * url.lon = 101.1001
+	 * console.log(url.toString()) // outputs "geo:16.4321,101.1001"
+	 * @see {@link WGS84GeoURL#lon} for the corresponding getter
+	 */
 	set lon(value) {
 		this.coordB = value
 	}
@@ -206,10 +238,33 @@ export class WGS84GeoURL extends GeoURL {
 	 * Altitude in meters
 	 * @type {number|undefined}
 	 * @see {@link https://datatracker.ietf.org/doc/html/rfc5870#section-3.4.2|RFC 5870} for component description
+	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
+	 * console.log(url.alt) // outputs "undefined"
+	 * @example
+	 * const url = new WGS84GeoURL("geo:48.201,16.3695,183")
+	 * console.log(url.alt) // outputs "183"
 	 */
 	get alt() {
 		return this.coordC
 	}
+	/**
+	 * Set the altitude
+	 * @method
+	 * @memberof WGS84GeoURL
+	 * @name set alt
+	 * @param {number|undefined} value - altitude in meters or undefined
+	 * @throws {TypeError} if the value is neither a finite number nor undefined
+	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
+	 * url.alt = 65
+	 * console.log(url.toString()) // outputs "geo:13.4125,103.8667,65"
+	 * @example
+	 * const url = new WGS84GeoURL("geo:48.201,16.3695,183")
+	 * url.alt = undefined
+	 * console.log(url.toString()) // outputs "geo:48.201,16.3695"
+	 * @see {@link WGS84GeoURL#alt} for the corresponding getter
+	 */
 	set alt(value) {
 		this.coordC = value
 	}

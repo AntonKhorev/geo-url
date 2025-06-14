@@ -391,7 +391,7 @@ export class GeoURL {
 	 * @memberof GeoURL
 	 * @name set coordC
 	 * @param {number|undefined} value
-	 * @throws {TypeError} if the value isn't either a finite number or undefined
+	 * @throws {TypeError} if the value is neither a finite number nor undefined
 	 * @example
 	 * const url = new GeoURL("geo:60,30")
 	 * url.coordC = 5
