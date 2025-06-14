@@ -173,10 +173,6 @@ describe("WGS84GeoURL", () => {
 			const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
 			expect(url.alt).toBe(183)
 		})
-		// test("returns undefined for an empty altitude", () => {
-		// 	const url = new WGS84GeoURL("geo:0,0,")
-		// 	expect(url.alt).toBeUndefined()
-		// })
 	})
 
 	describe("altitude", () => {

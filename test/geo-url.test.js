@@ -39,6 +39,11 @@ describe("GeoURL", () => {
 				() => new GeoURL("geo:,,")
 			).toThrow(TypeError)
 		})
+		test("fails when provided an empty 3rd coordinate", () => {
+			expect(
+				() => new GeoURL("geo:0,0,")
+			).toThrow(TypeError)
+		})
 		test("fails when provided 2 NaN coordinates", () => {
 			expect(
 				() => new GeoURL("geo:no,nope")
