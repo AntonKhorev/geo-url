@@ -113,6 +113,7 @@ export class GeoURL {
 	/**
 	 * Set search/query string
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set search
 	 * @param {string} value
@@ -143,6 +144,7 @@ export class GeoURL {
 	/**
 	 * Set hash property
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set hash
 	 * @param {string} value - a string containing the URL fragment, with optional leading `#`
@@ -172,6 +174,7 @@ export class GeoURL {
 	 *
 	 * Setting to undefined deletes the `z` search parameter.
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set z
 	 * @param {number|undefined} value
@@ -227,6 +230,7 @@ export class GeoURL {
 	 *
 	 * The `crs` geo parameter is deleted when setting to `wgs84`, ignoring the case.
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set crs
 	 * @param {string} value
@@ -268,6 +272,7 @@ export class GeoURL {
 	/**
 	 * Set coordinates to a string
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set coordinatesString
 	 * @param {string} value - a string of two or three comma-separated numbers, as they appear in the URL
@@ -297,6 +302,7 @@ export class GeoURL {
 	/**
 	 * Set coordinates to an array of numbers
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set coordinates
 	 * @param {number[]} value - an array with two or three numbers
@@ -327,6 +333,7 @@ export class GeoURL {
 	/**
 	 * Set the 1st coordinate
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set coordA
 	 * @param {number} value
@@ -356,6 +363,7 @@ export class GeoURL {
 	/**
 	 * Set the 2st coordinate
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set coordB
 	 * @param {number} value
@@ -388,6 +396,7 @@ export class GeoURL {
 	/**
 	 * Set the 3rd coordinate
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set coordC
 	 * @param {number|undefined} value
@@ -423,6 +432,7 @@ export class GeoURL {
 	/**
 	 * Set uncertainty
 	 * @method
+	 * @instance
 	 * @memberof GeoURL
 	 * @name set u
 	 * @param {number|undefined} value - new uncertainty value in meters or undefined to remove the uncertainty

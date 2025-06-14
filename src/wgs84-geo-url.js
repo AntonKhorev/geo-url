@@ -69,6 +69,7 @@ export class WGS84GeoURL extends GeoURL {
 	/**
 	 * Set coordinates to a string
 	 * @method
+	 * @instance
 	 * @memberof WGS84GeoURL
 	 * @name set coordinatesString
 	 * @param {string} value - a string of two or three comma-separated numbers, as they appear in the URL
@@ -91,6 +92,7 @@ export class WGS84GeoURL extends GeoURL {
 	/**
 	 * Set coordinates to an array of numbers
 	 * @method
+	 * @instance
 	 * @memberof WGS84GeoURL
 	 * @name set coordinates
 	 * @param {number[]} value - an array with two or three numbers
@@ -153,6 +155,7 @@ export class WGS84GeoURL extends GeoURL {
 	/**
 	 * Set the latitude
 	 * @method
+	 * @instance
 	 * @memberof WGS84GeoURL
 	 * @name set lat
 	 * @param {number} value - latitude in decimal degrees between -90 and 90
@@ -194,6 +197,7 @@ export class WGS84GeoURL extends GeoURL {
 	/**
 	 * Set the longitude
 	 * @method
+	 * @instance
 	 * @memberof WGS84GeoURL
 	 * @name set lon
 	 * @param {number} value - longitude in decimal degrees between -180 and 180
@@ -251,6 +255,7 @@ export class WGS84GeoURL extends GeoURL {
 	/**
 	 * Set the altitude
 	 * @method
+	 * @instance
 	 * @memberof WGS84GeoURL
 	 * @name set alt
 	 * @param {number|undefined} value - altitude in meters or undefined
