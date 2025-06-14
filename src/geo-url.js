@@ -295,8 +295,9 @@ export class GeoURL {
 	set coordC(value) {
 		const [a, b] = this.coordinates
 		const newCoordinates = value != null ? [a, b, value] : [a, b]
+		const newCoordinatesString = newCoordinates.map(formatNumber).join(",")
 		const [, ...params] = this.pathname.split(";")
-		setURLPathname(this.#url, [newCoordinates.join(","), ...params].join(";"))
+		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
 	}
 
 	/**

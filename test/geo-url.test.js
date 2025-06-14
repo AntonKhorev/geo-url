@@ -672,6 +672,13 @@ describe("GeoURL", () => {
 				expect(url.toString()).toBe("geo:22.3,-118.44,12.34")
 			})
 		})
+		test("formats the value in fixed-point notation", () => {
+			const url = new GeoURL("geo:1,2")
+			url.coordC = 0.0000001
+			expect(url.coordC).toBe(0.0000001)
+			expect(url.coordinatesString).toBe("1,2,0.0000001")
+			expect(url.toString()).toBe("geo:1,2,0.0000001")
+		})
 	})
 
 	describe("u", () => {
