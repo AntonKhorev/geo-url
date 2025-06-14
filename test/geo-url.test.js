@@ -553,12 +553,37 @@ describe("GeoURL", () => {
 			expect(url.coordinatesString).toBe("48.198634,16.371648")
 		})
 
+		test("rejects updating to one-coordinate string", () => {
+			const url = new GeoURL("geo:0,0")
+			expect(
+				() => url.coordinatesString = "60"
+			).toThrow(TypeError)
+			expect(url.coordinatesString).toBe("0,0")
+			expect(url.coordinates).toStrictEqual([0, 0])
+			expect(url.toString()).toBe("geo:0,0")
+		})
 		test("sets the value to a two-coordinate string", () => {
 			const url = new GeoURL("geo:0,0")
 			url.coordinatesString = "60,30"
 			expect(url.coordinatesString).toBe("60,30")
 			expect(url.coordinates).toStrictEqual([60, 30])
 			expect(url.toString()).toBe("geo:60,30")
+		})
+		test("sets the value to a three-coordinate string", () => {
+			const url = new GeoURL("geo:0,0")
+			url.coordinatesString = "60,30,5"
+			expect(url.coordinatesString).toBe("60,30,5")
+			expect(url.coordinates).toStrictEqual([60, 30, 5])
+			expect(url.toString()).toBe("geo:60,30,5")
+		})
+		test("rejects updating to four-coordinate string", () => {
+			const url = new GeoURL("geo:0,0")
+			expect(
+				() => url.coordinatesString = "60,30,5,1"
+			).toThrow(TypeError)
+			expect(url.coordinatesString).toBe("0,0")
+			expect(url.coordinates).toStrictEqual([0, 0])
+			expect(url.toString()).toBe("geo:0,0")
 		})
 	})
 
