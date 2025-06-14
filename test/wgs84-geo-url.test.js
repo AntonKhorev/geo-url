@@ -236,5 +236,11 @@ describe("WGS84GeoURL", () => {
 			const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
 			expect(url.altitude).toBe(183)
 		})
+		test("sets the value", () => {
+			const url = new WGS84GeoURL("geo:48.201,16.3695,183")
+			url.altitude = 52
+			expect(url.alt).toBe(52)
+			expect(url.toString()).toBe("geo:48.201,16.3695,52")
+		})
 	})
 })

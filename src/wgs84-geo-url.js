@@ -223,6 +223,9 @@ export class WGS84GeoURL extends GeoURL {
 	get altitude() {
 		return this.coordC
 	}
+	set altitude(value) {
+		this.coordC = value
+	}
 
 	_validateCoordinates(coordinates) {
 		super._validateCoordinates(coordinates)
