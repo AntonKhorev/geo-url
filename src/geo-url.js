@@ -287,6 +287,12 @@ export class GeoURL {
 	get coordinates() {
 		return this.coordinatesString.split(",").map(parseNumber)
 	}
+	set coordinates(value) {
+		validateCoordinates(value)
+		const newCoordinatesString = value.map(formatCoord).join(",")
+		const [, ...params] = this.pathname.split(";")
+		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
+	}
 
 	get coordA() {
 		return this.coordinates[0]
@@ -364,11 +370,15 @@ export class GeoURL {
 
 export function parseCoordinatesString(value) {
 	const coordinates = value.split(",").map(parseNumber)
+	validateCoordinates(coordinates)
+	return coordinates
+}
+
+function validateCoordinates(coordinates) {
 	if (coordinates.length < 2 || coordinates.length > 3) {
 		throw new TypeError(`Invalid number of coordinates`)
 	}
 	if (!coordinates.every(coordinate => typeof coordinate == "number")) {
 		throw new TypeError(`Invalid coordinate value`)
 	}
-	return coordinates
 }

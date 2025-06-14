@@ -618,6 +618,33 @@ describe("GeoURL", () => {
 			const url = new GeoURL("geo:0,181;crs=unknown")
 			expect(url.coordinates).toStrictEqual([0, 181])
 		})
+
+		test("rejects setting to 1-number array", () => {
+			const url = new GeoURL("geo:0,0")
+			expect(
+				() => url.coordinates = [1]
+			).toThrow(TypeError)
+			expect(url.coordinates).toStrictEqual([0, 0])
+		})
+		test("sets to 2-number array", () => {
+			const url = new GeoURL("geo:0,0")
+			url.coordinates = [1, 2]
+			expect(url.coordinates).toStrictEqual([1, 2])
+			expect(url.toString()).toBe("geo:1,2")
+		})
+		test("sets to 3-number array", () => {
+			const url = new GeoURL("geo:0,0")
+			url.coordinates = [1, 2, 3]
+			expect(url.coordinates).toStrictEqual([1, 2, 3])
+			expect(url.toString()).toBe("geo:1,2,3")
+		})
+		test("rejects setting to 4-number array", () => {
+			const url = new GeoURL("geo:0,0")
+			expect(
+				() => url.coordinates = [1, 2, 3, 4]
+			).toThrow(TypeError)
+			expect(url.coordinates).toStrictEqual([0, 0])
+		})
 	})
 
 	describe("coordA and coordB", () => {
