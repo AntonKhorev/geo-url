@@ -666,6 +666,24 @@ describe("GeoURL", () => {
 			expect(url.coordinatesString).toBe("1,2")
 			expect(url.toString()).toBe("geo:1,2")
 		})
+		test("format the values up to 12 digits", () => {
+			const url = new GeoURL("geo:1,2")
+			url.coordA = 0.000000000001
+			expect(url.coordA).toBe(0.000000000001)
+			url.coordB = 0.000000000002
+			expect(url.coordB).toBe(0.000000000002)
+			expect(url.coordinatesString).toBe("0.000000000001,0.000000000002")
+			expect(url.toString()).toBe("geo:0.000000000001,0.000000000002")
+		})
+		test("format the values up to 12 digits but not beyond", () => {
+			const url = new GeoURL("geo:1,2")
+			url.coordA = 0.0000000000001
+			expect(url.coordA).toBe(0)
+			url.coordB = 0.0000000000002
+			expect(url.coordB).toBe(0)
+			expect(url.coordinatesString).toBe("0,0")
+			expect(url.toString()).toBe("geo:0,0")
+		})
 	})
 
 	describe("coordC", () => {
