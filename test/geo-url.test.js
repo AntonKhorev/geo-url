@@ -4,6 +4,25 @@ import { GeoURL } from "../src/index.js"
 
 describe("GeoURL", () => {
 	describe("constructor", () => {
+		test("initializes with a string", () => {
+			const url = new GeoURL("geo:47.6,-122.3?z=11")
+			expect(url.toString()).toBe("geo:47.6,-122.3?z=11")
+		})
+		test("initializes with a URL object", () => {
+			const sourceUrl = new URL("geo:12,34;u=56?z=78#id9")
+			const url = new GeoURL(sourceUrl)
+			expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
+		})
+		test("initializes with a GeoURL object", () => {
+			const sourceUrl = new GeoURL("geo:12,34;u=56?z=78#id9")
+			const url = new GeoURL(sourceUrl)
+			expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
+		})
+		test("adds a hash to a base geo uri", () => {
+			const url = new GeoURL("#hash", "geo:12,34")
+			expect(url.toString()).toBe("geo:12,34#hash")
+		})
+
 		test("fails when no parameters given", () => {
 			expect(
 				() => new GeoURL()
@@ -50,23 +69,21 @@ describe("GeoURL", () => {
 			).toThrow(TypeError)
 		})
 
-		test("initializes with a string", () => {
-			const url = new GeoURL("geo:47.6,-122.3?z=11")
-			expect(url.toString()).toBe("geo:47.6,-122.3?z=11")
+		test("allows coord-a that would be below the allowed range in WGS84", () => {
+			const url = new GeoURL("geo:-91,0;crs=unknown")
+			expect(url.toString()).toBe("geo:-91,0;crs=unknown")
 		})
-		test("initializes with a URL object", () => {
-			const sourceUrl = new URL("geo:12,34;u=56?z=78#id9")
-			const url = new GeoURL(sourceUrl)
-			expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
+		test("allows coord-a that would be above the allowed range in WGS84", () => {
+			const url = new GeoURL("geo:91,0;crs=unknown")
+			expect(url.toString()).toBe("geo:91,0;crs=unknown")
 		})
-		test("initializes with a GeoURL object", () => {
-			const sourceUrl = new GeoURL("geo:12,34;u=56?z=78#id9")
-			const url = new GeoURL(sourceUrl)
-			expect(url.toString()).toBe("geo:12,34;u=56?z=78#id9")
+		test("allows coord-b that would be below the allowed range in WGS84", () => {
+			const url = new GeoURL("geo:0,-181;crs=unknown")
+			expect(url.toString()).toBe("geo:0,-181;crs=unknown")
 		})
-		test("adds a hash to a base geo uri", () => {
-			const url = new GeoURL("#hash", "geo:12,34")
-			expect(url.toString()).toBe("geo:12,34#hash")
+		test("allows coord-b that would be above the allowed range in WGS84", () => {
+			const url = new GeoURL("geo:0,181;crs=unknown")
+			expect(url.toString()).toBe("geo:0,181;crs=unknown")
 		})
 	})
 
@@ -601,22 +618,6 @@ describe("GeoURL", () => {
 		test("gets the value for a 2-coordinate url with geo parameters", () => {
 			const url = new GeoURL("geo:48.198634,16.371648;crs=wgs84;u=40")
 			expect(url.coordinates).toStrictEqual([48.198634, 16.371648])
-		})
-		test("allows coord-a that would be below the allowed range in WGS84", () => {
-			const url = new GeoURL("geo:-91,0;crs=unknown")
-			expect(url.coordinates).toStrictEqual([-91, 0])
-		})
-		test("allows coord-a that would be above the allowed range in WGS84", () => {
-			const url = new GeoURL("geo:91,0;crs=unknown")
-			expect(url.coordinates).toStrictEqual([91, 0])
-		})
-		test("allows coord-b that would be below the allowed range in WGS84", () => {
-			const url = new GeoURL("geo:0,-181;crs=unknown")
-			expect(url.coordinates).toStrictEqual([0, -181])
-		})
-		test("allows coord-b that would be above the allowed range in WGS84", () => {
-			const url = new GeoURL("geo:0,181;crs=unknown")
-			expect(url.coordinates).toStrictEqual([0, 181])
 		})
 
 		test("rejects setting to 1-number array", () => {
