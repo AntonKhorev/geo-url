@@ -33,7 +33,7 @@ export class WGS84GeoURL extends GeoURL {
 	 * @function parse
 	 * @memberof WGS84GeoURL
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
-	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @param {string|URL|GeoURL} [base] - base geo URI
 	 * @returns {WGS84GeoURL|null}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static|MDN} for parse() static method
 	 */
@@ -43,7 +43,7 @@ export class WGS84GeoURL extends GeoURL {
 	 * @function canParse
 	 * @memberof WGS84GeoURL
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
-	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @param {string|URL|GeoURL} [base] - base geo URI
 	 * @returns {boolean}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static|MDN} for canParse() static method
 	 */

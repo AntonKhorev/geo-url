@@ -29,7 +29,7 @@ export class GeoURL {
 	/**
 	 * Create a GeoURL or return null on error
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
-	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @param {string|URL|GeoURL} [base] - base geo URI
 	 * @returns {GeoURL|null}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/parse_static|MDN} for parse() static method
 	 */
@@ -44,7 +44,7 @@ export class GeoURL {
 	/**
 	 * Check if url is parsable as a valid geo URI
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
-	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @param {string|URL|GeoURL} [base] - base geo URI
 	 * @returns {boolean}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/canParse_static|MDN} for canParse() static method
 	 */
