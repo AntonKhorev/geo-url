@@ -19,12 +19,12 @@
     "url": "https://github.com/AntonKhorev/geo-url/issues"
   },
   "homepage": "https://antonkhorev.github.io/geo-url/",
-  "main": "src/index.js",
-  "files": [
-    "src"
-  ],
+  "main": "dist/index.js",
+  "files": [],
   "scripts": {
-    "build": "node build.js",
+    "build": "npm run prepare && npm run build-pages",
+    "build-pages": "node build-pages.js",
+    "prepare": "node build-dist.js",
     "test": "vitest"
   },
   "devDependencies": {
