@@ -1,6 +1,6 @@
 {
   "name": "@antonkhorev/geo-url",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "description": "URL parser for RFC 5870 geo URIs with zoom level extension",
   "keywords": [
     "geo",
@@ -23,7 +23,9 @@
     "import": "./dist/index.js",
     "require": "./dist/index.cjs"
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "npm run prepare && npm run build-pages",
     "build-pages": "node build-pages.js",
