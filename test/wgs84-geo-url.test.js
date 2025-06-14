@@ -137,6 +137,23 @@ describe("WGS84GeoURL", () => {
 		})
 	})
 
+	describe("coordinates", () => {
+		for (const [value, title] of [
+			[[-91, 0], "lat below"],
+			[[91, 0], "lat above"],
+			[[0, -181], "lon below"],
+			[[0, 181], "lon above"],
+		]) test(`rejects ${title} the allowed range in WGS84`, () => {
+			const url = new WGS84GeoURL("geo:0,0")
+			expect(
+				() => url.coordinates = value
+			).toThrow(TypeError)
+			expect(url.coordinatesString).toBe("0,0")
+			expect(url.coordinates).toStrictEqual([0, 0])
+			expect(url.toString()).toBe("geo:0,0")
+		})
+	})
+
 	test("has latLon/lonLat/*lng array properties for a simple 2-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:13.4125,103.8667")
 		expect(url.latLon).toStrictEqual([13.4125, 103.8667])

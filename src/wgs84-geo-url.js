@@ -1,5 +1,5 @@
 import { GeoParams, setGeoParamsBeforeSetHook } from "./geo-params.js"
-import { GeoURL, parseCoordinatesString } from "./geo-url.js"
+import { GeoURL } from "./geo-url.js"
 
 /**
  * URL interface for WGS84 geo URI with latitude, longitude and possibly altitude
@@ -19,12 +19,6 @@ export class WGS84GeoURL extends GeoURL {
 		super(url, base)
 		if (this.crs != "wgs84") {
 			throw new TypeError(`Unexpected CRS ${this.crs}`)
-		}
-		if (this.lat < -90 || this.lat > 90) {
-			throw new TypeError(`Latitude ${this.lat} outside of the allowed range`)
-		}
-		if (this.lon < -180 || this.lon > 180) {
-			throw new TypeError(`Longitude ${this.lon} outside of the allowed range`)
 		}
 	}
 
@@ -72,9 +66,6 @@ export class WGS84GeoURL extends GeoURL {
 	 * const url = new WGS84GeoURL("geo:60,30;u=10")
 	 * console.log(url.coordinatesString) // outputs "60,30"
 	 */
-	get coordinatesString() {
-		return super.coordinatesString
-	}
 	/**
 	 * Set coordinates to a string
 	 * @method
@@ -89,16 +80,6 @@ export class WGS84GeoURL extends GeoURL {
 	 * url.coordinatesString = "0,181" // throws TypeError
 	 * @see {@link WGS84GeoURL#coordinatesString} for the corresponding getter
 	 */
-	set coordinatesString(value) {
-		const [lat, lon] = parseCoordinatesString(value)
-		if (lat < -90 || lat > 90) {
-			throw new TypeError(`Latitude ${lat} outside of the allowed range`)
-		}
-		if (lon < -180 || lon > 180) {
-			throw new TypeError(`Longitude ${lon} outside of the allowed range`)
-		}
-		super.coordinatesString = value
-	}
 
 	/**
 	 * Latitude-longitude pair
@@ -196,5 +177,16 @@ export class WGS84GeoURL extends GeoURL {
 	 */
 	get altitude() {
 		return this.coordC
+	}
+
+	_validateCoordinates(coordinates) {
+		super._validateCoordinates(coordinates)
+		const [lat, lon] = coordinates
+		if (lat < -90 || lat > 90) {
+			throw new TypeError(`Latitude ${lat} outside of the allowed range`)
+		}
+		if (lon < -180 || lon > 180) {
+			throw new TypeError(`Longitude ${lon} outside of the allowed range`)
+		}
 	}
 }
