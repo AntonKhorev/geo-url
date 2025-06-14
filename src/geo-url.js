@@ -271,7 +271,7 @@ export class GeoURL {
 	 * @memberof GeoURL
 	 * @name set coordinatesString
 	 * @param {string} value - a string of two or three comma-separated numbers, as they appear in the URL
-	 * @throws {TypeError} if set to a string that has less than two or more than three comma-separated values, or if some values aren't numbers
+	 * @throws {TypeError} if set to a string that has less than two or more than three comma-separated values, or if some values aren't finite numbers
 	 * @example
 	 * const url = new GeoURL("geo:60,30;u=10")
 	 * url.coordinatesString = "61,31,5"
@@ -284,9 +284,29 @@ export class GeoURL {
 		setURLPathname(this.#url, [value, ...params].join(";"))
 	}
 
+	/**
+	 * Coordinates array
+	 * @type {number[]}
+	 * @example
+	 * const url = new GeoURL("geo:60,30;u=10")
+	 * console.log(url.coordinates) // outputs "[ 60, 30 ]"
+	 */
 	get coordinates() {
 		return this.coordinatesString.split(",").map(parseNumber)
 	}
+	/**
+	 * Set coordinates to an array of numbers
+	 * @method
+	 * @memberof GeoURL
+	 * @name set coordinates
+	 * @param {number[]} value - an array with two or three numbers
+	 * @throws {TypeError} if set to an array with unexpected number of elements, or if some values aren't finite numbers
+	 * @example
+	 * const url = new GeoURL("geo:60,30;u=10")
+	 * url.coordinates = [61, 31, 5]
+	 * console.log(url.toString()) // outputs "geo:61,31,5;u=10"
+	 * @see {@link GeoURL#coordinates} for the corresponding getter
+	 */
 	set coordinates(value) {
 		this._validateCoordinates(value)
 		const newCoordinatesString = value.map(formatCoord).join(",")
@@ -294,27 +314,94 @@ export class GeoURL {
 		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
 	}
 
+	/**
+	 * 1st coordinate in an arbitrary CRS
+	 * @type {number}
+	 * @example
+	 * const url = new GeoURL("geo:60,30")
+	 * console.log(url.coordA) // outputs "60"
+	 */
 	get coordA() {
 		return this.coordinates[0]
 	}
+	/**
+	 * Set the 1st coordinate
+	 * @method
+	 * @memberof GeoURL
+	 * @name set coordA
+	 * @param {number} value
+	 * @throws {TypeError} if the value isn't a finite number
+	 * @example
+	 * const url = new GeoURL("geo:60,30")
+	 * url.coordA = 61
+	 * console.log(url.toString()) // outputs "geo:61,30"
+	 * @see {@link GeoURL#coordA} for the corresponding getter
+	 */
 	set coordA(value) {
 		const newCoordinates = this.coordinates
 		newCoordinates[0] = value
 		this.coordinates = newCoordinates
 	}
 
+	/**
+	 * 2nd coordinate in an arbitrary CRS
+	 * @type {number}
+	 * @example
+	 * const url = new GeoURL("geo:60,30")
+	 * console.log(url.coordB) // outputs "30"
+	 */
 	get coordB() {
 		return this.coordinates[1]
 	}
+	/**
+	 * Set the 2st coordinate
+	 * @method
+	 * @memberof GeoURL
+	 * @name set coordB
+	 * @param {number} value
+	 * @throws {TypeError} if the value isn't a finite number
+	 * @example
+	 * const url = new GeoURL("geo:60,30")
+	 * url.coordB = 31
+	 * console.log(url.toString()) // outputs "geo:60,31"
+	 * @see {@link GeoURL#coordB} for the corresponding getter
+	 */
 	set coordB(value) {
 		const newCoordinates = this.coordinates
 		newCoordinates[1] = value
 		this.coordinates = newCoordinates
 	}
 
+	/**
+	 * 3rd coordinate in an arbitrary CRS, possibly undefined
+	 * @type {number|undefined}
+	 * @example
+	 * const url = new GeoURL("geo:60,30")
+	 * console.log(url.coordC) // outputs "undefined"
+	 * @example
+	 * const url = new GeoURL("geo:60,30,5")
+	 * console.log(url.coordC) // outputs "5"
+	 */
 	get coordC() {
 		return this.coordinates[2]
 	}
+	/**
+	 * Set the 3rd coordinate
+	 * @method
+	 * @memberof GeoURL
+	 * @name set coordC
+	 * @param {number|undefined} value
+	 * @throws {TypeError} if the value isn't either a finite number or undefined
+	 * @example
+	 * const url = new GeoURL("geo:60,30")
+	 * url.coordC = 5
+	 * console.log(url.toString()) // outputs "geo:60,30,5"
+	 * @example
+	 * const url = new GeoURL("geo:60,30,5")
+	 * url.coordC = undefined
+	 * console.log(url.toString()) // outputs "geo:60,30"
+	 * @see {@link GeoURL#coordC} for the corresponding getter
+	 */
 	set coordC(value) {
 		const [a, b] = this.coordinates
 		const newCoordinates = value != null ? [a, b, value] : [a, b]

@@ -82,6 +82,27 @@ export class WGS84GeoURL extends GeoURL {
 	 */
 
 	/**
+	 * Coordinates array
+	 * @type {number[]}
+	 * @example
+	 * const url = new WGS84GeoURL("geo:60,30;u=10")
+	 * console.log(url.coordinates) // outputs "[ 60, 30 ]"
+	 */
+	/**
+	 * Set coordinates to an array of numbers
+	 * @method
+	 * @memberof WGS84GeoURL
+	 * @name set coordinates
+	 * @param {number[]} value - an array with two or three numbers
+	 * @throws {TypeError} if coordinates are out of allowed range or if GeoURL's setter throws
+	 * @example
+	 * const url = new WGS84GeoURL("geo:60,30;u=10")
+	 * url.coordinates = [61, 31, 5]
+	 * console.log(url.toString()) // outputs "geo:61,31,5;u=10"
+	 * @see {@link WGS84GeoURL#coordinates} for the corresponding getter
+	 */
+
+	/**
 	 * Latitude-longitude pair
 	 * @type {number[]}
 	 */
