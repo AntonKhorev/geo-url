@@ -633,33 +633,43 @@ describe("GeoURL", () => {
 
 	describe("coordC", () => {
 		describe("for a 2-coordinate url", () => {
-			const coordinatesString = "22.3,-118.44"
-			const urlString = `geo:${coordinatesString}`
 			test("returns undefined", () => {
-				const url = new GeoURL(urlString)
+				const url = new GeoURL("geo:22.3,-118.44")
 				expect(url.coordC).toBeUndefined()
 			})
 			test("does nothing when setting to undefined", () => {
-				const url = new GeoURL(urlString)
-				url.coordC = undefined
-				expect(url.coordC).toBeUndefined()
-				expect(url.coordinatesString).toBe(coordinatesString)
-				expect(url.toString()).toBe(urlString)
-			})
-		})
-		describe("for a 3-coordinate url", () => {
-			const coordinatesString = "22.3,-118.44,43.21"
-			const urlString = `geo:${coordinatesString}`
-			test("gets the value", () => {
-				const url = new GeoURL(urlString)
-				expect(url.coordC).toBe(43.21)
-			})
-			test("deletes the 3rd coordinate when setting to undefined", () => {
-				const url = new GeoURL(urlString)
+				const url = new GeoURL("geo:22.3,-118.44")
 				url.coordC = undefined
 				expect(url.coordC).toBeUndefined()
 				expect(url.coordinatesString).toBe("22.3,-118.44")
 				expect(url.toString()).toBe("geo:22.3,-118.44")
+			})
+			test("sets the value", () => {
+				const url = new GeoURL("geo:22.3,-118.44")
+				url.coordC = 12.34
+				expect(url.coordC).toBe(12.34)
+				expect(url.coordinatesString).toBe("22.3,-118.44,12.34")
+				expect(url.toString()).toBe("geo:22.3,-118.44,12.34")
+			})
+		})
+		describe("for a 3-coordinate url", () => {
+			test("gets the value", () => {
+				const url = new GeoURL("geo:22.3,-118.44,43.21")
+				expect(url.coordC).toBe(43.21)
+			})
+			test("deletes the 3rd coordinate when setting to undefined", () => {
+				const url = new GeoURL("geo:22.3,-118.44,43.21")
+				url.coordC = undefined
+				expect(url.coordC).toBeUndefined()
+				expect(url.coordinatesString).toBe("22.3,-118.44")
+				expect(url.toString()).toBe("geo:22.3,-118.44")
+			})
+			test("sets the value", () => {
+				const url = new GeoURL("geo:22.3,-118.44,43.21")
+				url.coordC = 12.34
+				expect(url.coordC).toBe(12.34)
+				expect(url.coordinatesString).toBe("22.3,-118.44,12.34")
+				expect(url.toString()).toBe("geo:22.3,-118.44,12.34")
 			})
 		})
 	})
