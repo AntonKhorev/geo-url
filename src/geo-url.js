@@ -13,7 +13,7 @@ export class GeoURL {
 	 * Expected to be almost always invoked with one parameter because there's not much use of relative references in case of geo URIs.
 	 * At best you can add a hash to a base geo URI using a relative reference, but hashes in geo URIs a probably not widely used.
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
-	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @param {string|URL|GeoURL} [base] - base geo URI
 	 * @throws {TypeError} if the protocol is not `geo:`
 	 * @throws {TypeError} if contains less than two or more than three coordinates, or if some coordinates aren't numbers
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
