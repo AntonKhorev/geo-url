@@ -4,8 +4,8 @@ export function parseNumber(s) {
 }
 
 export function formatNumber(n, digits) {
-	if (isNaN(n)) {
-		throw new TypeError(`Unexpected NaN value`)
+	if (!isFinite(n)) {
+		throw new TypeError(`Unexpected nonfinite number`)
 	}
 	return n.toFixed(digits).replace(/\.?0+$/, "")
 }

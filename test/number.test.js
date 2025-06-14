@@ -23,4 +23,9 @@ describe("formatNumber", () => {
 			() => formatNumber(NaN, 9)
 		).toThrow(TypeError)
 	})
+	test("fail on Infinity", () => {
+		expect(
+			() => formatNumber(Infinity, 9)
+		).toThrow(TypeError)
+	})
 })
