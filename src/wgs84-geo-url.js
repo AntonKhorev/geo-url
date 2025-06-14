@@ -12,7 +12,7 @@ export class WGS84GeoURL extends GeoURL {
 	 * Limited to WGS84 URIs, which lets interpret them as containing latitude/longitude/altitude.
 	 * But that's almost all of the geo URIs because no other CRS is currently supported by RFC 5870.
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
-	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @param {string|URL|GeoURL} [base] - base geo URI
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
 	 */
 	constructor(url, base) {
