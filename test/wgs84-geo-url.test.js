@@ -169,12 +169,25 @@ describe("WGS84GeoURL", () => {
 		expect(url.lngLat).toStrictEqual([16.3695, 48.2010])
 	})
 
-	test("has lat and lon/lng properties for a simple 2-coordinate url", () => {
-		const url = new WGS84GeoURL("geo:13.4125,103.8667")
-		expect(url.lat).toBe(13.4125)
-		expect(url.lon).toBe(103.8667)
-		expect(url.lng).toBe(103.8667)
+	describe("lat and lon/lng", () => {
+		test("get the values", () => {
+			const url = new WGS84GeoURL("geo:13.4125,103.8667")
+			expect(url.lat).toBe(13.4125)
+			expect(url.lon).toBe(103.8667)
+			expect(url.lng).toBe(103.8667)
+		})
+		test("set the values", () => {
+			const url = new WGS84GeoURL("geo:0,0")
+			url.lat = 1
+			expect(url.lat).toBe(1)
+			url.lon = 2
+			expect(url.lon).toBe(2)
+			url.lng = -2
+			expect(url.lng).toBe(-2)
+			expect(url.toString()).toBe("geo:1,-2")
+		})
 	})
+
 	test("has latitude and longitude properties for a simple 2-coordinate url", () => {
 		const url = new WGS84GeoURL("geo:13.4125,103.8667")
 		expect(url.latitude).toBe(13.4125)

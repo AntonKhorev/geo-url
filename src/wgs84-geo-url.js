@@ -147,6 +147,10 @@ export class WGS84GeoURL extends GeoURL {
 	get lat() {
 		return this.coordA
 	}
+	set lat(value) {
+		this.coordA = value
+	}
+
 	/**
 	 * Latitude in decimal degrees between -90 and 90
 	 *
@@ -156,6 +160,7 @@ export class WGS84GeoURL extends GeoURL {
 	get latitude() {
 		return this.coordA
 	}
+
 	/**
 	 * Longitude in decimal degrees between -180 and 180
 	 * @type {number}
@@ -164,6 +169,10 @@ export class WGS84GeoURL extends GeoURL {
 	get lon() {
 		return this.coordB
 	}
+	set lon(value) {
+		this.coordB = value
+	}
+
 	/**
 	 * Longitude in decimal degrees between -180 and 180
 	 *
@@ -173,6 +182,10 @@ export class WGS84GeoURL extends GeoURL {
 	get lng() {
 		return this.coordB
 	}
+	set lng(value) {
+		this.coordB = value
+	}
+
 	/**
 	 * Longitude in decimal degrees between -180 and 180
 	 *
@@ -182,6 +195,7 @@ export class WGS84GeoURL extends GeoURL {
 	get longitude() {
 		return this.coordB
 	}
+
 	/**
 	 * Altitude in meters
 	 * @type {number|undefined}
