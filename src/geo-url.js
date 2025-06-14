@@ -287,11 +287,27 @@ export class GeoURL {
 	get coordinates() {
 		return this.coordinatesString.split(",").map(parseNumber)
 	}
+
 	get coordA() {
 		return this.coordinates[0]
 	}
+	set coordA(value) {
+		const newCoordinates = this.coordinates
+		newCoordinates[0] = value
+		const newCoordinatesString = newCoordinates.map(formatCoord).join(",")
+		const [, ...params] = this.pathname.split(";")
+		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
+	}
+
 	get coordB() {
 		return this.coordinates[1]
+	}
+	set coordB(value) {
+		const newCoordinates = this.coordinates
+		newCoordinates[1] = value
+		const newCoordinatesString = newCoordinates.map(formatCoord).join(",")
+		const [, ...params] = this.pathname.split(";")
+		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
 	}
 
 	get coordC() {

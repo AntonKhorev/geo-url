@@ -620,15 +620,52 @@ describe("GeoURL", () => {
 		})
 	})
 
-	test("has individual coord properties for a simple 2-coordinate url", () => {
-		const url = new GeoURL("geo:22.3,-118.44")
-		expect(url.coordA).toBe(22.3)
-		expect(url.coordB).toBe(-118.44)
-	})
-	test("has individual coord properties for a simple 3-coordinate url", () => {
-		const url = new GeoURL("geo:22.3,-118.44,43.21")
-		expect(url.coordA).toBe(22.3)
-		expect(url.coordB).toBe(-118.44)
+	describe("coordA and coordB", () => {
+		describe("for a 2-coordinate url", () => {
+			test("get the value", () => {
+				const url = new GeoURL("geo:22.3,-118.44")
+				expect(url.coordA).toBe(22.3)
+				expect(url.coordB).toBe(-118.44)
+			})
+			test("set the values", () => {
+				const url = new GeoURL("geo:1,2")
+				url.coordA = 3
+				expect(url.coordA).toBe(3)
+				url.coordB = 4
+				expect(url.coordB).toBe(4)
+				expect(url.coordinatesString).toBe("3,4")
+				expect(url.toString()).toBe("geo:3,4")
+			})
+		})
+		describe("for a 3-coordinate url", () => {
+			test("get the value", () => {
+				const url = new GeoURL("geo:22.3,-118.44,43.21")
+				expect(url.coordA).toBe(22.3)
+				expect(url.coordB).toBe(-118.44)
+			})
+			test("set the values", () => {
+				const url = new GeoURL("geo:1,2,5")
+				url.coordA = 3
+				expect(url.coordA).toBe(3)
+				url.coordB = 4
+				expect(url.coordB).toBe(4)
+				expect(url.coordinatesString).toBe("3,4,5")
+				expect(url.toString()).toBe("geo:3,4,5")
+			})
+		})
+		test("reject setting to undefined values", () => {
+			const url = new GeoURL("geo:1,2")
+			expect(
+				() => url.coordA = undefined
+			).toThrow(TypeError)
+			expect(url.coordA).toBe(1)
+			expect(
+				() => url.coordB = undefined
+			).toThrow(TypeError)
+			expect(url.coordB).toBe(2)
+			expect(url.coordinatesString).toBe("1,2")
+			expect(url.toString()).toBe("geo:1,2")
+		})
 	})
 
 	describe("coordC", () => {
