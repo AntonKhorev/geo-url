@@ -217,6 +217,17 @@ export class GeoURL {
 		this.crs = value
 	}
 
+	/**
+	 * Coordinates as a string
+	 *
+	 * A string of two or three comma-separated numbers, as they appear in the URL.
+	 * @type {string}
+	 * @example
+	 * const url = new GeoURL("geo:60,30;u=10")
+	 * console.log(url.coordinatesString) // outputs "60,30"
+	 * url.coordinatesString = "61,31,5"
+	 * console.log(url.toString()) // outputs "geo:61,31,5;u=10"
+	 */
 	get coordinatesString() {
 		const [coordinatesString] = this.pathname.split(";")
 		return coordinatesString
