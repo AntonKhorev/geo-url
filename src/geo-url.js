@@ -23,12 +23,7 @@ export class GeoURL {
 		if (this.#url.protocol != "geo:") {
 			throw new TypeError(`Invalid protocol ${this.#url.protocol}`)
 		}
-		if (this.coordinates.length < 2) {
-			throw new TypeError(`Invalid number of coordinates`)
-		}
-		if (typeof this.coordA != 'number' || typeof this.coordB != 'number') {
-			throw new TypeError(`Invalid coordinate value`)
-		}
+		parseCoordinatesString(this.coordinatesString)
 	}
 
 	/**
@@ -279,14 +274,7 @@ export class GeoURL {
 	 * @see {@link GeoURL#coordinatesString} for the corresponding getter
 	 */
 	set coordinatesString(value) {
-		const coordinates = value.split(",")
-		if (coordinates.length < 2 || coordinates.length > 3) {
-			throw new TypeError(`Invalid number of coordinates`)
-		}
-		if (coordinates.some(coordinate => typeof parseNumber(coordinate) != "number")) {
-			throw new TypeError(`Invalid coordinate value`)
-		}
-
+		parseCoordinatesString(value)
 		const [, ...params] = this.pathname.split(";")
 		setURLPathname(this.#url, [value, ...params].join(";"))
 	}
@@ -343,6 +331,17 @@ export class GeoURL {
 	set uncertainty(value) {
 		this.u = value
 	}
+}
+
+export function parseCoordinatesString(value) {
+	const coordinates = value.split(",").map(parseNumber)
+	if (coordinates.length < 2 || coordinates.length > 3) {
+		throw new TypeError(`Invalid number of coordinates`)
+	}
+	if (!coordinates.every(coordinate => typeof coordinate == "number")) {
+		throw new TypeError(`Invalid coordinate value`)
+	}
+	return coordinates
 }
 
 function parseNumber(s) {

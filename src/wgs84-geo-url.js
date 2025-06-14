@@ -1,5 +1,5 @@
 import { GeoParams, setGeoParamsBeforeSetHook } from "./geo-params.js"
-import { GeoURL } from "./geo-url.js"
+import { GeoURL, parseCoordinatesString } from "./geo-url.js"
 
 /**
  * URL interface for WGS84 geo URI with latitude, longitude and possibly altitude
@@ -90,7 +90,14 @@ export class WGS84GeoURL extends GeoURL {
 	 * @see {@link WGS84GeoURL#coordinatesString} for the corresponding getter
 	 */
 	set coordinatesString(value) {
-		throw new TypeError(`TODO`)
+		const [lat, lon] = parseCoordinatesString(value)
+		if (lat < -90 || lat > 90) {
+			throw new TypeError(`Latitude ${lat} outside of the allowed range`)
+		}
+		if (lon < -180 || lon > 180) {
+			throw new TypeError(`Longitude ${lon} outside of the allowed range`)
+		}
+		super.coordinatesString = value
 	}
 
 	/**
