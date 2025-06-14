@@ -648,9 +648,18 @@ describe("GeoURL", () => {
 			})
 		})
 		describe("for a 3-coordinate url", () => {
+			const coordinatesString = "22.3,-118.44,43.21"
+			const urlString = `geo:${coordinatesString}`
 			test("gets the value", () => {
-				const url = new GeoURL("geo:22.3,-118.44,43.21")
+				const url = new GeoURL(urlString)
 				expect(url.coordC).toBe(43.21)
+			})
+			test("deletes the 3rd coordinate when setting to undefined", () => {
+				const url = new GeoURL(urlString)
+				url.coordC = undefined
+				expect(url.coordC).toBeUndefined()
+				expect(url.coordinatesString).toBe("22.3,-118.44")
+				expect(url.toString()).toBe("geo:22.3,-118.44")
 			})
 		})
 	})
