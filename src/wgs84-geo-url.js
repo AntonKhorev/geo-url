@@ -1,4 +1,4 @@
-import { setGeoParamsBeforeSetHook } from "./geo-params.js"
+import { GeoParams, setGeoParamsBeforeSetHook } from "./geo-params.js"
 import { GeoURL } from "./geo-url.js"
 
 /**
@@ -52,6 +52,7 @@ export class WGS84GeoURL extends GeoURL {
 	 * geo URI parameters object
 	 *
 	 * The returned object will throw a TypeError if the "crs" parameter is updated to anything other than "wgs84", case-insensitively.
+	 * @readonly
 	 * @type {GeoParams}
 	 */
 	get geoParams() {
