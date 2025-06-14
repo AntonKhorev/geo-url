@@ -18,4 +18,9 @@ describe("formatNumber", () => {
 	test("keeps trailing zeros for integer values", () => {
 		expect(formatNumber(1000, 9)).toBe("1000")
 	})
+	test("fail on NaN", () => {
+		expect(
+			() => formatNumber(NaN, 9)
+		).toThrow(TypeError)
+	})
 })
