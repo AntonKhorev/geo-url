@@ -160,6 +160,9 @@ export class WGS84GeoURL extends GeoURL {
 	get latitude() {
 		return this.coordA
 	}
+	set latitude(value) {
+		this.coordA = value
+	}
 
 	/**
 	 * Longitude in decimal degrees between -180 and 180
@@ -194,6 +197,9 @@ export class WGS84GeoURL extends GeoURL {
 	 */
 	get longitude() {
 		return this.coordB
+	}
+	set longitude(value) {
+		this.coordB = value
 	}
 
 	/**

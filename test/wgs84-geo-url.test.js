@@ -188,10 +188,20 @@ describe("WGS84GeoURL", () => {
 		})
 	})
 
-	test("has latitude and longitude properties for a simple 2-coordinate url", () => {
-		const url = new WGS84GeoURL("geo:13.4125,103.8667")
-		expect(url.latitude).toBe(13.4125)
-		expect(url.longitude).toBe(103.8667)
+	describe("latitude and longitude", () => {
+		test("get the values", () => {
+			const url = new WGS84GeoURL("geo:13.4125,103.8667")
+			expect(url.latitude).toBe(13.4125)
+			expect(url.longitude).toBe(103.8667)
+		})
+		test("set the values", () => {
+			const url = new WGS84GeoURL("geo:0,0")
+			url.latitude = 1
+			expect(url.lat).toBe(1)
+			url.longitude = 2
+			expect(url.lon).toBe(2)
+			expect(url.toString()).toBe("geo:1,2")
+		})
 	})
 
 	describe("alt", () => {
