@@ -66,6 +66,34 @@ export class WGS84GeoURL extends GeoURL {
 	}
 
 	/**
+	 * Coordinates as a string of two or three comma-separated numbers, as they appear in the URL.
+	 * @type {string}
+	 * @example
+	 * const url = new WGS84GeoURL("geo:60,30;u=10")
+	 * console.log(url.coordinatesString) // outputs "60,30"
+	 */
+	get coordinatesString() {
+		return super.coordinatesString
+	}
+	/**
+	 * Set coordinates to a string
+	 * @method
+	 * @memberof WGS84GeoURL
+	 * @name set coordinatesString
+	 * @param {string} value - a string of two or three comma-separated numbers, as they appear in the URL
+	 * @throws {TypeError} if coordinates are out of allowed range or if GeoURL's setter throws
+	 * @example
+	 * const url = new WGS84GeoURL("geo:60,30;u=10")
+	 * url.coordinatesString = "61,31,5"
+	 * console.log(url.toString()) // outputs "geo:61,31,5;u=10"
+	 * url.coordinatesString = "0,181" // throws TypeError
+	 * @see {@link WGS84GeoURL#coordinatesString} for the corresponding getter
+	 */
+	set coordinatesString(value) {
+		throw new TypeError(`TODO`)
+	}
+
+	/**
 	 * Latitude-longitude pair
 	 * @type {number[]}
 	 */
