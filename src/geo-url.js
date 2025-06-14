@@ -300,9 +300,7 @@ export class GeoURL {
 	set coordA(value) {
 		const newCoordinates = this.coordinates
 		newCoordinates[0] = value
-		const newCoordinatesString = newCoordinates.map(formatCoord).join(",")
-		const [, ...params] = this.pathname.split(";")
-		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
+		this.coordinates = newCoordinates
 	}
 
 	get coordB() {
@@ -311,9 +309,7 @@ export class GeoURL {
 	set coordB(value) {
 		const newCoordinates = this.coordinates
 		newCoordinates[1] = value
-		const newCoordinatesString = newCoordinates.map(formatCoord).join(",")
-		const [, ...params] = this.pathname.split(";")
-		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
+		this.coordinates = newCoordinates
 	}
 
 	get coordC() {
@@ -322,9 +318,7 @@ export class GeoURL {
 	set coordC(value) {
 		const [a, b] = this.coordinates
 		const newCoordinates = value != null ? [a, b, value] : [a, b]
-		const newCoordinatesString = newCoordinates.map(formatCoord).join(",")
-		const [, ...params] = this.pathname.split(";")
-		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
+		this.coordinates = newCoordinates
 	}
 
 	/**
