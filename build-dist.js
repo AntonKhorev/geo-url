@@ -22,5 +22,9 @@ async function buildPackage(dir) {
 	await bundle.write({
 		file: `${dir}/index.js`
 	})
+	await bundle.write({
+		file: `${dir}/index.cjs`,
+		format: "cjs"
+	})
 	await bundle.close()
 }

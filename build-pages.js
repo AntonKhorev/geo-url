@@ -82,7 +82,7 @@ async function generateDemos() {
 			plugins: [
 				alias({
 					entries: [
-						{ find: "@antonkhorev/geo-url", replacement: `${import.meta.dirname}/${packageJson.main}` }
+						{ find: "@antonkhorev/geo-url", replacement: `${import.meta.dirname}/${packageJson.exports.import}` }
 					]
 				}),
 				nodeResolve()
