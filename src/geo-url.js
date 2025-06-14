@@ -14,6 +14,8 @@ export class GeoURL {
 	 * At best you can add a hash to a base geo URI using a relative reference, but hashes in geo URIs a probably not widely used.
 	 * @param {string|URL|GeoURL} url - geo URI or relative reference
 	 * @param {string|URL|GeoURL} base - base geo URI
+	 * @throws {TypeError} if the protocol is not `geo:`
+	 * @throws {TypeError} if contains less than two or more than three coordinates, or if some coordinates aren't numbers
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/URL|MDN} for URL constructor
 	 */
 	constructor(url, base) {
@@ -222,6 +224,7 @@ export class GeoURL {
 	 *
 	 * A string of two or three comma-separated numbers, as they appear in the URL.
 	 * @type {string}
+	 * @throws {TypeError} if set to a string that has less than two or more than three comma-separated values, or if some values aren't numbers
 	 * @example
 	 * const url = new GeoURL("geo:60,30;u=10")
 	 * console.log(url.coordinatesString) // outputs "60,30"
