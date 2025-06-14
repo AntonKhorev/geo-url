@@ -624,13 +624,35 @@ describe("GeoURL", () => {
 		const url = new GeoURL("geo:22.3,-118.44")
 		expect(url.coordA).toBe(22.3)
 		expect(url.coordB).toBe(-118.44)
-		expect(url.coordC).toBeUndefined()
 	})
 	test("has individual coord properties for a simple 3-coordinate url", () => {
 		const url = new GeoURL("geo:22.3,-118.44,43.21")
 		expect(url.coordA).toBe(22.3)
 		expect(url.coordB).toBe(-118.44)
-		expect(url.coordC).toBe(43.21)
+	})
+
+	describe("coordC", () => {
+		describe("for a 2-coordinate url", () => {
+			const coordinatesString = "22.3,-118.44"
+			const urlString = `geo:${coordinatesString}`
+			test("returns undefined", () => {
+				const url = new GeoURL(urlString)
+				expect(url.coordC).toBeUndefined()
+			})
+			test("does nothing when setting to undefined", () => {
+				const url = new GeoURL(urlString)
+				url.coordC = undefined
+				expect(url.coordC).toBeUndefined()
+				expect(url.coordinatesString).toBe(coordinatesString)
+				expect(url.toString()).toBe(urlString)
+			})
+		})
+		describe("for a 3-coordinate url", () => {
+			test("gets the value", () => {
+				const url = new GeoURL("geo:22.3,-118.44,43.21")
+				expect(url.coordC).toBe(43.21)
+			})
+		})
 	})
 
 	describe("u", () => {

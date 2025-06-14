@@ -288,8 +288,11 @@ export class GeoURL {
 	get coordB() {
 		return this.coordinates[1]
 	}
+
 	get coordC() {
 		return this.coordinates[2]
+	}
+	set coordC(value) {
 	}
 
 	/**
