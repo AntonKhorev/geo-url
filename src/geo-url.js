@@ -233,9 +233,12 @@ export class GeoURL {
 		return coordinatesString
 	}
 	set coordinatesString(value) {
-		const coordinatesCount = value.split(",").length
-		if (coordinatesCount < 2 || coordinatesCount > 3) {
+		const coordinates = value.split(",")
+		if (coordinates.length < 2 || coordinates.length > 3) {
 			throw new TypeError(`Invalid number of coordinates`)
+		}
+		if (coordinates.some(coordinate => typeof parseNumber(coordinate) != "number")) {
+			throw new TypeError(`Invalid coordinate value`)
 		}
 
 		const [, ...params] = this.pathname.split(";")
