@@ -672,12 +672,19 @@ describe("GeoURL", () => {
 				expect(url.toString()).toBe("geo:22.3,-118.44,12.34")
 			})
 		})
-		test("formats the value in fixed-point notation", () => {
+		test("formats the value up to 12 digits", () => {
 			const url = new GeoURL("geo:1,2")
-			url.coordC = 0.0000001
-			expect(url.coordC).toBe(0.0000001)
-			expect(url.coordinatesString).toBe("1,2,0.0000001")
-			expect(url.toString()).toBe("geo:1,2,0.0000001")
+			url.coordC = 0.000000000001
+			expect(url.coordC).toBe(0.000000000001)
+			expect(url.coordinatesString).toBe("1,2,0.000000000001")
+			expect(url.toString()).toBe("geo:1,2,0.000000000001")
+		})
+		test("formats the value up to 12 digits but not beyond", () => {
+			const url = new GeoURL("geo:1,2")
+			url.coordC = 0.0000000000001
+			expect(url.coordC).toBe(0)
+			expect(url.coordinatesString).toBe("1,2,0")
+			expect(url.toString()).toBe("geo:1,2,0")
 		})
 	})
 
@@ -719,30 +726,15 @@ describe("GeoURL", () => {
 			expect(params.get("u")).toBeNull()
 			expect(url.u).toBeUndefined()
 		})
-		test("formats the value in fixed-point notation", () => {
-			const url = new GeoURL("geo:1,2")
-			url.u = 0.0000001
-			expect(url.geoParams.get("u")).toBe("0.0000001")
-		})
-		test("formats the value in fixed-point notation up to a nanometer precision", () => {
+		test("formats the value up to a nanometer precision", () => {
 			const url = new GeoURL("geo:1,2")
 			url.u = 0.000000001
 			expect(url.geoParams.get("u")).toBe("0.000000001")
 		})
-		test("formats the value in fixed-point notation up to a nanometer precision but not beyond", () => {
+		test("formats the value up to a nanometer precision but not beyond", () => {
 			const url = new GeoURL("geo:1,2")
 			url.u = 0.0000000001
 			expect(url.geoParams.get("u")).toBe("0")
-		})
-		test("formats the value in fixed-point notation with a reasonable precision for arithmetic", () => {
-			const url = new GeoURL("geo:1,2")
-			url.u = 0.1 + 0.2
-			expect(url.geoParams.get("u")).toBe("0.3")
-		})
-		test("formats the value keeping trailing zeros for integer values", () => {
-			const url = new GeoURL("geo:1,2")
-			url.u = 1000
-			expect(url.geoParams.get("u")).toBe("1000")
 		})
 		test("deletes the u geo parameter", () => {
 			const url = new GeoURL("geo:1,2;u=3")

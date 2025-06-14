@@ -1,5 +1,10 @@
 import { GeoParams, setGeoParamsURL } from "./geo-params.js"
 import { setURLPathname } from "./url.js"
+import { parseNumber, formatNumber } from "./number.js"
+
+const formatZ = n => formatNumber(n, 9)
+const formatU = n => formatNumber(n, 9)
+const formatCoord = n => formatNumber(n, 12)
 
 /**
  * URL interface for geo URI with an arbitrary CRS
@@ -174,7 +179,7 @@ export class GeoURL {
 	 */
 	set z(value) {
 		if (value != null) {
-			this.#url.searchParams.set("z", formatNumber(value))
+			this.#url.searchParams.set("z", formatZ(value))
 		} else {
 			this.#url.searchParams.delete("z")
 		}
@@ -295,7 +300,7 @@ export class GeoURL {
 	set coordC(value) {
 		const [a, b] = this.coordinates
 		const newCoordinates = value != null ? [a, b, value] : [a, b]
-		const newCoordinatesString = newCoordinates.map(formatNumber).join(",")
+		const newCoordinatesString = newCoordinates.map(formatCoord).join(",")
 		const [, ...params] = this.pathname.split(";")
 		setURLPathname(this.#url, [newCoordinatesString, ...params].join(";"))
 	}
@@ -322,7 +327,7 @@ export class GeoURL {
 	 */
 	set u(value) {
 		if (value != null) {
-			this.geoParams.set("u", formatNumber(value))
+			this.geoParams.set("u", formatU(value))
 		} else {
 			this.geoParams.delete("u")
 		}
@@ -350,13 +355,4 @@ export function parseCoordinatesString(value) {
 		throw new TypeError(`Invalid coordinate value`)
 	}
 	return coordinates
-}
-
-function parseNumber(s) {
-	const v = parseFloat(s)
-	return isNaN(v) ? undefined : v
-}
-
-function formatNumber(n) {
-	return n.toFixed(9).replace(/\.?0+$/, "")
 }
