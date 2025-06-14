@@ -204,6 +204,10 @@ export class WGS84GeoURL extends GeoURL {
 	get alt() {
 		return this.coordC
 	}
+	set alt(value) {
+		this.coordC = value
+	}
+
 	/**
 	 * Altitude in meters
 	 *

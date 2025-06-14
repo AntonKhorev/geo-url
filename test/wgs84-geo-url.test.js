@@ -203,6 +203,18 @@ describe("WGS84GeoURL", () => {
 			const url = new WGS84GeoURL("geo:48.2010,16.3695,183")
 			expect(url.alt).toBe(183)
 		})
+		test("deletes the altitude coordinate when setting to undefined", () => {
+			const url = new WGS84GeoURL("geo:48.201,16.3695,183")
+			url.alt = undefined
+			expect(url.alt).toBeUndefined()
+			expect(url.toString()).toBe("geo:48.201,16.3695")
+		})
+		test("adds the altitude coordinate", () => {
+			const url = new WGS84GeoURL("geo:13.4125,103.8667")
+			url.alt = 100
+			expect(url.alt).toBe(100)
+			expect(url.toString()).toBe("geo:13.4125,103.8667,100")
+		})
 	})
 
 	describe("altitude", () => {
