@@ -646,6 +646,28 @@ describe("GeoURL", () => {
 			).toThrow(TypeError)
 			expect(url.coordinates).toStrictEqual([0, 0])
 		})
+		for (const i of [0, 1, 2]) {
+			test(`format coordinate[${i}] up to 12 digits`, () => {
+				const url = new GeoURL("geo:0,0,0")
+				const newCoordinates = [0, 0, 0]
+				newCoordinates[i] = 0.000000000001
+				url.coordinates = newCoordinates
+				expect(url.coordinates).toStrictEqual(newCoordinates)
+				const newCoordinatesStrings = ["0", "0", "0"]
+				newCoordinatesStrings[i] = "0.000000000001"
+				expect(url.coordinatesString).toBe(newCoordinatesStrings.join(","))
+				expect(url.toString()).toBe("geo:" + newCoordinatesStrings.join(","))
+			})
+			test(`format coordinate[${i}] up to 12 digits but not beyond`, () => {
+				const url = new GeoURL("geo:0,0,0")
+				const newCoordinates = [0, 0, 0]
+				newCoordinates[i] = 0.0000000000001
+				url.coordinates = newCoordinates
+				expect(url.coordinates).toStrictEqual([0, 0, 0])
+				expect(url.coordinatesString).toBe("0,0,0")
+				expect(url.toString()).toBe("geo:0,0,0")
+			})
+		}
 	})
 
 	describe("coordA and coordB", () => {
