@@ -103,13 +103,21 @@ export class GeoURL {
 	}
 
 	/**
-	 * URL search/query string
+	 * Search/query string
 	 * @type {string}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/search|MDN} for search property
 	 */
 	get search() {
 		return this.#url.search
 	}
+	/**
+	 * Set search/query string
+	 * @method
+	 * @memberof GeoURL
+	 * @name set search
+	 * @param {string} value
+	 * @see {@link GeoURL#search} for the corresponding getter
+	 */
 	set search(value) {
 		this.#url.search = value
 	}
@@ -125,13 +133,21 @@ export class GeoURL {
 	}
 
 	/**
-	 * URL hash property containing the fragment identifier
+	 * Hash property containing the fragment identifier
 	 * @type {string}
 	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/URL/hash|MDN} for hash property
 	 */
 	get hash() {
 		return this.#url.hash
 	}
+	/**
+	 * Set hash property
+	 * @method
+	 * @memberof GeoURL
+	 * @name set hash
+	 * @param {string} value - a string containing the URL fragment, with optional leading `#`
+	 * @see {@link GeoURL#hash} for the corresponding getter
+	 */
 	set hash(value) {
 		this.#url.hash = value
 	}
@@ -139,8 +155,7 @@ export class GeoURL {
 	/**
 	 * Zoom level
 	 *
-	 * Equals to undefined for missing z search parameter.
-	 * Setting to undefined deletes the parameter.
+	 * Equals to undefined for missing `z` search parameter.
 	 * Numeric precision is the same as when setting {@link GeoURL#u} because Google documentation doesn't specify it.
 	 *
 	 * Example values:
@@ -152,6 +167,16 @@ export class GeoURL {
 	get z() {
 		return parseNumber(this.searchParams.get("z"))
 	}
+	/**
+	 * Set zoom level
+	 *
+	 * Setting to undefined deletes the `z` search parameter.
+	 * @method
+	 * @memberof GeoURL
+	 * @name set z
+	 * @param {number|undefined} value
+	 * @see {@link GeoURL#z} for the corresponding getter
+	 */
 	set z(value) {
 		if (value != null) {
 			this.#url.searchParams.set("z", formatNumber(value))
@@ -187,16 +212,26 @@ export class GeoURL {
 	 * Coordinate reference system
 	 *
 	 * Converted to lowercase if present in the URL.
-	 * Also converted to lowercase on write.
 	 *
 	 * Has the default value of `wgs84` if not present.
-	 * Deleted from geo params when setting to `wgs84`, ignoring the case.
 	 * @type {string}
 	 */
 	get crs() {
 		const crsWithPreservedCase = this.geoParams.get("crs") || "wgs84"
 		return crsWithPreservedCase.toLowerCase()
 	}
+	/**
+	 * Set coordinate reference system
+	 *
+	 * The value is converted to lowercase on write.
+	 *
+	 * The `crs` geo parameter is deleted when setting to `wgs84`, ignoring the case.
+	 * @method
+	 * @memberof GeoURL
+	 * @name set crs
+	 * @param {string} value
+	 * @see {@link GeoURL#crs} for the corresponding getter
+	 */
 	set crs(value) {
 		const lcValue = value.toLowerCase()
 		if (lcValue != "wgs84") {
@@ -220,21 +255,29 @@ export class GeoURL {
 	}
 
 	/**
-	 * Coordinates as a string
-	 *
-	 * A string of two or three comma-separated numbers, as they appear in the URL.
+	 * Coordinates as a string of two or three comma-separated numbers, as they appear in the URL.
 	 * @type {string}
-	 * @throws {TypeError} if set to a string that has less than two or more than three comma-separated values, or if some values aren't numbers
 	 * @example
 	 * const url = new GeoURL("geo:60,30;u=10")
 	 * console.log(url.coordinatesString) // outputs "60,30"
-	 * url.coordinatesString = "61,31,5"
-	 * console.log(url.toString()) // outputs "geo:61,31,5;u=10"
 	 */
 	get coordinatesString() {
 		const [coordinatesString] = this.pathname.split(";")
 		return coordinatesString
 	}
+	/**
+	 * Set coordinates to a string
+	 * @method
+	 * @memberof GeoURL
+	 * @name set coordinatesString
+	 * @param {string} value - a string of two or three comma-separated numbers, as they appear in the URL
+	 * @throws {TypeError} if set to a string that has less than two or more than three comma-separated values, or if some values aren't numbers
+	 * @example
+	 * const url = new GeoURL("geo:60,30;u=10")
+	 * url.coordinatesString = "61,31,5"
+	 * console.log(url.toString()) // outputs "geo:61,31,5;u=10"
+	 * @see {@link GeoURL#coordinatesString} for the corresponding getter
+	 */
 	set coordinatesString(value) {
 		const coordinates = value.split(",")
 		if (coordinates.length < 2 || coordinates.length > 3) {
@@ -273,6 +316,14 @@ export class GeoURL {
 	get u() {
 		return parseNumber(this.geoParams.get("u"))
 	}
+	/**
+	 * Set uncertainty
+	 * @method
+	 * @memberof GeoURL
+	 * @name set u
+	 * @param {number|undefined} value - new uncertainty value in meters or undefined to remove the uncertainty
+	 * @see {@link GeoURL#u} for the corresponding getter
+	 */
 	set u(value) {
 		if (value != null) {
 			this.geoParams.set("u", formatNumber(value))
