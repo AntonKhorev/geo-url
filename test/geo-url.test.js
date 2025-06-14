@@ -557,6 +557,7 @@ describe("GeoURL", () => {
 			const url = new GeoURL("geo:0,0")
 			url.coordinatesString = "60,30"
 			expect(url.coordinatesString).toBe("60,30")
+			expect(url.coordinates).toStrictEqual([60, 30])
 			expect(url.toString()).toBe("geo:60,30")
 		})
 	})

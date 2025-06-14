@@ -6,7 +6,6 @@ import { setURLPathname } from "./url.js"
  */
 export class GeoURL {
 	#url
-	#coordinates
 
 	/**
 	 * Create a GeoURL from a string or another URL object
@@ -228,13 +227,7 @@ export class GeoURL {
 	}
 
 	get coordinates() {
-		if (this.#coordinates) {
-			return this.#coordinates
-		}
-
-		const coordinateStrings = this.coordinatesString.split(",")
-		this.#coordinates = coordinateStrings.map(parseNumber)
-		return this.#coordinates
+		return this.coordinatesString.split(",").map(parseNumber)
 	}
 	get coordA() {
 		return this.coordinates[0]
