@@ -1,6 +1,6 @@
 {
   "name": "@antonkhorev/geo-url",
-  "version": "1.8.0",
+  "version": "1.8.1",
   "description": "URL parser for RFC 5870 geo URIs with zoom level extension",
   "keywords": [
     "geo",
