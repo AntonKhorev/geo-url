@@ -40,6 +40,7 @@
     "docdash": "^2.0.2",
     "eslint": "^9.28.0",
     "jsdoc": "^4.0.4",
+    "jsdoc-api": "^9.3.4",
     "leaflet": "^1.9.4",
     "maplibre-gl": "^5.6.0",
     "ol": "^10.5.0",

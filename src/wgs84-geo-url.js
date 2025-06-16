@@ -117,6 +117,7 @@ export class WGS84GeoURL extends GeoURL {
 	 * An alternative name for {@link WGS84GeoURL#latLon}, favored by Leaflet
 	 * @type {number[]}
 	 * @example
+	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
 	 * L.marker(url.latLng)
 	 */
 	get latLng() {
@@ -205,7 +206,7 @@ export class WGS84GeoURL extends GeoURL {
 	 * @example
 	 * const url = new WGS84GeoURL("geo:13.4125,103.8667")
 	 * url.lon = 101.1001
-	 * console.log(url.toString()) // outputs "geo:16.4321,101.1001"
+	 * console.log(url.toString()) // outputs "geo:13.4125,101.1001"
 	 * @see {@link WGS84GeoURL#lon} for the corresponding getter
 	 */
 	set lon(value) {
