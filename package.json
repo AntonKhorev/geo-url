@@ -30,7 +30,8 @@
     "build": "npm run prepare && npm run build-pages",
     "build-pages": "node build-pages.js",
     "prepare": "node build-dist.js",
-    "test": "vitest"
+    "test": "vitest",
+    "test-jsdoc": "node test-jsdoc.js"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^5.1.1",

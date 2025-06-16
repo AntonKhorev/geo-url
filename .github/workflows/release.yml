@@ -20,6 +20,7 @@ jobs:
       - run: npm ci
       - run: npx eslint
       - run: npm test
+      - run: npm run test-jsdoc
       - run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
