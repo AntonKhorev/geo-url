@@ -47,13 +47,7 @@ for (const item of data) {
 				_assertThrows: fn => assert.throws(fn)
 			}
 			vm.createContext(context)
-
-			try {
-				vm.runInContext(code, context)
-			} catch (ex) {
-				console.log(example)
-				console.log("\n* caught exception", ex)
-			}
+			vm.runInContext(code, context)
 		})
 	}
 }
