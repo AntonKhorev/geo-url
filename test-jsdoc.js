@@ -5,27 +5,37 @@ import jsdoc from "jsdoc-api"
 
 import { GeoURL, WGS84GeoURL } from "./dist/index.js"
 
-const data = await jsdoc.explain({ files: ["dist/index.js"] })
+await testSuite(
+	["dist/index.js"],
+	{
+		GeoURL, WGS84GeoURL,
+		L: { marker: () => {} }, // skip Leaflet code
+	}
+)
 
-for (const item of data) {
-	if (!item.examples) continue
+async function testSuite(files, context) {
+	const data = await jsdoc.explain({ files })
 
-	if (item.examples.length == 1 ) {
-		test(item.longname, () => {
-			testExample(item.examples[0])
-		})
-	} else {
-		describe(item.longname, () => {
-			for (const [i, example] of item.examples.entries()) {
-				test(`Example ${i}`, () => {
-					testExample(example)
-				})
-			}
-		})
+	for (const item of data) {
+		if (!item.examples) continue
+
+		if (item.examples.length == 1 ) {
+			test(item.longname, () => {
+				testExample(item.examples[0], context)
+			})
+		} else {
+			describe(item.longname, () => {
+				for (const [i, example] of item.examples.entries()) {
+					test(`Example ${i}`, () => {
+						testExample(example, context)
+					})
+				}
+			})
+		}
 	}
 }
 
-function testExample(example) {
+function testExample(example, context) {
 	let code = ""
 	for (const line of example.split("\n")) {
 		let match
@@ -43,9 +53,8 @@ function testExample(example) {
 	}
 
 	let lastConsoleArg
-	const context = {
-		GeoURL, WGS84GeoURL,
-		L: { marker: () => {} }, // skip Leaflet code
+	const augmentedContext = {
+		...context,
 		console: {
 			log: arg => { lastConsoleArg = arg }
 		},
@@ -60,6 +69,6 @@ function testExample(example) {
 		},
 		_assertThrows: fn => assert.throws(fn)
 	}
-	vm.createContext(context)
-	vm.runInContext(code, context)
+	vm.createContext(augmentedContext)
+	vm.runInContext(code, augmentedContext)
 }
