@@ -1,5 +1,5 @@
-import * as fs from "fs/promises"
-import { spawn } from "child_process"
+import * as fs from "node:fs/promises"
+import { spawn } from "node:child_process"
 import { rollup } from "rollup"
 import alias from "@rollup/plugin-alias"
 import { nodeResolve } from "@rollup/plugin-node-resolve"

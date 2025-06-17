@@ -1,4 +1,4 @@
-import * as fs from "fs/promises"
+import * as fs from "node:fs/promises"
 import { rollup } from "rollup"
 import { nodeResolve } from "@rollup/plugin-node-resolve"
 
